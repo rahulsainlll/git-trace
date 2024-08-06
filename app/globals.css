@@ -14,11 +14,11 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  padding: 1rem;
+  /* padding: 1rem; */
 }
 
 @layer utilities {
-  .text-balance {
+  .text-balance { 
     text-wrap: balance;
   }
 }

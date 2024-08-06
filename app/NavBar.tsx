@@ -14,10 +14,8 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center font-mono">
-      <Link href="/" className="text-lg">
-        Trace ↯
-      </Link>
+    <nav className="flex space-x-6 border-b mb-5 px-5 h-20 items-center text-xl">
+      <Link href="/">Trace ↯</Link>
 
       <ul className="flex space-x-6">
         {links.map((link) => (
