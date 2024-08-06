@@ -3,9 +3,9 @@ import React from 'react'
 const IssuesPage = () => {
   return (
     <div>
-    IssuePage
+      <button className='btn btn-primary'>IssuePage</button>
     </div>
-  )
+  );
 }
 
 export default IssuesPage;
