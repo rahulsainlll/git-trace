@@ -1,11 +1,6 @@
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-
-const issueSchema = z.object({
-  title: z.string().min(1, "Title is required").max(255),
-  description: z.string().min(1, "Description is required"),
-});
+import { issueSchema } from "../../validationSchema";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -19,8 +14,3 @@ export async function POST(request: NextRequest) {
   });
   return NextResponse.json(newIssue, { status: 201 });
 }
-
-// export async function GET(request: NextRequest) {
-//   const allIssues = await prisma.issue.findMany();
-//   return NextResponse.json(allIssues);
-// }
