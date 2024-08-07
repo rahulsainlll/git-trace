@@ -11,6 +11,7 @@ import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { issueSchema } from "@/app/validationSchema";
 import { z } from "zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 type IssueForm = z.infer<typeof issueSchema>;
 
@@ -49,11 +50,7 @@ const NewIssuePage = () => {
         })}
       >
         <TextField.Root size="3" placeholder="Title" {...register("title")} />
-        {errors && (
-          <Text color="red" as="div">
-            {errors.title?.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
 
         <Controller
           name="description"
@@ -62,11 +59,7 @@ const NewIssuePage = () => {
             <SimpleMDE placeholder="Description" {...field} />
           )}
         />
-        {errors && (
-          <Text color="red" as="div">
-            {errors.description?.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         <Button size="3">Submit New Issue</Button>
       </form>
