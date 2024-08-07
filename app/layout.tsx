@@ -1,11 +1,11 @@
 import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
+import { Theme, ThemePanel } from "@radix-ui/themes";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "./NavBar";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "Trace ↯",
@@ -19,8 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="wireframe">
-      <body className={inter.className}>
-        <Theme>
+      <body className={inter.variable}>
+        <Theme scaling="110%">
           <NavBar />
           <main className="p-5">{children}</main>
         </Theme>
