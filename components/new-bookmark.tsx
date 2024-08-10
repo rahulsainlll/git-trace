@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,11 +12,44 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Bookmark } from "lucide-react";
-import { createProject } from "@/actions/saveBookmark";
+import { Bookmark } from "lucide-react";
+import axios from "axios";
 import SubmitButton from "@/components/submit-btn";
 
-const NewBookmarkBtn = () => {
+const NewBookmarkBtn = ({
+  name,
+  url,
+  description,
+}: {
+  name: string;
+  url: string;
+  description?: string;
+}) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleBookmarkSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      await axios.post("/api/bookmarks", {
+        name: formData.get("name"),
+        url: formData.get("url"),
+        description: formData.get("description"),
+      });
+      
+    } catch (error) {
+      console.error("Failed to create bookmark:", error);
+      setError("There was an issue creating the bookmark. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -30,15 +64,27 @@ const NewBookmarkBtn = () => {
             Create a new bookmark to get started
           </DialogDescription>
         </DialogHeader>
-        <form className="flex gap-4 flex-col" action={createProject}>
+        <form className="flex gap-4 flex-col" onSubmit={handleBookmarkSubmit}>
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" name="name" placeholder="Project Name" />
+              <Input
+                id="name"
+                name="name"
+                placeholder="Project Name"
+                defaultValue={name}
+                required
+              />
             </div>
             <div className="flex flex-col gap-2">
               <Label htmlFor="url">URL</Label>
-              <Input id="url" name="url" placeholder="https://example.com" />
+              <Input
+                id="url"
+                name="url"
+                placeholder="https://example.com"
+                defaultValue={url}
+                required
+              />
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -47,9 +93,10 @@ const NewBookmarkBtn = () => {
               name="description"
               id="description"
               placeholder="Description (optional)"
+              defaultValue={description}
             />
           </div>
-          <SubmitButton />{" "}
+          <SubmitButton loading={loading} error={error} />
         </form>
       </DialogContent>
     </Dialog>

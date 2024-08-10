@@ -3,60 +3,77 @@
 // deletes the bookmark if it exists and is owned by the authenticated user.
 // returns a success message or an error if something goes wrong.
 
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { userId } = getAuth(req);
+export async function DELETE(req: Request) {
+  const { userId } = auth();
 
   if (!userId) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = req.query;
+  const url = new URL(req.url);
+  const id = url.pathname.split("/").pop();
 
-  if (req.method === "DELETE") {
-    try {
-      const bookmark = await prisma.bookmark.deleteMany({
-        where: {
-          id: id as string,
-          userId,
-        },
-      });
+  try {
+    const result = await prisma.bookmark.deleteMany({
+      where: {
+        id: id as string,
+        userId,
+      },
+    });
 
-      if (!bookmark) {
-        return res.status(404).json({ error: "Bookmark not found" });
-      }
-
-      res.status(200).json({ message: "Bookmark deleted successfully" });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to delete bookmark" });
+    if (result.count === 0) {
+      return NextResponse.json(
+        { error: "Bookmark not found" },
+        { status: 404 }
+      );
     }
-  } else if (req.method === "PUT") {
-    try {
-      const { name, url, description } = req.body;
 
-      const bookmark = await prisma.bookmark.updateMany({
-        where: {
-          id: id as string,
-          userId,
-        },
-        data: { name, url, description },
-      });
+    return NextResponse.json({ message: "Bookmark deleted successfully" });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to delete bookmark" },
+      { status: 500 }
+    );
+  }
+}
 
-      if (!bookmark) {
-        return res.status(404).json({ error: "Bookmark not found" });
-      }
+export async function PUT(req: Request) {
+  const { userId } = auth();
 
-      res.status(200).json(bookmark);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to update bookmark" });
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const url = new URL(req.url);
+  const id = url.pathname.split("/").pop();
+  const body = await req.json();
+  const { name, url: bookmarkUrl, description } = body;
+
+  try {
+    const result = await prisma.bookmark.updateMany({
+      where: {
+        id: id as string,
+        userId,
+      },
+      data: { name, url: bookmarkUrl, description },
+    });
+
+    if (result.count === 0) {
+      return NextResponse.json(
+        { error: "Bookmark not found" },
+        { status: 404 }
+      );
     }
-  } else {
-    res.status(405).json({ error: "Method not allowed" });
+
+    return NextResponse.json(result);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to update bookmark" },
+      { status: 500 }
+    );
   }
 }

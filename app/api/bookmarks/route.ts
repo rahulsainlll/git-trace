@@ -4,52 +4,55 @@
 // Creates a new bookmark associated with the logged-in user using Prisma’s create method.
 // Returns the created bookmark or an error if something goes wrong.
 
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { userId } = getAuth(req);
+export async function GET(req: Request) {
+  const { userId } = auth();
 
   if (!userId) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  if (req.method === "GET") {
-    try {
-      const bookmarks = await prisma.bookmark.findMany({
-        where: { userId },
-      });
-      res.status(200).json(bookmarks);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch bookmarks" });
-    }
-  } else if (req.method === "POST") {
-    try {
-      const { name, url, description } = req.body;
-      const { userId } = getAuth(req);
+  try {
+    const bookmarks = await prisma.bookmark.findMany({
+      where: { userId },
+    });
+    return NextResponse.json(bookmarks);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch bookmarks" },
+      { status: 500 }
+    );
+  }
+}
 
-      if (!userId) {
-        return res.status(401).json({ error: "Unauthorized" });
-      }
+export async function POST(req: Request) {
+  const { userId } = auth();
 
-      const bookmark = await prisma.bookmark.create({
-        data: {
-          name,
-          url,
-          description,
-          userId,
-        },
-      });
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
-      res.status(201).json(bookmark);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to create bookmark" });
-    }
-  } else {
-    res.status(405).json({ error: "Method not allowed" });
+  try {
+    const body = await req.json();
+    const { name, url, description } = body;
+
+    const bookmark = await prisma.bookmark.create({
+      data: {
+        name,
+        url,
+        description,
+        userId,
+      },
+    });
+
+    return NextResponse.json(bookmark, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to create bookmark" },
+      { status: 500 }
+    );
   }
 }
