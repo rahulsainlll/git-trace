@@ -11,23 +11,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus } from "lucide-react";
+import { Plus, Bookmark } from "lucide-react";
 import { createProject } from "@/actions/saveBookmark";
 import SubmitButton from "@/components/submit-btn";
 
-const NewProjBtn = () => {
+const NewBookmarkBtn = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button className="rounded-full">
-          <Plus className="w-4 h-4" />
+          <Bookmark className="w-4 h-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] rounded-md">
         <DialogHeader>
-          <DialogTitle>New Project</DialogTitle>
+          <DialogTitle>New Bookmark</DialogTitle>
           <DialogDescription>
-            Create a new project to get started
+            Create a new bookmark to get started
           </DialogDescription>
         </DialogHeader>
         <form className="flex gap-4 flex-col" action={createProject}>
@@ -56,4 +56,4 @@ const NewProjBtn = () => {
   );
 };
 
-export default NewProjBtn;
+export default NewBookmarkBtn;

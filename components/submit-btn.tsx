@@ -14,7 +14,7 @@ const SubmitButton = () => {
           Creating...
         </>
       ) : (
-        "Create Project"
+        "Create Bookmark"
       )}
     </Button>
   );

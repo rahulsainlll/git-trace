@@ -1,3 +1,4 @@
+import NewBookmarkBtn from "@/components/new-bookmark";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 
@@ -21,6 +22,7 @@ export default function Home() {
           <p>Repository Name *</p>
           <Input />
         </div>
+        {/* <NewBookmarkBtn /> */}
       </div>
     </div>
   );
