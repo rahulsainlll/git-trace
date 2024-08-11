@@ -50,31 +50,25 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  // callbacks: {
-  //   session: ({ session, token }) => {
-  //     console.log("Session Callback", { session, token });
-  //     return {
-  //       ...session,
-  //       user: {
-  //         ...session.user,
-  //         id: token.id,
-  //         randomKey: token.randomKey,
-  //       },
-  //     };
-  //   },
-  //   jwt: ({ token, user }) => {
-  //     console.log("JWT Callback", { token, user });
-  //     if (user) {
-  //       const u = user as unknown as any;
-  //       return {
-  //         ...token,
-  //         id: u.id,
-  //         randomKey: u.randomKey,
-  //       };
-  //     }
-  //     return token;
-  //   },
-  // },
+  callbacks: {
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+        },
+      };
+    },
+    jwt: ({ token, user }) => {
+      if (user) {
+        const u = user as unknown as any;
+        return {
+          ...token,
+        };
+      }
+      return token;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);

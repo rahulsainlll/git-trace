@@ -1,14 +1,7 @@
-// import {
-//   SignInButton,
-//   SignUpButton,
-//   SignedIn,
-//   SignedOut,
-//   UserButton,
-// } from "@clerk/nextjs";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-// import HeaderMenu from "@/components/header-menu";
+import { LoginButton, LogoutButton } from "./auth";
 
 const PageHeader = () => {
   return (
@@ -22,7 +15,8 @@ const PageHeader = () => {
             </div>
           </Link>
           <div>
-            login
+            <LoginButton />
+            <LogoutButton />
           </div>
         </div>
       </div>
