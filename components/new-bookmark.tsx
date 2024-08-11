@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -27,6 +28,8 @@ const NewBookmarkBtn = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const router = useRouter();
 
   const handleBookmarkSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,7 +44,7 @@ const NewBookmarkBtn = ({
         url: formData.get("url"),
         description: formData.get("description"),
       });
-      
+      setSuccess(true);
     } catch (error) {
       console.error("Failed to create bookmark:", error);
       setError("There was an issue creating the bookmark. Please try again.");
@@ -49,6 +52,10 @@ const NewBookmarkBtn = ({
       setLoading(false);
     }
   };
+
+  if (success) {
+    router.push("/dashboard");
+  }
 
   return (
     <Dialog>
@@ -96,7 +103,7 @@ const NewBookmarkBtn = ({
               defaultValue={description}
             />
           </div>
-          <SubmitButton loading={loading} error={error} />
+          <SubmitButton loading={loading} />
         </form>
       </DialogContent>
     </Dialog>

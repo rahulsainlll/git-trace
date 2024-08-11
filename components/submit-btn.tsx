@@ -1,21 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 
-const SubmitButton = ({
-  loading,
-  error,
-}: {
-  loading: boolean;
-  error: string | null;
-}) => {
-  const router = useRouter();
-
-  if (!loading && !error) {
-    router.push("/user/dashboard");
-  }
-
+const SubmitButton = ({ loading }: { loading: boolean }) => {
   return (
     <Button type="submit" disabled={loading}>
       {loading ? (
