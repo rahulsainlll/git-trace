@@ -13,7 +13,7 @@ export const LoginButton = () => {
 export const LogoutButton = () => {
   return (
     <button onClick={() => signOut()} className="text-base text-[#425893]">
-      Logout
+      Logout 🏃🏻‍➡️🏃🏻‍♂️‍➡️🏃🏻‍♀️‍➡️
     </button>
   );
 };

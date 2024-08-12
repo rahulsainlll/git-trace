@@ -2,6 +2,7 @@
 // updates the bookmark with the new data or returns an error if something goes wrong.
 // deletes the bookmark if it exists and is owned by the authenticated user.
 // returns a success message or an error if something goes wrong.
+
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";

@@ -50,7 +50,7 @@ export default function Home() {
       <h1 className="font-medium text-3xl text-gray-900 mb-2">
         Find repository
       </h1>
-      <p className="text-base italic max-w-prose text-muted-foreground mb-4">
+      <p className="text-base italic  text-muted-foreground mb-4">
         Required fields are marked with an asterisk (*).
       </p>
 
