@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import PageHeader from "@/components/page-header";
 import clsx from "clsx";
 import { Providers } from "./provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={clsx(inter.className, "max-w-[1200px] mx-auto w-full p-4")}
+        className={clsx(roboto.className, "max-w-[1200px] mx-auto w-full p-4")}
       >
         <PageHeader />
         <main>
