@@ -62,7 +62,10 @@ export default function SignInPage() {
       toast({
         description: "Login successful",
       });
-      
+
+      setTimeout(() => {
+        router.refresh(); 
+      }, 100);
     }
   };
 

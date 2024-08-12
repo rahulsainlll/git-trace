@@ -15,6 +15,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import NewBookmarkBtn from "@/components/new-bookmark";
+import { Badge } from "@/components/ui/badge";
+import { Loader } from "lucide-react";
 
 export default function Home() {
   const [owner, setOwner] = useState("");
@@ -22,9 +24,11 @@ export default function Home() {
   const [repositories, setRepositories] = useState<any[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
   const [issues, setIssues] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false); 
   const router = useRouter();
 
   const handleSearchRepos = async () => {
+    setLoading(true);
     try {
       const response = await axios.get("/api/search/repositories", {
         params: { owner, name: repoName },
@@ -32,10 +36,13 @@ export default function Home() {
       setRepositories(response.data);
     } catch (error) {
       console.error("Failed to search repositories:", error);
+    } finally {
+      setLoading(false); 
     }
   };
 
   const handleSearchIssues = async (repoFullName: string) => {
+    setLoading(true); 
     try {
       const response = await axios.get("/api/search/issues", {
         params: { repositoryFullName: repoFullName },
@@ -43,6 +50,14 @@ export default function Home() {
       setIssues(response.data);
     } catch (error) {
       console.error("Failed to fetch issues:", error);
+    } finally {
+      setLoading(false); 
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearchRepos();
     }
   };
 
@@ -55,12 +70,13 @@ export default function Home() {
         Required fields are marked with an asterisk (*).
       </p>
 
-      <div className="flex flex-col md:flex-row md:gap-4 mb-8 max-w-xl">
+      <div className="flex flex-col md:flex-row md:gap-4 mb-8 max-w-2xl">
         <div className="flex flex-col mb-4 md:mb-0 w-full md:w-auto">
           <p>Owner Name *</p>
           <Input
             value={owner}
             onChange={(e) => setOwner(e.target.value)}
+            onKeyDown={handleKeyDown} 
             placeholder="Owner Name"
           />
         </div>
@@ -70,17 +86,20 @@ export default function Home() {
           <Input
             value={repoName}
             onChange={(e) => setRepoName(e.target.value)}
+            onKeyDown={handleKeyDown} 
             placeholder="Repository Name"
           />
         </div>
 
-        <Button
-          onClick={handleSearchRepos}
-          variant={"outline"}
-          className="mt-4 md:mt-0 md:ml-2"
-        >
-          Search
-        </Button>
+        <div className="flex flex-col md:mt-0 md:ml-2">
+          <Button
+            onClick={handleSearchRepos}
+            variant={"outline"}
+            className="mt-6"
+          >
+            {loading ? <Loader /> : "Search"} 
+          </Button>
+        </div>
       </div>
 
       {repositories.length > 0 && (
