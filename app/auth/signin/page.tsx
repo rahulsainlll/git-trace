@@ -45,13 +45,12 @@ export default function SignInPage() {
   const router = useRouter();
 
   const onSubmit = async (data: SignInFormData) => {
-    console.log("Submitting:", data); // Add this line
     const result = await signIn("credentials", {
       redirect: false,
       email: data.email,
       password: data.password,
     });
-    console.log("Result:", result);
+
 
     if (result?.error) {
       toast({
@@ -59,10 +58,11 @@ export default function SignInPage() {
         description: result.error,
       });
     } else if (result?.ok) {
+      router.push("/");
       toast({
         description: "Login successful",
       });
-      router.push("/dashboard");
+      
     }
   };
 

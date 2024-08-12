@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-
 import {
   Dialog,
   DialogContent,
@@ -29,6 +29,8 @@ const NewBookmarkBtn = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { data: session } = useSession();
   const router = useRouter();
 
   const handleBookmarkSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,59 +55,69 @@ const NewBookmarkBtn = ({
     }
   };
 
+  const handleButtonClick = () => {
+    if (!session?.user) {
+      router.push("/auth/signin");
+    } else {
+      setIsDialogOpen(true);
+    }
+  };
+
   if (success) {
     router.push("/dashboard");
   }
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button className="rounded-full">
+        <Button className="rounded-full" onClick={handleButtonClick}>
           <Bookmark className="w-4 h-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] rounded-md">
-        <DialogHeader>
-          <DialogTitle>New Bookmark</DialogTitle>
-          <DialogDescription>
-            Create a new bookmark to get started
-          </DialogDescription>
-        </DialogHeader>
-        <form className="flex gap-4 flex-col" onSubmit={handleBookmarkSubmit}>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                name="name"
-                placeholder="Project Name"
-                defaultValue={name}
-                required
-              />
+      {session?.user && (
+        <DialogContent className="sm:max-w-[425px] rounded-md">
+          <DialogHeader>
+            <DialogTitle>New Bookmark</DialogTitle>
+            <DialogDescription>
+              Create a new bookmark to get started
+            </DialogDescription>
+          </DialogHeader>
+          <form className="flex gap-4 flex-col" onSubmit={handleBookmarkSubmit}>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  placeholder="Project Name"
+                  defaultValue={name}
+                  required
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="url">URL</Label>
+                <Input
+                  id="url"
+                  name="url"
+                  placeholder="https://example.com"
+                  defaultValue={url}
+                  required
+                />
+              </div>
             </div>
             <div className="flex flex-col gap-2">
-              <Label htmlFor="url">URL</Label>
-              <Input
-                id="url"
-                name="url"
-                placeholder="https://example.com"
-                defaultValue={url}
-                required
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                name="description"
+                id="description"
+                placeholder="Description (optional)"
+                defaultValue={description}
               />
             </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              name="description"
-              id="description"
-              placeholder="Description (optional)"
-              defaultValue={description}
-            />
-          </div>
-          <SubmitButton loading={loading} />
-        </form>
-      </DialogContent>
+            <SubmitButton loading={loading} />
+          </form>
+        </DialogContent>
+      )}
     </Dialog>
   );
 };

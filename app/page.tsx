@@ -5,8 +5,6 @@ import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { Bookmark } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -19,7 +17,6 @@ import {
 import NewBookmarkBtn from "@/components/new-bookmark";
 
 export default function Home() {
-  const { data: session } = useSession();
   const [owner, setOwner] = useState("");
   const [repoName, setRepoName] = useState("");
   const [repositories, setRepositories] = useState<any[]>([]);
@@ -46,22 +43,6 @@ export default function Home() {
       setIssues(response.data);
     } catch (error) {
       console.error("Failed to fetch issues:", error);
-    }
-  };
-
-  const handleBookmarkClick = async (item: any) => {
-    if (!session?.user) {
-      router.push("/auth/signin");
-    } else {
-      // Trigger the bookmark dialog
-      const { name, html_url: url, description } = item;
-      return (
-        <NewBookmarkBtn
-          name={name}
-          url={url}
-          description={description || "No description available"}
-        />
-      );
     }
   };
 
@@ -93,7 +74,11 @@ export default function Home() {
           />
         </div>
 
-        <Button onClick={handleSearchRepos} variant={"outline"} className="mt-4 md:mt-0 md:ml-2">
+        <Button
+          onClick={handleSearchRepos}
+          variant={"outline"}
+          className="mt-4 md:mt-0 md:ml-2"
+        >
           Search
         </Button>
       </div>
