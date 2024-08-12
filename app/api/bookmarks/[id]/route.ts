@@ -2,15 +2,15 @@
 // updates the bookmark with the new data or returns an error if something goes wrong.
 // deletes the bookmark if it exists and is owned by the authenticated user.
 // returns a success message or an error if something goes wrong.
-
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function DELETE(req: Request) {
-  const { userId } = auth();
+  const session = await getServerSession(authOptions);
 
-  if (!userId) {
+  if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -18,10 +18,19 @@ export async function DELETE(req: Request) {
   const id = url.pathname.split("/").pop();
 
   try {
+    // Find the user by email to get their ID
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     const result = await prisma.bookmark.deleteMany({
       where: {
         id: id as string,
-        userId,
+        userId: user.id,
       },
     });
 
@@ -42,9 +51,9 @@ export async function DELETE(req: Request) {
 }
 
 export async function PUT(req: Request) {
-  const { userId } = auth();
+  const session = await getServerSession(authOptions);
 
-  if (!userId) {
+  if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -54,10 +63,19 @@ export async function PUT(req: Request) {
   const { name, url: bookmarkUrl, description } = body;
 
   try {
+    // Find the user by email to get their ID
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     const result = await prisma.bookmark.updateMany({
       where: {
         id: id as string,
-        userId,
+        userId: user.id,
       },
       data: { name, url: bookmarkUrl, description },
     });

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import NewBookmarkBtn from "@/components/new-bookmark";
 
+
 import {
   Table,
   TableBody,
@@ -53,7 +54,7 @@ export default function Home() {
         Required fields are marked with an asterisk (*).
       </p>
 
-      <div className="max-w-xl flex gap-4 mb-8">
+      <div className="max-w-xl flex items-center gap-4 mb-8">
         <div>
           <p>Owner Name *</p>
           <Input
@@ -71,7 +72,7 @@ export default function Home() {
             placeholder="Repository Name"
           />
         </div>
-        <Button onClick={handleSearchRepos} className="btn btn-primary">
+        <Button onClick={handleSearchRepos}  className="ml-2">
           Search
         </Button>
       </div>
