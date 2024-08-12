@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import DeleteBookmarkButton from "@/components/DeleteBookmarkButton";
 import Link from "next/link";
 
