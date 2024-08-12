@@ -22,7 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 
 const signInSchema = z.object({
@@ -33,6 +33,7 @@ const signInSchema = z.object({
 type SignInFormData = z.infer<typeof signInSchema>;
 
 export default function SignInPage() {
+  const { toast } = useToast();
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -58,13 +59,16 @@ export default function SignInPage() {
         description: result.error,
       });
     } else if (result?.ok) {
+      toast({
+        description: "Login successful",
+      });
       router.push("/dashboard");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen ">
-      <div className="w-full max-w-md p-6 bg-white shadow-md rounded-lg">
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-6 bg-white border rounded-lg">
         <h2 className="text-xl font-bold text-[#425893] text- mb-4">
           Login into git-trace
         </h2>
@@ -113,24 +117,18 @@ export default function SignInPage() {
                 )}
               />
               <Button type="submit" className="w-full bg-[#425893]">
-                Sign In
+                Login
               </Button>
             </form>
           </Form>
         </div>
-        <div className="flex justify-end border-gray-300 ">
-          <Popover>
-            <PopoverContent className=" text-center">
-              Under Construction 🏗️ 🚧
-            </PopoverContent>
-            <Link
-              href=""
-              onClick={() => console.log("underconstruction")}
-              className="text-sm text-[#425893] hover:text-gray-600"
-            >
-              <PopoverTrigger className="underline">Use GitHub</PopoverTrigger>
-            </Link>
-          </Popover>
+        <div className="flex justify-end border-gray-300">
+          <Link
+            href="/auth/signup"
+            className="text-sm text-[#425893] hover:text-gray-600 underline"
+          >
+            Register
+          </Link>
         </div>
       </div>
     </div>
