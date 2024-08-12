@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={clsx(inter.className, "max-w-[1250px] mx-auto w-full")}
+        className={clsx(inter.className, "mx-auto w-full  ")}
       >
         <Providers>
           <PageHeader />

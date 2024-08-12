@@ -1,11 +1,12 @@
 "use client";
+
 import { useState } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import NewBookmarkBtn from "@/components/new-bookmark";
-
-
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { Bookmark } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -15,13 +16,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import NewBookmarkBtn from "@/components/new-bookmark";
 
 export default function Home() {
+  const { data: session } = useSession();
   const [owner, setOwner] = useState("");
   const [repoName, setRepoName] = useState("");
   const [repositories, setRepositories] = useState<any[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
   const [issues, setIssues] = useState<any[]>([]);
+  const router = useRouter();
 
   const handleSearchRepos = async () => {
     try {
@@ -45,17 +49,33 @@ export default function Home() {
     }
   };
 
+  const handleBookmarkClick = async (item: any) => {
+    if (!session?.user) {
+      router.push("/auth/signin");
+    } else {
+      // Trigger the bookmark dialog
+      const { name, html_url: url, description } = item;
+      return (
+        <NewBookmarkBtn
+          name={name}
+          url={url}
+          description={description || "No description available"}
+        />
+      );
+    }
+  };
+
   return (
-    <div className=" py-10 px-2.5 lg:px-20">
+    <div className="py-10 px-2.5 lg:px-20 mx-auto max-w-[1250px]">
       <h1 className="font-medium text-3xl text-gray-900 mb-2">
         Find repository
       </h1>
-      <p className="text-base italic  text-muted-foreground mb-4">
+      <p className="text-base italic text-muted-foreground mb-4">
         Required fields are marked with an asterisk (*).
       </p>
 
-      <div className="max-w-xl flex items-center gap-4 mb-8">
-        <div>
+      <div className="flex flex-col md:flex-row md:gap-4 mb-8 max-w-xl">
+        <div className="flex flex-col mb-4 md:mb-0 w-full md:w-auto">
           <p>Owner Name *</p>
           <Input
             value={owner}
@@ -64,7 +84,7 @@ export default function Home() {
           />
         </div>
 
-        <div>
+        <div className="flex flex-col w-full md:w-auto">
           <p>Repository Name *</p>
           <Input
             value={repoName}
@@ -72,7 +92,8 @@ export default function Home() {
             placeholder="Repository Name"
           />
         </div>
-        <Button onClick={handleSearchRepos}  className="ml-2">
+
+        <Button onClick={handleSearchRepos} variant={"outline"} className="mt-4 md:mt-0 md:ml-2">
           Search
         </Button>
       </div>
@@ -109,8 +130,10 @@ export default function Home() {
                     </Button>
                     <NewBookmarkBtn
                       name={repo.name}
-                      url={`https://github.com/${repo.full_name}`}
-                      description={repo.description}
+                      url={repo.html_url}
+                      description={
+                        repo.description || "No description available"
+                      }
                     />
                   </TableCell>
                 </TableRow>
@@ -150,10 +173,11 @@ export default function Home() {
                     >
                       View Issue
                     </a>
+
                     <NewBookmarkBtn
                       name={issue.title}
                       url={issue.html_url}
-                      description={`Issue #${issue.number} in repository ${selectedRepo?.name}`}
+                      description={issue.body || "No description available"}
                     />
                   </TableCell>
                 </TableRow>

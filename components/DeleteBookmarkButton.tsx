@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Loader } from "lucide-react";
 
 interface DeleteBookmarkButtonProps {
   bookmarkId: string;
@@ -20,14 +21,18 @@ export default function DeleteBookmarkButton({
   bookmarkId,
 }: DeleteBookmarkButtonProps) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
+    setLoading(true);
     try {
       await axios.delete(`/api/bookmarks/${bookmarkId}`);
       window.location.reload();
     } catch (error) {
       console.error("Failed to delete bookmark:", error);
       // Optionally, show an error message to the user
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -35,7 +40,9 @@ export default function DeleteBookmarkButton({
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button onClick={() => setOpen(true)}>Delete</Button>
+          <Button onClick={() => setOpen(true)} disabled={loading}>
+            {loading ? <Loader className="animate-spin w-4 h-4" /> : "Delete"}
+          </Button>
         </DialogTrigger>
         <DialogContent className="dialog-content">
           <DialogHeader>
@@ -46,10 +53,22 @@ export default function DeleteBookmarkButton({
             </DialogDescription>
           </DialogHeader>
           <div className="flex gap-4">
-            <Button onClick={handleDelete} variant="destructive">
-              Confirm
+            <Button
+              onClick={handleDelete}
+              variant="destructive"
+              disabled={loading}
+            >
+              {loading ? (
+                <Loader className="animate-spin w-4 h-4" />
+              ) : (
+                "Confirm"
+              )}
             </Button>
-            <Button onClick={() => setOpen(false)} variant="outline">
+            <Button
+              onClick={() => setOpen(false)}
+              variant="outline"
+              disabled={loading}
+            >
               Cancel
             </Button>
           </div>
