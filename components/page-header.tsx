@@ -4,9 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { LoginButton, LogoutButton } from "./auth";
+import { Badge } from "./ui/badge";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 const PageHeader = () => {
   const { data: session } = useSession();
+
+  const handleGitHubClick = () => {
+    window.location.href = "https://github.com/rahulsainlll/git-trace";
+  };
+
+  const handleTweetClick = () => {
+    const tweetText = encodeURIComponent(
+      `Check out "git-trace dot com" made for GSOC folks\n\n～one place multiple Issues～\nSearch the repository -> save individual repo & issues\n\nGSOC'25 folks select and save your issues\n\napp/users/ https://git-trace.vercel.app\napp/contributor/ https://github.com/rahulsainlll/git-trace`
+    );
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
+    window.open(tweetUrl, "_blank");
+  };
 
   return (
     <header className="sticky inset-x-0 top-2 z-30 w-full transition-all bg-white/20 backdrop-blur-md">
@@ -20,7 +34,6 @@ const PageHeader = () => {
               </div>
             </Link>
 
-            {/* Dashboard Link */}
             <Link href="/dashboard">
               <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
                 dashboard
@@ -29,6 +42,25 @@ const PageHeader = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            <Badge
+              className="gap-1 bg-slate-50 hover:bg-slate-100"
+              variant="outline"
+              onClick={handleGitHubClick}
+              style={{ cursor: "pointer" }}
+            >
+              <GitHubLogoIcon />
+              Star
+            </Badge>
+
+            <Badge
+              className="gap-1 rounded-xl hover: "
+              onClick={handleTweetClick}
+              style={{ cursor: "pointer" }}
+            >
+              <Image src="/twitter-x.svg" width={12} height={12} alt="Tweet" />
+              Post
+            </Badge>
+
             {session ? (
               <LogoutButton />
             ) : (
