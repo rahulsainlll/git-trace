@@ -82,7 +82,7 @@ const PageHeader = () => {
           </div>
         </div>
       </div>
-      <div className=" flex h-16 items-center justify-between  border-b px-2">
+      <div className=" sm:hidden flex h-16 items-center justify-between  border-b px-2">
         <Link href="/" className="flex items-center ">
           <Image src="/git3.png" alt="Logo" width={38} height={38} />
         </Link>
