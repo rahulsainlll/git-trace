@@ -43,6 +43,14 @@ export default function Home() {
       const response = await axios.get("/api/search/repositories", {
         params: { owner, name: repoName },
       });
+      if (response.data.length == 0){
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "Invalid Owner Name Or Repository Name .",
+        })
+        return
+      }
       setRepositories(response.data);
     } catch (error) {
       console.error("Failed to search repositories:", error);
