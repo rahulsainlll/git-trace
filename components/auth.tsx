@@ -4,8 +4,11 @@ import { signIn, signOut } from "next-auth/react";
 
 export const LoginButton = () => {
   return (
-    <button onClick={() => signIn()} className="text-base text-[#425893]">
-      Enter
+    <button
+      onClick={() => signIn()}
+      className="text-base text-[#425893] text-start"
+    >
+      Login
     </button>
   );
 };
