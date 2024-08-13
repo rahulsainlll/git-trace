@@ -17,6 +17,7 @@ import {
 import NewBookmarkBtn from "@/components/new-bookmark";
 import { Badge } from "@/components/ui/badge";
 import { Loader } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast"
 
 export default function Home() {
   const [owner, setOwner] = useState("");
@@ -24,25 +25,42 @@ export default function Home() {
   const [repositories, setRepositories] = useState<any[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
   const [issues, setIssues] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { toast } = useToast()
 
   const handleSearchRepos = async () => {
     setLoading(true);
     try {
+      if (owner == "" || repoName == "") {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "Provide Both Owner Name and Repository Name .",
+        })
+        return
+      }
       const response = await axios.get("/api/search/repositories", {
         params: { owner, name: repoName },
       });
+      if (response.data.length == 0){
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "Invalid Owner Name Or Repository Name .",
+        })
+        return
+      }
       setRepositories(response.data);
     } catch (error) {
       console.error("Failed to search repositories:", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   const handleSearchIssues = async (repoFullName: string) => {
-    setLoading(true); 
+    setLoading(true);
     try {
       const response = await axios.get("/api/search/issues", {
         params: { repositoryFullName: repoFullName },
@@ -51,7 +69,7 @@ export default function Home() {
     } catch (error) {
       console.error("Failed to fetch issues:", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -76,7 +94,7 @@ export default function Home() {
           <Input
             value={owner}
             onChange={(e) => setOwner(e.target.value)}
-            onKeyDown={handleKeyDown} 
+            onKeyDown={handleKeyDown}
             placeholder="Owner Name"
           />
         </div>
@@ -86,7 +104,7 @@ export default function Home() {
           <Input
             value={repoName}
             onChange={(e) => setRepoName(e.target.value)}
-            onKeyDown={handleKeyDown} 
+            onKeyDown={handleKeyDown}
             placeholder="Repository Name"
           />
         </div>
@@ -97,7 +115,7 @@ export default function Home() {
             variant={"outline"}
             className="mt-6"
           >
-            {loading ? <Loader /> : "Search"} 
+            {loading ? <Loader /> : "Search"}
           </Button>
         </div>
       </div>
