@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# git-trace
 
-## Getting Started
+git-trace is a tool for viewing, and bookmarking gitHub repositories and issues effortlessly keep track of your favorite projects and issues with ease!
 
-First, run the development server:
+## features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+git-Trace allows you to:  
+Search Repositories: Quickly find GitHub repositories by owner and name.  
+View Issues: Explore and view issues related to the repositories you’re interested in.  
+Bookmark Items: Save repositories and issues for quick access, ensuring you never lose track of important projects.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## frontend
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+the frontend is built with Next.js and React, providing a seamless user experience. It features a clean and intuitive interface for searching repositories and viewing issues, with responsive design (under construction).
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## backend
 
-To learn more about Next.js, take a look at the following resources:
+git-Trace’s backend handles repository and issue searches through gitHub’s api, and supports user authentication for bookmarking features. The system is powered by prisma and neon db for robust data management.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## running it yourself
 
-## Deploy on Vercel
+you are welcome to self host git-trace. to get started, make sure that: 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- you are using python 3.9/3.10;
+- port 8001 (used by the inference server) is free.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+then follow the steps below:
+
+1. set up the evn file 
+2. run `npm install` 
+3. run the development server: `npm run dev`
+
+## feature requests
+
+if you have any feature idea, feel free to use the issue tracker to let me know!
