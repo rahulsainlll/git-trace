@@ -5,6 +5,7 @@ import PageHeader from "@/components/page-header";
 import clsx from "clsx";
 import { Providers } from "./provider";
 import { Toaster } from "@/components/ui/toaster";
+import { Footer } from "@/components/ui/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,18 +20,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={clsx(inter.className, "mx-auto w-full  ")}
-      >
-        <Providers>
-          <PageHeader />
-          <main>
-            {children}
-            <Toaster />
-          </main>
-        </Providers>
-      </body>
-    </html>
+    <html lang="en" className="h-full">
+    <body className={clsx("flex flex-col min-h-screen", inter.className)}>
+      <Providers>
+        <PageHeader />
+        <main className="flex-grow">
+          {children}
+          <Toaster />
+        </main>
+      </Providers>
+      <Footer />
+    </body>
+  </html>
   );
 }
