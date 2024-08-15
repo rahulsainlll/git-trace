@@ -22,6 +22,7 @@ import { useToast } from "@/components/ui/use-toast"
 export default function Home() {
   const [owner, setOwner] = useState("");
   const [repoName, setRepoName] = useState("");
+  const [repoLink,setRepoLink]=useState("")
   const [repositories, setRepositories] = useState<any[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
   const [issues, setIssues] = useState<any[]>([]);
@@ -59,6 +60,51 @@ export default function Home() {
     }
   };
 
+  const handleSearchReposUrl = async ()=>{
+    setLoading(true)
+    try{
+      if(repoLink==""){
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "Repository link cannot be empty .",
+        })
+        return
+      }
+      const username=repoLink.replace('https://github.com/','').split('/');
+      if(!username){
+        toast({
+          variant:"destructive",
+          title:"Uh oh! Something went wrong",
+          description:"Provide correct url"
+        })
+        return 
+      }
+      if(username.length>=2){
+        setOwner(username[0]),
+        setRepoName(username[1])
+      }
+      const response = await axios.get("/api/search/repositories", {
+        params: { owner, name: repoName },
+      });
+      if (response.data.length == 0){
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "Invalid Owner Name Or Repository Name .",
+        })
+        return
+      }
+      setRepositories(response.data);
+    }
+    catch(error){
+      console.log(`Failed to search repositories ${error}`)
+    }
+    finally{
+      setLoading(false)
+    }
+  }
+
   const handleSearchIssues = async (repoFullName: string) => {
     setLoading(true);
     try {
@@ -88,6 +134,8 @@ export default function Home() {
         Required fields are marked with an asterisk (*).
       </p>
 
+
+      <p className="mt-6 mb-2 font-bold">Search by Individual details</p>
       <div className="flex flex-col md:flex-row md:gap-4 mb-8 max-w-2xl">
         <div className="flex flex-col mb-4 md:mb-0 w-full md:w-auto">
           <p>Owner Name *</p>
@@ -112,6 +160,30 @@ export default function Home() {
         <div className="flex flex-col md:mt-0 md:ml-2">
           <Button
             onClick={handleSearchRepos}
+            variant={"outline"}
+            className="mt-6"
+          >
+            {loading ? <Loader /> : "Search"}
+          </Button>
+        </div>
+      </div>
+
+
+      <p className="font-bold mt-4 mb-2">Search By Repository Link</p>
+      <div className="flex flex-col md:flex-row md:gap-4 mb-8 max-w-2xl">
+        <div className="flex flex-col mb-4 md:mb-0 w-full md:w-auto">
+          <p>Repository Link *</p>
+          <Input
+            value={repoLink}
+            onChange={(e) => setRepoLink(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Repository Link"
+          />
+        </div>
+
+        <div className="flex flex-col md:mt-0 md:ml-2">
+          <Button
+            onClick={handleSearchReposUrl}
             variant={"outline"}
             className="mt-6"
           >

@@ -23,13 +23,13 @@ export default function RootLayout({
     <html lang="en" className="h-full">
     <body className={clsx("flex flex-col min-h-screen", inter.className)}>
       <Providers>
-        <PageHeader />
+        <PageHeader/>
         <main className="flex-grow">
           {children}
-          <Toaster />
+          <Toaster/>
         </main>
       </Providers>
-      <Footer />
+      <Footer/>
     </body>
   </html>
   );

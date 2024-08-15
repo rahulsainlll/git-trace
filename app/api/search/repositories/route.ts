@@ -5,6 +5,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const owner = searchParams.get("owner");
   const name = searchParams.get("name");
+  
 
   if (!owner || !name) {
     return NextResponse.json(
