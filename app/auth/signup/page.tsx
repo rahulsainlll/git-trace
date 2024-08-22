@@ -51,7 +51,7 @@ export default function SignUpPage() {
       router.push("/auth/signin");
       toast({
         title: "Registration Successful 🎉",
-        description: "Failed to create an account. Please try again.",
+        description: "Your account has been successfully created. Please log in to continue.",
       });
     } catch (error) {
       toast({
