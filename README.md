@@ -4,7 +4,7 @@
 </div>
 
 <div align="center">
-  <a href="https://git-trace.vercel.app">git-trace.com</a>
+  <a href="https://git-trace.vercel.app">git-trace.vercel.com</a>
 </div>
 <br/>
 
