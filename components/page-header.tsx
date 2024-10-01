@@ -46,6 +46,11 @@ const PageHeader = () => {
                 Dashboard
               </div>
             </Link>
+            <Link href="/blog">
+              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+                Blogs
+              </div>
+            </Link>
           </div>
 
           <div className="flex items-center gap-2">
