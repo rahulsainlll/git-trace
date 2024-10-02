@@ -1,6 +1,21 @@
 import React from 'react';
 import { BlogCard } from '@/components/ui/blog-card';
 
+const posts = [
+    {
+      id: "1",
+      title: "How to Use Git Efficiently",
+    },
+    {
+      id: "2",
+      title: "Git & Github",
+    },
+    {
+      id: "3",
+      title: "How to Use Git-Trace",
+    },
+  ]
+
 const BlogPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white text-gray-800 font-sans">
@@ -17,9 +32,9 @@ const BlogPage: React.FC = () => {
         <h2 className="text-3xl font-bold mb-8">Latest Posts</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Dummy Blog Post */}
-          <BlogCard/>
-          <BlogCard/>
-          <BlogCard/>
+          {posts.map((post, i) => (
+            <BlogCard key={i} id={post.id} title={post.title} />
+          ))}
         </div>
       </section>
     </div>
