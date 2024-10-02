@@ -26,12 +26,16 @@ export default function Home() {
   const [repositories, setRepositories] = useState<any[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
   const [issues, setIssues] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState({
+    searchReposLoader:false,
+    searchRepoUrlLoader:false,
+    searchIssueLoader:false
+  });
   const router = useRouter();
   const { toast } = useToast()
 
   const handleSearchRepos = async () => {
-    setLoading(true);
+    setLoading({...loading,searchReposLoader:true});
     try {
       if (owner == "" || repoName == "") {
         toast({
@@ -56,12 +60,12 @@ export default function Home() {
     } catch (error) {
       console.error("Failed to search repositories:", error);
     } finally {
-      setLoading(false);
+       setLoading({...loading,searchReposLoader:false});
     }
   };
 
   const handleSearchReposUrl = async ()=>{
-    setLoading(true)
+     setLoading({ ...loading, searchRepoUrlLoader: true });
     try{
       if(repoLink==""){
         toast({
@@ -101,12 +105,12 @@ export default function Home() {
       console.log(`Failed to search repositories ${error}`)
     }
     finally{
-      setLoading(false)
+      setLoading({ ...loading, searchRepoUrlLoader: false });
     }
   }
 
   const handleSearchIssues = async (repoFullName: string) => {
-    setLoading(true);
+   setLoading({ ...loading, searchIssueLoader: true });
     try {
       const response = await axios.get("/api/search/issues", {
         params: { repositoryFullName: repoFullName },
@@ -115,7 +119,7 @@ export default function Home() {
     } catch (error) {
       console.error("Failed to fetch issues:", error);
     } finally {
-      setLoading(false);
+      setLoading({ ...loading, searchIssueLoader: false });
     }
   };
 
@@ -163,7 +167,7 @@ export default function Home() {
             variant={"outline"}
             className="mt-6"
           >
-            {loading ? <Loader /> : "Search"}
+            {loading.searchReposLoader ? <Loader /> : "Search"}
           </Button>
         </div>
       </div>
@@ -187,7 +191,7 @@ export default function Home() {
             variant={"outline"}
             className="mt-6"
           >
-            {loading ? <Loader /> : "Search"}
+            {loading.searchRepoUrlLoader? <Loader /> : "Search"}
           </Button>
         </div>
       </div>
