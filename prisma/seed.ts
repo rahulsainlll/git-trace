@@ -24,7 +24,27 @@ async function main() {
     },
   });
 
-  console.log({ user, bookmark });
+
+  const todos=await prisma.todo.createMany({
+    data: [
+      {
+        id: 'todo-1',
+        title: 'Implement Authentication',
+        description: 'Set up JWT-based authentication for the app',
+        completed: false,
+        bookmarkId: bookmark.id,
+      },
+      {
+        id: 'todo-2',
+        title: 'Add Unit Tests',
+        description: 'Write unit tests for all routes',
+        completed: false,
+        bookmarkId: bookmark.id,
+      },
+    ],
+  });
+
+  console.log({ user, bookmark ,todos});
 }
 
 main()
