@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import axios from "axios";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import axios from 'axios';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 import {
   Table,
   TableBody,
@@ -13,114 +13,120 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import NewBookmarkBtn from "@/components/new-bookmark";
-import { Badge } from "@/components/ui/badge";
-import { Loader } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast"
+} from '@/components/ui/table';
+import NewBookmarkBtn from '@/components/new-bookmark';
+import { Badge } from '@/components/ui/badge';
+import { Loader } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function Home() {
-  const [owner, setOwner] = useState("");
-  const [repoName, setRepoName] = useState("");
-  const [repoLink,setRepoLink]=useState("")
+  const [owner, setOwner] = useState('');
+  const [repoName, setRepoName] = useState('');
+  const [repoLink, setRepoLink] = useState('');
   const [repositories, setRepositories] = useState<any[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
   const [issues, setIssues] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   const handleSearchRepos = async () => {
     setLoading(true);
     try {
-      if (owner == "" || repoName == "") {
+      if (owner == '' || repoName == '') {
         toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "Provide Both Owner Name and Repository Name .",
-        })
-        return
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: 'Provide Both Owner Name and Repository Name .',
+        });
+        return;
       }
-      const response = await axios.get("/api/search/repositories", {
+      const response = await axios.get('/api/search/repositories', {
         params: { owner, name: repoName },
       });
-      if (response.data.length == 0){
+      if (response.data.length == 0) {
         toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "Invalid Owner Name Or Repository Name .",
-        })
-        return
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: 'Invalid Owner Name Or Repository Name .',
+        });
+        return;
       }
       setRepositories(response.data);
     } catch (error) {
-      console.error("Failed to search repositories:", error);
+      console.error('Failed to search repositories:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSearchReposUrl = async ()=>{
-    setLoading(true)
-    try{
-      if(repoLink==""){
+  const handleSearchReposUrl = async () => {
+    setLoading(true);
+    try {
+      if (repoLink == '') {
         toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "Repository link cannot be empty .",
-        })
-        return
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: 'Repository link cannot be empty .',
+        });
+        return;
       }
-      const username=repoLink.replace('https://github.com/','').split('/');
-      if(!username){
+      const username = repoLink.replace('https://github.com/', '').split('/');
+
+      if (username.length < 2) {
         toast({
-          variant:"destructive",
-          title:"Uh oh! Something went wrong",
-          description:"Provide correct url"
-        })
-        return 
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong',
+          description: 'Provide correct url',
+        });
+        setLoading(false);
+        return;
       }
-      if(username.length>=2){
-        setOwner(username[0]),
-        setRepoName(username[1])
-      }
-      const response = await axios.get("/api/search/repositories", {
-        params: { owner, name: repoName },
+
+      const newOwner = username[0];
+      const newRepoName = username[1];
+
+      setOwner(newOwner);
+      setRepoName(newRepoName);
+
+      setOwner(username[0]);
+      setRepoName(username[1]);
+
+      const response = await axios.get('/api/search/repositories', {
+        params: { owner: newOwner, name: newRepoName },
       });
-      if (response.data.length == 0){
+      if (response.data.length == 0) {
         toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "Invalid Owner Name Or Repository Name .",
-        })
-        return
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: 'Invalid Owner Name Or Repository Name .',
+        });
+        return;
       }
       setRepositories(response.data);
+    } catch (error) {
+      console.log(`Failed to search repositories ${error}`);
+    } finally {
+      setLoading(false);
     }
-    catch(error){
-      console.log(`Failed to search repositories ${error}`)
-    }
-    finally{
-      setLoading(false)
-    }
-  }
+  };
 
   const handleSearchIssues = async (repoFullName: string) => {
     setLoading(true);
     try {
-      const response = await axios.get("/api/search/issues", {
+      const response = await axios.get('/api/search/issues', {
         params: { repositoryFullName: repoFullName },
       });
       setIssues(response.data);
     } catch (error) {
-      console.error("Failed to fetch issues:", error);
+      console.error('Failed to fetch issues:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       handleSearchRepos();
     }
   };
@@ -133,7 +139,6 @@ export default function Home() {
       <p className="text-base italic text-muted-foreground mb-4">
         Required fields are marked with an asterisk (*).
       </p>
-
 
       <p className="mt-6 mb-2 font-bold">Search by Individual details</p>
       <div className="flex flex-col md:flex-row md:gap-4 mb-8 max-w-2xl">
@@ -160,14 +165,13 @@ export default function Home() {
         <div className="flex flex-col md:mt-0 md:ml-2">
           <Button
             onClick={handleSearchRepos}
-            variant={"outline"}
+            variant={'outline'}
             className="mt-6"
           >
-            {loading ? <Loader /> : "Search"}
+            {loading ? <Loader /> : 'Search'}
           </Button>
         </div>
       </div>
-
 
       <p className="font-bold mt-4 mb-2">Search By Repository Link</p>
       <div className="flex flex-col md:flex-row md:gap-4 mb-8 max-w-2xl">
@@ -184,10 +188,10 @@ export default function Home() {
         <div className="flex flex-col md:mt-0 md:ml-2">
           <Button
             onClick={handleSearchReposUrl}
-            variant={"outline"}
+            variant={'outline'}
             className="mt-6"
           >
-            {loading ? <Loader /> : "Search"}
+            {loading ? <Loader /> : 'Search'}
           </Button>
         </div>
       </div>
@@ -212,7 +216,7 @@ export default function Home() {
               {repositories.map((repo: any) => (
                 <TableRow key={repo.id}>
                   <TableCell>{repo.name}</TableCell>
-                  <TableCell>{repo.description || "No description"}</TableCell>
+                  <TableCell>{repo.description || 'No description'}</TableCell>
                   <TableCell className="flex gap-2">
                     <Button
                       onClick={() => {
@@ -226,7 +230,7 @@ export default function Home() {
                       name={repo.name}
                       url={repo.html_url}
                       description={
-                        repo.description || "No description available"
+                        repo.description || 'No description available'
                       }
                     />
                   </TableCell>
@@ -271,7 +275,7 @@ export default function Home() {
                     <NewBookmarkBtn
                       name={issue.title}
                       url={issue.html_url}
-                      description={issue.body || "No description available"}
+                      description={issue.body || 'No description available'}
                     />
                   </TableCell>
                 </TableRow>
@@ -279,7 +283,6 @@ export default function Home() {
             </TableBody>
           </Table>
         </div>
-
       )}
     </div>
   );
