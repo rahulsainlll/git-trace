@@ -89,9 +89,6 @@ export default function Home() {
       setOwner(newOwner);
       setRepoName(newRepoName);
 
-      setOwner(username[0]);
-      setRepoName(username[1]);
-
       const response = await axios.get('/api/search/repositories', {
         params: { owner: newOwner, name: newRepoName },
       });
