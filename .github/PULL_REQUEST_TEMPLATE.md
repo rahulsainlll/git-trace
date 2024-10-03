@@ -4,8 +4,8 @@
 
 Please include a summary of the changes and the related issue. Provide relevant motivation and context. List any dependencies that are required for this change.
 
-Fixes #(issue Number)
-Closes #(issue Number)
+- Fixes #(issue Number)
+- Closes #(issue Number)
 
 ## Type of Change
 
