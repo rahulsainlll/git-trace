@@ -28,13 +28,3 @@ Closes #(issue Number)
 ## Screenshot of final output/video
 
 
-name: Pull Request
-description: PR Template
-
-body:
-  - type: markdown
-    attributes:
-      value: Thank you for taking the time to file a Feature Request report.
-  - type: textarea
-    attributes:
-      label: Screenshot of final output/video.
