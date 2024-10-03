@@ -14,6 +14,13 @@ import {
 import { authOptions } from "@/lib/auth";
 import DeleteBookmarkButton from "@/components/DeleteBookmarkButton";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description:
+    "View and manage your bookmarked GitHub repositories and issues in one convenient dashboard.",
+};
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
