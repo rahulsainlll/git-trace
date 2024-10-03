@@ -1,0 +1,27 @@
+name: ⚙ Gernal Issue
+description: Other suggestion/issue/query for codebase
+title: "⚙ general issue: "
+labels: [issue]
+
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for taking the time to file a Feature Request report.
+  - type: textarea
+    attributes:
+      label: Please describe your feature request related to a problem?
+      description: ' A one liner title for feature .'
+  - type: textarea
+    attributes:
+      label: Describe your solution to problem
+      description: 'A clear and concise description of what you want to happen. .'
+  - type: textarea
+    attributes:
+      label: Describe alternatives you have considered
+      description: '  A clear and concise description of any alternative solutions or features you have considered. .'
+
+
+
+
+
+
