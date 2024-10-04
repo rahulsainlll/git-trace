@@ -125,7 +125,7 @@ export default function SignInPage() {
                 )}
               />
               <Button type="submit" className="w-full bg-[#425893]">
-                {Loading ? <Pageloader /> : "signup"}
+                {Loading ? <Pageloader /> : "Login"}
               </Button>
             </form>
           </Form>
