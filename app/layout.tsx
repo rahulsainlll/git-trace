@@ -9,9 +9,45 @@ import { Footer } from "@/components/ui/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// fallback to the production URL
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://git-trace.vercel.app/";
+
 export const metadata: Metadata = {
-  title: "git-trace",
-  description: "save your bookmarks",
+  title: {
+    default: "Git-Trace",
+    template: "%s | Git-Trace",
+  },
+  description:
+    "Instantly search, view, and bookmark GitHub repositories and issues. Streamline your workflow and keep your favorite projects at your fingertips!",
+  openGraph: {
+    title: "Git-Trace",
+    description:
+      "Instantly search, view, and bookmark GitHub repositories and issues. Streamline your workflow and keep your favorite projects at your fingertips!",
+    type: "website",
+    url: baseUrl,
+    images: [
+      {
+        url: `${baseUrl}/git3.png`,
+        width: 800,
+        height: 600,
+        alt: "Git-Trace OG Image",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Git-Trace",
+    description:
+      "Instantly search, view, and bookmark GitHub repositories and issues.",
+    images: `${baseUrl}/git3.png`,
+  },
+  keywords: [
+    "GitHub repositories",
+    "GitHub issues",
+    "repository search",
+    "workflow tools",
+    "developer tools",
+  ],
 };
 
 export default function RootLayout({
@@ -21,16 +57,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full">
-    <body className={clsx("flex flex-col min-h-screen", inter.className)}>
-      <Providers>
-        <PageHeader/>
-        <main className="flex-grow">
-          {children}
-          <Toaster/>
-        </main>
-      </Providers>
-      <Footer/>
-    </body>
-  </html>
+      <body className={clsx("flex flex-col min-h-screen", inter.className)}>
+        <Providers>
+          <PageHeader />
+          <main className="flex-grow">
+            {children}
+            <Toaster />
+          </main>
+        </Providers>
+        <Footer />
+      </body>
+    </html>
   );
 }
