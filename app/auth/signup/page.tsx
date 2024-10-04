@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Pageloader from "@/components/ui/Pageloader";
 import {
   Form,
   FormControl,
@@ -35,6 +36,7 @@ const signUpSchema = z.object({
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
 export default function SignUpPage() {
+  const [Loading, setLoading] = useState<boolean>(false);
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -46,12 +48,14 @@ export default function SignUpPage() {
   const router = useRouter();
 
   const onSubmit = async (data: SignUpFormData) => {
+    setLoading(true);
     try {
       await axios.post("/api/auth/signup", data);
       router.push("/auth/signin");
       toast({
         title: "Registration Successful 🎉",
-        description: "Your account has been successfully created. Please log in to continue.",
+        description:
+          "Your account has been successfully created. Please log in to continue.",
       });
     } catch (error) {
       toast({
@@ -61,6 +65,7 @@ export default function SignUpPage() {
         action: <ToastAction altText="Try again">Try again</ToastAction>,
       });
     }
+    setLoading(false);
   };
 
   return (
@@ -117,7 +122,7 @@ export default function SignUpPage() {
                 type="submit"
                 className="w-full bg-[#425893] hover:bg-[#425485]"
               >
-                Register
+                {Loading ? <Pageloader /> : "Register"}
               </Button>
             </form>
           </Form>
