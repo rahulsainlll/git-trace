@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://git-trace.vercel.app/
+
+# Sitemaps
+Sitemap: https://git-trace.vercel.app/sitemap.xml
