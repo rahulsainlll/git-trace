@@ -16,6 +16,18 @@ model Bookmark {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   user        User     @relation(fields: [userId], references: [id])
+  todos       Todo[]   // One-to-many relationship with Todo
+}
+
+model Todo {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  completed   Boolean  @default(false)
+  bookmarkId  String   @map("bookmark_id")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  bookmark    Bookmark @relation(fields: [bookmarkId], references: [id], onDelete: Cascade)
 }
 
 model User {
