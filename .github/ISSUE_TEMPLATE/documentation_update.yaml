@@ -1,7 +1,14 @@
 name: 📃 Documentation
 description: Suggest an idea for this project
 title: "📃 Documentation Update: "
-labels: [Documentation]
+labels: 
+  - Documentation
+  - gssoc24-ext
+  - hacktoberfest
+  - hacktoberfest-accepted
+  - gssoc
+  - gssoc24
+  - gssoc-extd
 
 body:
   - type: markdown

@@ -1,7 +1,15 @@
 name: 🐛 Bug Report
 description: Report an Bug for this project
 title: "🐛 Bug Report: "
-labels: [Bug]
+labels:
+  - bug
+  - gssoc24-ext
+  - hacktoberfest
+  - hacktoberfest-accepted
+  - gssoc
+  - gssoc24
+  - gssoc-extd
+
 
 body:
   - type: markdown

@@ -1,7 +1,14 @@
 name: ⚙ Gernal Issue
 description: Other suggestion/issue/query for codebase
 title: "⚙ general issue: "
-labels: [issue]
+labels: 
+  - issue
+  - gssoc24-ext
+  - hacktoberfest
+  - hacktoberfest-accepted
+  - gssoc
+  - gssoc24
+  - gssoc-extd
 
 body:
   - type: markdown
