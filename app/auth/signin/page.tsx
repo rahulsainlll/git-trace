@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Pageloader from "@/components/ui/Pageloader";
 import {
   Popover,
   PopoverContent,
@@ -24,6 +25,8 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
+import { useState } from "react";
+import loader from "lucide-react";
 
 const signInSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -34,6 +37,7 @@ type SignInFormData = z.infer<typeof signInSchema>;
 
 export default function SignInPage() {
   const { toast } = useToast();
+  const [Loading, setLoading] = useState<boolean>(false);
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -45,12 +49,12 @@ export default function SignInPage() {
   const router = useRouter();
 
   const onSubmit = async (data: SignInFormData) => {
+    setLoading(true);
     const result = await signIn("credentials", {
       redirect: false,
       email: data.email,
       password: data.password,
     });
-
 
     if (result?.error) {
       toast({
@@ -64,9 +68,10 @@ export default function SignInPage() {
       });
 
       setTimeout(() => {
-        router.refresh(); 
+        router.refresh();
       }, 100);
     }
+    setLoading(false);
   };
 
   return (
@@ -120,7 +125,7 @@ export default function SignInPage() {
                 )}
               />
               <Button type="submit" className="w-full bg-[#425893]">
-                Login
+                {Loading ? <Pageloader /> : "Login"}
               </Button>
             </form>
           </Form>

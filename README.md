@@ -17,6 +17,62 @@ Search Repositories: Quickly find GitHub repositories by owner and name.
 View Issues: Explore and view issues related to the repositories you’re interested in.  
 Bookmark Items: Save repositories and issues for quick access, ensuring you never lose track of important projects.
 
+<!-- Installation Guide here -->
+
+## Installation Guide
+
+Before you begin, ensure you have the following prerequisites installed on your local machine:
+- **Node.js**: Version 14 or higher
+- **npm** (Node Package Manager): Usually comes with Node.js installation
+
+Follow these instructions to set up **Git-trace** on your local machine for development or testing purposes:
+
+1. **Clone the repository**:  
+   Download a copy of the project to your local computer.
+
+   ```sh
+      git clone https://github.com/rahulsainlll/git-trace.git
+      cd git-trace
+   ```
+
+  2. **Install dependencies**:
+      
+      Install all the necessary libraries and packages.
+
+      ```sh
+          npm install
+        ```
+
+  3. **Set up environment variables**:
+      
+      Copy the provided example .env file and fill in the necessary values.
+
+      ```sh
+          cp .env.example .env
+        ```
+
+  4. **Run the development server**:
+      
+      Start the development server.
+
+      ```sh
+          npm run dev
+        ```
+
+  5. **Build the project**: (optional)
+      
+      Prepare the project for production.
+
+      ```sh
+          npx next build
+        ```
+
+  6. **Explore and Test**: (optional)
+      
+      After following these steps, you can start exploring the app at http://localhost:3000. For more in-depth contribution or development guidelines, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+
+  <!-- Installation guide ends here -->
+
 ## Frontend
 
 The frontend is built with Next.js and React, providing a seamless user experience. It features a clean and intuitive interface for searching repositories and viewing issues, with responsive design (under construction).

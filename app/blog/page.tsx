@@ -1,5 +1,11 @@
 import React from 'react';
 import { BlogCard } from '@/components/ui/blog-card';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Blogs",
+  description: "Explore our latest articles, tutorials, and resources on Git, development, and more.",
+};
 
 const posts = [
     {
