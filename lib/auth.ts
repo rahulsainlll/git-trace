@@ -2,6 +2,8 @@ import prisma from "@/lib/prisma";
 import { compare } from "bcrypt";
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -53,6 +55,16 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
+    GithubProvider({
+      clientId:
+        (process.env.GITHUB_CLIENT_ID as string) || "client Id here",
+      clientSecret:
+        (process.env.GITHUB_CLIENT_SECRET as string) || "secret key here",
+    }),
+    GoogleProvider({
+      clientId: (process.env.GOOGLE_CLIENT_ID as string) || "client Id here",
+      clientSecret: (process.env.GOOGLE_CLIENT_SECRET as string) || "secret key here",
+    }),
   ],
   callbacks: {
     session: ({ session, token }) => {
@@ -78,4 +90,3 @@ export const authOptions: NextAuthOptions = {
     signIn: "/auth/signin",
   },
 };
-

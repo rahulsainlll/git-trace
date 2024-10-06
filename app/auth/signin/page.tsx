@@ -27,6 +27,9 @@ import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { useState } from "react";
 import loader from "lucide-react";
+import githubLogo from "/public/githubLogo.png";
+import googleLogo from "/public/google.png";
+import Image from "next/image";
 
 const signInSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -47,6 +50,14 @@ export default function SignInPage() {
   });
 
   const router = useRouter();
+
+  const handleGithubSignUp = () => {
+    signIn("github");
+  };
+
+  const handleGoogleSignUp = () => {
+    signIn("google");
+  };
 
   const onSubmit = async (data: SignInFormData) => {
     setLoading(true);
@@ -130,13 +141,32 @@ export default function SignInPage() {
             </form>
           </Form>
         </div>
-        <div className="flex justify-end border-gray-300">
-          <Link
-            href="/auth/signup"
-            className="text-sm text-[#425893] hover:text-gray-600 underline"
+        <div className="flex mb-5">
+          <button
+            onClick={handleGithubSignUp}
+            className="w-full flex items-center font-semibold justify-center h-8 px-6 mt-4 mr-1 text-sm transition-colors duration-300 bg-white border-2 border-black text-black rounded-lg focus:shadow-outline hover:bg-slate-200"
           >
-            Register
-          </Link>
+            <Image src={githubLogo} alt="Github Logo" width={20} height={20} />
+            <span className="ml-4">Github</span>
+          </button>
+          <button
+            onClick={handleGoogleSignUp}
+            className="w-full flex items-center font-semibold justify-center h-8 px-6 mt-4 ml-1 text-sm  transition-colors duration-300 bg-white border-2 border-black text-black rounded-lg focus:shadow-outline hover:bg-slate-200"
+          >
+            <Image src={googleLogo} alt="Google Logo" width={20} height={20} />
+            <span className="ml-4">Google</span>
+          </button>
+        </div>
+        <div className="flex justify-end border-gray-300">
+          <p className="text-sm text-muted-foreground">
+            Don't have an account?{" "}
+            <Link
+              href="/auth/signup"
+              className="text-sm text-[#425893] hover:text-gray-600 underline"
+            >
+              Register
+            </Link>
+          </p>
         </div>
       </div>
     </div>
