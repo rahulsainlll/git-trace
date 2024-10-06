@@ -45,6 +45,7 @@ export default async function Dashboard() {
               <TableHead>Name</TableHead>
               <TableHead>Description</TableHead>
               <TableHead>Actions</TableHead>
+              <TableHead>Todos</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
