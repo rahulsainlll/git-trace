@@ -12,13 +12,16 @@ labels:
 
 body:
   - type: checkboxes
-  attributes:
-    label: Code of Conduct
-    description: The Code of Conduct helps create a safe space for everyone. We require
-      that everyone agrees to it.
-    options:
-      - label: I agree to follow this project's [Code of Conduct](link/to/coc)
-        required: true
+    id: checkboxes_multiple_with_required_item
+    attributes:
+      label: IMPORTANT TO CHECK BEFORE ISSUE
+      description: You may select more than one.
+      options:
+        - label: You check that same issue is not present in the repository
+          required: true
+        - label: You have read contribution guidelines and rules
+    validations:
+      required: false
   - type: markdown
     attributes:
       value: Thank you for taking the time to file a Feature Request report.
