@@ -1,6 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+
 
 export const Footer=()=>{
     return(
@@ -9,11 +11,10 @@ export const Footer=()=>{
               <Image src="/git3.png" alt="Logo" width={38} height={38} />
               <div>-trace</div>
             </div>
-            <Button variant={"linkHover2"}>About</Button>
-            <Button variant={"linkHover2"}>Contribute</Button>
-            <Button variant={"linkHover2"}>Report an Issue</Button>
-            <Button variant={"linkHover2"}>Request a Feature</Button>
-
+            <Button variant={"linkHover2"} asChild><Link href={'https://github.com/rahulsainlll/git-trace/blob/main/README.md'}>About</Link></Button>
+            <Button variant={"linkHover2"} asChild><Link href={'https://github.com/rahulsainlll/git-trace/blob/main/CONTRIBUTING.md'}>Contribute</Link></Button>
+            <Button variant={"linkHover2"} asChild><Link href={'https://github.com/rahulsainlll/git-trace/issues/new'}>Report an Issue</Link></Button>
+            <Button variant={"linkHover2"} asChild><Link href={'https://github.com/rahulsainlll/git-trace/issues/new'}>Request a Feature</Link></Button>
       </footer>
     )
 }
