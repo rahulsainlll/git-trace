@@ -19,7 +19,7 @@ export async function GET(req: Request) {
     const response = await axios.get(
       `https://api.github.com/search/repositories?q=${query}`
     );
-
+    console.log(response)
     const repositories = response.data.items.map((repo: any) => ({
       id: repo.id,
       name: repo.name,

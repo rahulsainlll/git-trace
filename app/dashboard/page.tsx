@@ -14,6 +14,7 @@ import {
 import { authOptions } from "@/lib/auth";
 import DeleteBookmarkButton from "@/components/DeleteBookmarkButton";
 import Link from "next/link";
+import BookmarkRow from "@/components/boomarkRow";
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
@@ -26,6 +27,7 @@ export default async function Dashboard() {
     where: { userId: session.user.id },
     include: {
       user: true,
+      todos:true
     },
   });
 
@@ -47,24 +49,25 @@ export default async function Dashboard() {
           </TableHeader>
           <TableBody>
             {bookmarks.map((bookmark) => (
-              <TableRow key={bookmark.id}>
-                <TableCell>
-                  <a
-                    href={bookmark.url || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 underline"
-                  >
-                    {bookmark.name}
-                  </a>
-                </TableCell>
-                <TableCell>
-                  {bookmark.description || "No description available"}
-                </TableCell>
-                <TableCell className="flex gap-2">
-                  <DeleteBookmarkButton bookmarkId={bookmark.id} />
-                </TableCell>
-              </TableRow>
+               <BookmarkRow key={bookmark.id} bookmark={bookmark} />
+              // <TableRow key={bookmark.id}>
+              //   <TableCell>
+              //     <a
+              //       href={bookmark.url || "#"}
+              //       target="_blank"
+              //       rel="noopener noreferrer"
+              //       className="text-blue-500 underline"
+              //     >
+              //       {bookmark.name}
+              //     </a>
+              //   </TableCell>
+              //   <TableCell>
+              //     {bookmark.description || "No description available"}
+              //   </TableCell>
+              //   <TableCell className="flex gap-2">
+              //     <DeleteBookmarkButton bookmarkId={bookmark.id} />
+              //   </TableCell>
+              // </TableRow>
             ))}
           </TableBody>
         </Table>

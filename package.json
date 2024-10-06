@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sitemap": "next-sitemap",
+    "postbuild": "next-sitemap"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -32,6 +34,7 @@
     "lucide-react": "^0.427.0",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
+    "next-sitemap": "^4.2.3",
     "nodemailer": "^6.9.14",
     "prisma": "^5.18.0",
     "react": "^18",
