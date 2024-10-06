@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
+import { Button } from '@/components/ui/button';
 
 const PageHeader = () => {
   const { data: session } = useSession();
@@ -41,16 +42,20 @@ const PageHeader = () => {
               </div>
             </Link>
 
-            <Link href="/dashboard">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
-                Dashboard
-              </div>
-            </Link>
-            <Link href="/blog">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
-                Blogs
-              </div>
-            </Link>
+            <Button asChild variant={"linkHover2"}>
+              <Link href="/dashboard">
+                <div className="ml-2 text-lg font-light text-muted-foreground">
+                  Dashboard
+                </div>
+              </Link>
+            </Button>
+            <Button asChild variant={"linkHover2"}>
+              <Link href="/blog">
+                <div className="ml-2 text-lg font-light text-muted-foreground">
+                  Blogs
+                </div>
+              </Link>
+            </Button>
           </div>
 
           <div className="flex items-center gap-2">

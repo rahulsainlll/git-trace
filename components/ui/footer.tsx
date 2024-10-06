@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 
 export const Footer=()=>{
     return(
@@ -8,10 +9,10 @@ export const Footer=()=>{
               <Image src="/git3.png" alt="Logo" width={38} height={38} />
               <div>-trace</div>
             </div>
-            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground" >About</p>
-            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground">Contribute</p>
-            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground">Report an Issue</p>
-            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground">Request a Feature</p>
+            <Button variant={"linkHover2"}>About</Button>
+            <Button variant={"linkHover2"}>Contribute</Button>
+            <Button variant={"linkHover2"}>Report an Issue</Button>
+            <Button variant={"linkHover2"}>Request a Feature</Button>
 
       </footer>
     )

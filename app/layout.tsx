@@ -6,6 +6,8 @@ import clsx from "clsx";
 import { Providers } from "./provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/ui/footer";
+import { ScrollToTopButton } from "@/components/scroll-to-top-button";
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -56,14 +58,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <body className={clsx("flex flex-col min-h-screen", inter.className)}>
         <Providers>
           <PageHeader />
+          <NextTopLoader color='hsl(var(--primary))' />
           <main className="flex-grow">
             {children}
             <Toaster />
           </main>
+          <ScrollToTopButton />
         </Providers>
         <Footer />
       </body>
