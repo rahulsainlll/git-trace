@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export const Footer=()=>{
     return(
@@ -8,10 +9,10 @@ export const Footer=()=>{
               <Image src="/git3.png" alt="Logo" width={38} height={38} />
               <div>-trace</div>
             </div>
-            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground" >About</p>
-            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground">Contribute</p>
-            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground">Report an Issue</p>
-            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground">Request a Feature</p>
+            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground" ><Link href={'https://github.com/rahulsainlll/git-trace/blob/main/README.md'}>About</Link></p>
+            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground"><Link href={'https://github.com/rahulsainlll/git-trace/blob/main/CONTRIBUTING.md'}>Contribute</Link></p>
+            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground"><Link href={'https://github.com/rahulsainlll/git-trace/issues/new'}>Report an Issue</Link></p>
+            <p className="flex items-center text-sm cursor-pointer hover:underline  text-muted-foreground"><Link href={'https://github.com/rahulsainlll/git-trace/issues/new'}>Request a Feature</Link></p>
 
       </footer>
     )
