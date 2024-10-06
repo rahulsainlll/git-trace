@@ -11,6 +11,14 @@ labels:
   - gssoc-extd
 
 body:
+  - type: checkboxes
+  attributes:
+    label: Code of Conduct
+    description: The Code of Conduct helps create a safe space for everyone. We require
+      that everyone agrees to it.
+    options:
+      - label: I agree to follow this project's [Code of Conduct](link/to/coc)
+        required: true
   - type: markdown
     attributes:
       value: Thank you for taking the time to file a Feature Request report.
