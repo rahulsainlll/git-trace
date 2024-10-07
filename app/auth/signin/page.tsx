@@ -53,10 +53,12 @@ export default function SignInPage() {
 
   const handleGithubSignUp = () => {
     signIn("github");
+    // router.push("/");
   };
-
+  
   const handleGoogleSignUp = () => {
     signIn("google");
+    // router.push("/");
   };
 
   const onSubmit = async (data: SignInFormData) => {

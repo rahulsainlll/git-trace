@@ -4,6 +4,7 @@ import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import axios from "axios";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -56,14 +57,14 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     GithubProvider({
-      clientId:
-        (process.env.GITHUB_CLIENT_ID as string) || "client Id here",
+      clientId: (process.env.GITHUB_CLIENT_ID as string) || "client Id here",
       clientSecret:
         (process.env.GITHUB_CLIENT_SECRET as string) || "secret key here",
     }),
     GoogleProvider({
       clientId: (process.env.GOOGLE_CLIENT_ID as string) || "client Id here",
-      clientSecret: (process.env.GOOGLE_CLIENT_SECRET as string) || "secret key here",
+      clientSecret:
+        (process.env.GOOGLE_CLIENT_SECRET as string) || "secret key here",
     }),
   ],
   callbacks: {
@@ -84,6 +85,24 @@ export const authOptions: NextAuthOptions = {
         };
       }
       return token;
+    },
+    signIn: async ({ user }) => {
+      // console.log(user);
+      const useremail = user?.email as string;
+      const SignInSchema = {
+        email: useremail,
+        password: useremail,
+      };
+      // console.log(SignInSchema);
+      const usr = await prisma.user.findUnique({
+        where: { email: useremail },
+      });
+      if (!usr) {
+        console.log("User not found, adding new user");
+        axios.post("api/auth/signup", SignInSchema);
+      }
+      // console.log(usr);
+      return true;
     },
   },
   pages: {
