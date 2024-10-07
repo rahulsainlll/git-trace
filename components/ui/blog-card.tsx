@@ -1,5 +1,5 @@
 import Image from "next/image";
-export const BlogCard = ({ title, id }: any) => {
+export const BlogCard = ({ title, id,description }: any) => {
   return (
     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
       <Image
@@ -14,7 +14,7 @@ export const BlogCard = ({ title, id }: any) => {
           {title}
         </h3>
         <p className="text-gray-600 mb-4">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente explicabo repellat distinctio alias culpa.
+         {description}
         </p>
         <a href={`/blog/${id}`} className="text-indigo-600 hover:underline">
           Read More
