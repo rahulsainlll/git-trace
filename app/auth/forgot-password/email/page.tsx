@@ -27,59 +27,56 @@ import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { useState } from "react";
 import loader from "lucide-react";
+import axios from "axios";
 
-const signInSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
+const emailSchema = z.object({
+  email: z.string().email("Invalid email address")
 });
 
-type SignInFormData = z.infer<typeof signInSchema>;
+type EmailFormData = z.infer<typeof emailSchema>;
 
 export default function SignInPage() {
   const { toast } = useToast();
   const [Loading, setLoading] = useState<boolean>(false);
-  const form = useForm<SignInFormData>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<EmailFormData>({
+    resolver: zodResolver(emailSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: ""
     },
   });
 
   const router = useRouter();
 
-  const onSubmit = async (data: SignInFormData) => {
-    console.log(data.password)
-    setLoading(true);
-    const result = await signIn("credentials", {
-      redirect: false,
-      email: data.email,
-      password: data.password,
-    });
-
-    if (result?.error) {
-      toast({
-        title: "Login Failed",
-        description: result.error,
-      });
-    } else if (result?.ok) {
-      router.push("/");
-      toast({
-        description: "Login successful",
-      });
-
-      setTimeout(() => {
-        router.refresh();
-      }, 100);
+  const onSubmit = async (data: EmailFormData) => {
+    try {
+        setLoading(true);
+        const result = await axios.post('/api/auth/forgot-password/email', {
+            email: data.email
+        })
+    
+        router.push(`/auth/forgot-password/otp/${result.data.id}`);
+        toast({
+            description: "Otp sent",
+        });
+    
+        setTimeout(() => {
+            router.refresh();
+        }, 100);
+    } catch (error: any) {
+        toast({
+            title: "Login Failed",
+            description: error.message,
+        });
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-6 bg-white border rounded-lg">
         <h2 className="text-xl font-bold text-[#425893] text- mb-4">
-          Login into git-trace
+          Enter your Email
         </h2>
         <div className="border-b border-gray-300 pb-4 mb-4">
           <Form {...form}>
@@ -98,48 +95,24 @@ export default function SignInPage() {
                       />
                     </FormControl>
                     <FormDescription>
-                      This is the email address you will use to sign in.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex justify-between">
-                      <p>Password</p>
-                      <Link href="/auth/forgot-password/email">Forgot Password?</Link>
-                      </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Password"
-                        {...field}
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Enter your password to log in.
+                      You will receive OTP on this email.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <Button type="submit" className="w-full bg-[#425893]">
-                {Loading ? <Pageloader /> : "Login"}
+                {Loading ? <Pageloader /> : "Send OTP"}
               </Button>
             </form>
           </Form>
         </div>
         <div className="flex justify-end border-gray-300">
           <Link
-            href="/auth/signup"
+            href="/auth/signin"
             className="text-sm text-[#425893] hover:text-gray-600 underline"
           >
-            Register
+            Sign In
           </Link>
         </div>
       </div>
