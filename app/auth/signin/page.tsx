@@ -49,7 +49,6 @@ export default function SignInPage() {
   const router = useRouter();
 
   const onSubmit = async (data: SignInFormData) => {
-    console.log(data.password)
     setLoading(true);
     const result = await signIn("credentials", {
       redirect: false,
