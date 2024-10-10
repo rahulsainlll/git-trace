@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
+import UserAccountDropDown from "./UserAccDropDown";
 
 const PageHeader = () => {
   const { data: session } = useSession();
@@ -79,7 +80,8 @@ const PageHeader = () => {
             </Badge>
 
             {session ? (
-              <LogoutButton />
+              // <LogoutButton />
+              <UserAccountDropDown />
             ) : (
               <>
                 <LoginButton />
