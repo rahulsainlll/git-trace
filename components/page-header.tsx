@@ -56,6 +56,11 @@ const PageHeader = () => {
                 About
               </div>
             </Link>
+            <Link href="/contributor">
+              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+                Contributors
+              </div>
+            </Link>
           </div>
 
           <div className="flex items-center gap-2">
