@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -17,100 +17,123 @@ import {
 import NewBookmarkBtn from "@/components/new-bookmark";
 import { Badge } from "@/components/ui/badge";
 import { Loader } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
+
+const SEARCH_HISTORY_KEY = "searchHistory";
 
 export default function Home() {
   const [owner, setOwner] = useState("");
   const [repoName, setRepoName] = useState("");
-  const [repoLink,setRepoLink]=useState("")
+  const [repoLink, setRepoLink] = useState("");
   const [repositories, setRepositories] = useState<any[]>([]);
   const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
   const [issues, setIssues] = useState<any[]>([]);
   const [loading, setLoading] = useState({
-    searchReposLoader:false,
-    searchRepoUrlLoader:false,
-    searchIssueLoader:false
+    searchReposLoader: false,
+    searchRepoUrlLoader: false,
+    searchIssueLoader: false,
   });
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const router = useRouter();
-  const { toast } = useToast()
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const history = localStorage.getItem(SEARCH_HISTORY_KEY);
+    if (history) {
+      setSearchHistory(JSON.parse(history));
+    }
+  }, []);
+
+  const updateSearchHistory = (searchTerm: string) => {
+    let history = [...searchHistory];
+    if (history.includes(searchTerm)) {
+      history = history.filter((term) => term !== searchTerm);
+    }
+    history.unshift(searchTerm);
+    if (history.length > 5) {
+      history.pop();
+    }
+    setSearchHistory(history);
+    localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(history));
+  };
 
   const handleSearchRepos = async () => {
-    setLoading({...loading,searchReposLoader:true});
+    setLoading({ ...loading, searchReposLoader: true });
     try {
       if (owner == "" || repoName == "") {
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
           description: "Provide Both Owner Name and Repository Name .",
-        })
-        return
+        });
+        return;
       }
+      updateSearchHistory(`${owner}/${repoName}`);
       const response = await axios.get("/api/search/repositories", {
         params: { owner, name: repoName },
       });
-      if (response.data.length == 0){
+      if (response.data.length == 0) {
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
           description: "Invalid Owner Name Or Repository Name .",
-        })
-        return
+        });
+        return;
       }
       setRepositories(response.data);
     } catch (error) {
       console.error("Failed to search repositories:", error);
     } finally {
-       setLoading({...loading,searchReposLoader:false});
+      setLoading({ ...loading, searchReposLoader: false });
     }
   };
 
-  const handleSearchReposUrl = async ()=>{
-     setLoading({ ...loading, searchRepoUrlLoader: true });
-    try{
-      if(repoLink==""){
+  const handleSearchReposUrl = async () => {
+    setLoading({ ...loading, searchRepoUrlLoader: true });
+    try {
+      if (repoLink == "") {
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
           description: "Repository link cannot be empty .",
-        })
-        return
+        });
+        return;
       }
-      const username=repoLink.replace('https://github.com/','').split('/');
-      if(!username){
+      const username = repoLink.replace("https://github.com/", "").split("/");
+      if (!username) {
         toast({
-          variant:"destructive",
-          title:"Uh oh! Something went wrong",
-          description:"Provide correct url"
-        })
-        return 
+          variant: "destructive",
+          title: "Uh oh! Something went wrong",
+          description: "Provide correct url",
+        });
+        return;
       }
-      if(username.length>=2){
-        setOwner(username[0]),
-        setRepoName(username[1])
+      if (username.length >= 2) {
+        setOwner(username[0]);
+        setRepoName(username[1]);
       }
+      updateSearchHistory(repoLink);
       const response = await axios.get("/api/search/repositories", {
-        params: { owner, name: repoName },
+        params: { owner: username[0], name: username[1] },
       });
-      if (response.data.length == 0){
+      if (response.data.length == 0) {
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
           description: "Invalid Owner Name Or Repository Name .",
-        })
-        return
+        });
+        return;
       }
       setRepositories(response.data);
-    }
-    catch(error){
-      console.log(`Failed to search repositories ${error}`)
-    }
-    finally{
+    } catch (error) {
+      console.log(`Failed to search repositories ${error}`);
+    } finally {
       setLoading({ ...loading, searchRepoUrlLoader: false });
     }
-  }
+  };
 
   const handleSearchIssues = async (repoFullName: string) => {
-   setLoading({ ...loading, searchIssueLoader: true });
+    setLoading({ ...loading, searchIssueLoader: true });
     try {
       const response = await axios.get("/api/search/issues", {
         params: { repositoryFullName: repoFullName },
@@ -129,6 +152,25 @@ export default function Home() {
     }
   };
 
+  const handleFocus = () => {
+    const history = localStorage.getItem(SEARCH_HISTORY_KEY);
+    if (history) {
+      setSearchHistory(JSON.parse(history));
+    }
+  };
+
+  const handleHistoryClick = (searchTerm: string) => {
+    if (searchTerm.startsWith("https://github.com/")) {
+      setRepoLink(searchTerm);
+      handleSearchReposUrl();
+    } else {
+      const [owner, repoName] = searchTerm.split("/");
+      setOwner(owner);
+      setRepoName(repoName);
+      handleSearchRepos();
+    }
+  };
+
   return (
     <div className="py-10 px-2.5 lg:px-20 mx-auto max-w-[1250px]">
       <h1 className="font-medium text-3xl text-gray-900 mb-2">
@@ -138,7 +180,6 @@ export default function Home() {
         Required fields are marked with an asterisk (*).
       </p>
 
-
       <p className="mt-6 mb-2 font-bold">Search by Individual details</p>
       <div className="flex flex-col md:flex-row md:gap-4 mb-8 max-w-2xl">
         <div className="flex flex-col mb-4 md:mb-0 w-full md:w-auto">
@@ -147,6 +188,7 @@ export default function Home() {
             value={owner}
             onChange={(e) => setOwner(e.target.value)}
             onKeyDown={handleKeyDown}
+            onFocus={handleFocus}
             placeholder="Owner Name"
           />
         </div>
@@ -157,6 +199,7 @@ export default function Home() {
             value={repoName}
             onChange={(e) => setRepoName(e.target.value)}
             onKeyDown={handleKeyDown}
+            onFocus={handleFocus}
             placeholder="Repository Name"
           />
         </div>
@@ -172,7 +215,6 @@ export default function Home() {
         </div>
       </div>
 
-
       <p className="font-bold mt-4 mb-2">Search By Repository Link</p>
       <div className="flex flex-col md:flex-row md:gap-4 mb-8 max-w-2xl">
         <div className="flex flex-col mb-4 md:mb-0 w-full md:w-auto">
@@ -181,8 +223,25 @@ export default function Home() {
             value={repoLink}
             onChange={(e) => setRepoLink(e.target.value)}
             onKeyDown={handleKeyDown}
+            onFocus={handleFocus}
             placeholder="Repository Link"
           />
+          {searchHistory.length > 0 && (
+            <div className="mt-2">
+              <p className="font-bold">Recent Searches:</p>
+              <ul>
+                {searchHistory.map((term, index) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer text-blue-500 underline"
+                    onClick={() => handleHistoryClick(term)}
+                  >
+                    {term}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col md:mt-0 md:ml-2">
@@ -191,7 +250,7 @@ export default function Home() {
             variant={"outline"}
             className="mt-6"
           >
-            {loading.searchRepoUrlLoader? <Loader /> : "Search"}
+            {loading.searchRepoUrlLoader ? <Loader /> : "Search"}
           </Button>
         </div>
       </div>
@@ -283,7 +342,6 @@ export default function Home() {
             </TableBody>
           </Table>
         </div>
-
       )}
     </div>
   );
