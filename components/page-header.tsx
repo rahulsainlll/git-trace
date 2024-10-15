@@ -30,29 +30,36 @@ const PageHeader = () => {
   };
 
   return (
-    <header className="sticky inset-x-0 top-2 z-30 w-full transition-all bg-white/20 backdrop-blur-md">
+    <header
+      className="sticky inset-x-0 top-2 z-30 w-full transition-all"
+      style={{
+        background: "linear-gradient(to bottom, rgba(6, 182, 212, 1), rgba(255, 255, 255, 1))", // Gradient from bg-cyan-400 to white
+        fontFamily: "'Marker Felt', fantasy",
+      }}
+    >
+      <link href="https://fonts.googleapis.com/css2?family=Marker+Felt&display=swap" rel="stylesheet" />
       <div className="w-full max-w-screen-xl px-2.5 lg:px-20 relative mx-auto border-b sm:block hidden">
-        <div className="flex h-14 items-center justify-between text-xl">
+        <div className="flex h-20 items-center justify-between text-3xl"> {/* Increased text size */}
           <div className="flex items-center gap-5">
             <Link href="/">
               <div className="flex items-center">
                 <Image src="/git3.png" alt="Logo" width={38} height={38} />
-                <div className="text-xl">- trace</div>
+                <div className="text-3xl text-white">- trace</div> {/* Increased the font size and changed color to white */}
               </div>
             </Link>
 
             <Link href="/dashboard">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+              <div className="ml-2 text-2xl text-white font-light hover:underline"> {/* Increased text size and changed color */}
                 Dashboard
               </div>
             </Link>
             <Link href="/blog">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+              <div className="ml-2 text-2xl text-white font-light hover:underline"> {/* Increased text size and changed color */}
                 Blogs
               </div>
             </Link>
             <Link href="/about">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+              <div className="ml-2 text-2xl text-white font-light hover:underline"> {/* Increased text size and changed color */}
                 About
               </div>
             </Link>
@@ -66,7 +73,7 @@ const PageHeader = () => {
               style={{ cursor: "pointer" }}
             >
               <GitHubLogoIcon />
-              Star
+              <span className="text-white">Star</span> {/* Changed color to white */}
             </Badge>
 
             <Badge
@@ -75,7 +82,7 @@ const PageHeader = () => {
               style={{ cursor: "pointer" }}
             >
               <Image src="/twitter-x.svg" width={12} height={12} alt="Tweet" />
-              Post
+              <span className="text-white">Post</span> {/* Changed color to white */}
             </Badge>
 
             {session ? (
@@ -83,16 +90,16 @@ const PageHeader = () => {
             ) : (
               <>
                 <LoginButton />
-                <p className="text-sm">|</p>
+                <p className="text-sm text-white">|</p> {/* Changed color to white */}
                 <Link href="/auth/signup">
-                  <button className="text-base text-[#425893]">Register</button>
+                  <button className="text-base text-white">Register</button> {/* Changed color to white */}
                 </Link>
               </>
             )}
           </div>
         </div>
       </div>
-      <div className=" sm:hidden flex h-16 items-center justify-between  border-b px-2">
+      <div className="sm:hidden flex h-16 items-center justify-between border-b px-2">
         <Link href="/" className="flex items-center ">
           <Image src="/git3.png" alt="Logo" width={38} height={38} />
         </Link>
@@ -105,7 +112,7 @@ const PageHeader = () => {
               style={{ cursor: "pointer" }}
             >
               <GitHubLogoIcon />
-              Star
+              <span className="text-white">Star</span> {/* Changed color to white */}
             </Badge>
 
             <Badge
@@ -114,18 +121,18 @@ const PageHeader = () => {
               style={{ cursor: "pointer" }}
             >
               <Image src="/twitter-x.svg" width={12} height={12} alt="Tweet" />
-              Post
+              <span className="text-white">Post</span> {/* Changed color to white */}
             </Badge>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <MenuIcon />
+              <MenuIcon className="text-white" /> {/* Changed color to white */}
             </DropdownMenuTrigger>
             <DropdownMenuContent className="mr-3 mt-2">
               <DropdownMenuItem>
                 <div className="flex flex-col gap-4 justify-start">
                   <Link href="/dashboard">
-                    <div className=" text-base  text-[#425893] text-muted-foreground  hover:underline ">
+                    <div className="text-base text-[#425893] text-white hover:underline"> {/* Changed color to white */}
                       Dashboard
                     </div>
                   </Link>
@@ -136,7 +143,7 @@ const PageHeader = () => {
                     <>
                       <LoginButton />
                       <Link href="/auth/signup">
-                        <button className="text-base text-[#425893]">
+                        <button className="text-base text-white"> {/* Changed color to white */}
                           Register
                         </button>
                       </Link>

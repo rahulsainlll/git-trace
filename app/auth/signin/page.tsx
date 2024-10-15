@@ -9,12 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Pageloader from "@/components/ui/Pageloader";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-
-import {
   Form,
   FormControl,
   FormDescription,
@@ -26,7 +20,6 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { useState } from "react";
-import loader from "lucide-react";
 
 const signInSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -37,7 +30,7 @@ type SignInFormData = z.infer<typeof signInSchema>;
 
 export default function SignInPage() {
   const { toast } = useToast();
-  const [Loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false); // Check the casing for 'loading'
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -62,13 +55,12 @@ export default function SignInPage() {
         description: result.error,
       });
     } else if (result?.ok) {
-      router.push("/");
       toast({
         description: "Login successful",
       });
-
+      router.push("/"); // Navigate after showing toast
       setTimeout(() => {
-        router.refresh();
+        router.refresh(); // Ensure router refreshes after login
       }, 100);
     }
     setLoading(false);
@@ -77,8 +69,8 @@ export default function SignInPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-6 bg-white border rounded-lg">
-        <h2 className="text-xl font-bold text-[#425893] text- mb-4">
-          Login into git-trace
+        <h2 className="text-3xl font-bold text-[#425893] mb-4">
+          Login into Git-Trace
         </h2>
         <div className="border-b border-gray-300 pb-4 mb-4">
           <Form {...form}>
@@ -88,15 +80,15 @@ export default function SignInPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-lg">Email</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Email"
                         {...field}
-                        className="w-full"
+                        className="w-full text-xl"
                       />
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription className="text-base">
                       This is the email address you will use to sign in.
                     </FormDescription>
                     <FormMessage />
@@ -108,24 +100,24 @@ export default function SignInPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="text-lg">Password</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         placeholder="Password"
                         {...field}
-                        className="w-full"
+                        className="w-full text-xl"
                       />
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription className="text-base">
                       Enter your password to log in.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full bg-[#425893]">
-                {Loading ? <Pageloader /> : "Login"}
+              <Button type="submit" className="w-full bg-[#425893] text-xl">
+                {loading ? <Pageloader /> : "Login"}
               </Button>
             </form>
           </Form>
@@ -133,7 +125,7 @@ export default function SignInPage() {
         <div className="flex justify-end border-gray-300">
           <Link
             href="/auth/signup"
-            className="text-sm text-[#425893] hover:text-gray-600 underline"
+            className="text-base text-[#425893] hover:text-gray-600 underline"
           >
             Register
           </Link>

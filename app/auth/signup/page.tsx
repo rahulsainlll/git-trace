@@ -23,7 +23,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
 import { toast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { ToastAction } from "@radix-ui/react-toast";
@@ -70,8 +69,8 @@ export default function SignUpPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen ">
-      <div className="w-full max-w-md p-6 bg-white  border rounded-lg">
-        <h2 className="text-xl font-bold text-[#425893] text- mb-4">
+      <div className="w-full max-w-md p-6 bg-white border rounded-lg">
+        <h2 className="text-2xl font-bold text-[#425893] mb-4">
           Register in git-trace
         </h2>
         <div className="border-b border-gray-300 pb-4 mb-4">
@@ -82,7 +81,7 @@ export default function SignUpPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-lg">Email</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Email"
@@ -90,7 +89,7 @@ export default function SignUpPage() {
                         className="w-full"
                       />
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription className="text-lg">
                       This is the email address you will use to sign up.
                     </FormDescription>
                     <FormMessage />
@@ -102,7 +101,7 @@ export default function SignUpPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="text-lg">Password</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -111,7 +110,7 @@ export default function SignUpPage() {
                         className="w-full"
                       />
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription className="text-lg">
                       Enter a strong password for your account.
                     </FormDescription>
                     <FormMessage />
@@ -120,7 +119,7 @@ export default function SignUpPage() {
               />
               <Button
                 type="submit"
-                className="w-full bg-[#425893] hover:bg-[#425485]"
+                className="w-full bg-[#425893] hover:bg-[#425485] text-lg" // Increased button text size
               >
                 {Loading ? <Pageloader /> : "Register"}
               </Button>
@@ -130,27 +129,10 @@ export default function SignUpPage() {
         <div className="flex justify-end border-gray-300">
           <Link
             href="/auth/signin"
-            className="text-sm text-[#425893] hover:text-gray-600 underline"
+            className="text-xl text-[#425893] hover:text-gray-600 underline" // Increased login text size
           >
             login
           </Link>
-
-          {/* <div className="flex justify-end border-gray-300 ">
-            <Popover>
-              <PopoverContent className=" text-center">
-                Under Construction 🏗️ 🚧
-              </PopoverContent>
-              <Link
-                href=""
-                onClick={() => console.log("underconstruction")}
-                className="text-sm text-[#425893] hover:text-gray-600"
-              >
-                <PopoverTrigger className="underline">
-                  Use GitHub
-                </PopoverTrigger>
-              </Link>
-            </Popover>
-          </div> */}
         </div>
       </div>
     </div>

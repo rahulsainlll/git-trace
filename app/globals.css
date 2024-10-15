@@ -4,11 +4,11 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 255, 255, 255; /* RGB for white */
     --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
+    --card: 255, 255, 255; /* Background for cards */
     --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
+    --popover: 255, 255, 255; /* Background for popovers */
     --popover-foreground: 222.2 84% 4.9%;
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
@@ -20,7 +20,7 @@
     --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
+    --border: 214.3 31.8% 91.4%; /* Custom variable for border color */
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
@@ -32,11 +32,11 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 30, 30, 30; /* Using RGB for dark mode background */
     --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
+    --card: 30, 30, 30;
     --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
+    --popover: 30, 30, 30;
     --popover-foreground: 210 40% 98%;
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
@@ -61,9 +61,21 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border: 1px solid var(--border); /* Apply a border using the custom variable */
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: rgb(var(--background)); /* Set the background color using the RGB variable */
+    color: hsl(var(--foreground)); /* Use HSL for text color */
   }
+}
+.ribbon {
+  position: relative;
+  background: linear-gradient(to right, #f8f8f8, #e1e1e1);
+  padding: 15px 20px;
+  border: 2px solid darkblue; /* Border color */
+  border-radius: 10px;
+  display: inline-block;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  margin: 20px 0; /* Space around the ribbon */
+  clip-path: polygon(10% 0%, 0% 10%, 0% 90%, 10% 100%, 90% 100%, 100% 90%, 100% 10%, 90% 0%); /* Create a wonky shape */
 }
