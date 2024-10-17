@@ -34,6 +34,7 @@ model User {
   id        String     @id @default(cuid())
   email     String     @unique
   password  String
+  forgotOTP String?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   bookmarks Bookmark[]
