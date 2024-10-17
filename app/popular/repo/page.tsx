@@ -31,6 +31,10 @@ const MonthlyCommitChart = () => {
   >([]);
   const [selectedMonthCommits, setSelectedMonthCommits] = useState<number[]>([]);
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+  const [contributorData, setContributorData] = useState<{ name: string; commits: number }[]>(
+    []
+  );
+
 
   const searchParams = new URLSearchParams(window.location.search);
   const owner = searchParams.get("owner");
@@ -123,6 +127,24 @@ const MonthlyCommitChart = () => {
     };
 
     fetchCommitHistory();
+
+    const fetchContributorData = async () => {
+        if (owner && repo) {
+          const response = await axios.get(
+            `https://api.github.com/repos/${owner}/${repo}/contributors`
+          );
+          const data = response.data.map((contributor: any) => ({
+            name: contributor.login,
+            commits: contributor.contributions,
+          }));
+  
+          // Sort by contributions (commits) in descending order and take top 10 contributors
+          setContributorData(data.slice(0, 10));
+        }
+      };
+
+      fetchContributorData();
+
   }, [owner, repo]);
 
   const handleBarClick = (elements: any) => {
@@ -180,6 +202,19 @@ const MonthlyCommitChart = () => {
     ],
   };
 
+  const barChartDataContributions = {
+    labels: contributorData.map((contributor) => contributor.name),
+    datasets: [
+      {
+        label: "Commits",
+        data: contributorData.map((contributor) => contributor.commits),
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
   const lineChartData = {
     labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"], // Weeks of the month
     datasets: [
@@ -194,8 +229,8 @@ const MonthlyCommitChart = () => {
   };
 
   return (
-    <div>
-      <div className="py-10 px-2.5 lg:px-20 mx-auto max-w-[800px]">
+    <div className="flex">
+      <div className="py-10 px-2.5 lg:px-20 mx-auto max-w-[800px] flex-grow">
         <h2>Monthly Commits (Last Year)</h2>
         <Bar
           className="border rounded-xl p-3 mb-3"
@@ -211,6 +246,13 @@ const MonthlyCommitChart = () => {
             <Line data={lineChartData} />
           </div>
         )}
+      </div>
+      <div className="py-10 px-2.5 lg:px-20 mx-auto max-w-[800px] flex-grow">
+        <h2>Top Contributors</h2>
+        <Bar
+          className="border rounded-xl p-3 mb-3"
+          data={barChartDataContributions}
+        />
       </div>
     </div>
   );
