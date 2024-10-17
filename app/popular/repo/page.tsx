@@ -46,12 +46,7 @@ const RepositoryStats = () => {
   const fetchCommitHistory = async () => {
     try {
       const response = await axios.get(
-        `https://api.github.com/repos/${owner}/${repo}/stats/commit_activity`,
-        {
-          headers: {
-            Authorization: `token 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`,
-          },
-        }
+        `https://api.github.com/repos/${owner}/${repo}/stats/commit_activity`
       );
       const weeklyCommits = response.data.map(
         (week: { week: number; total: number }) => ({
@@ -70,12 +65,7 @@ const RepositoryStats = () => {
   const fetchContributors = async () => {
     try {
       const response = await axios.get(
-        `https://api.github.com/repos/${owner}/${repo}/contributors`,
-        {
-          headers: {
-            Authorization: `token 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`,
-          },
-        }
+        `https://api.github.com/repos/${owner}/${repo}/contributors`
       );
       const topContributors = response.data
         .slice(0, 10)
@@ -94,12 +84,7 @@ const RepositoryStats = () => {
   const fetchLanguageUsage = async () => {
     try {
       const response = await axios.get(
-        `https://api.github.com/repos/${owner}/${repo}/languages`,
-        {
-          headers: {
-            Authorization: `token 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`,
-          },
-        }
+        `https://api.github.com/repos/${owner}/${repo}/languages`
       );
       setLanguageUsage(response.data);
     } catch (error) {
