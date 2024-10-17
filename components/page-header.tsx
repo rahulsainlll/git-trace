@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation"; // Import `usePathname` for App Router
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -13,9 +15,16 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
+import UserAccountDropDown from "./UserAccDropDown";
 
 const PageHeader = () => {
   const { data: session } = useSession();
+  const pathname = usePathname(); // Get current path directly
+  const [activePath, setActivePath] = useState(pathname); // Initialize with current path
+
+  useEffect(() => {
+    setActivePath(pathname); // Update when pathname changes
+  }, [pathname]);
 
   const handleGitHubClick = () => {
     window.location.href = "https://github.com/rahulsainlll/git-trace";
@@ -28,6 +37,9 @@ const PageHeader = () => {
     const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
     window.open(tweetUrl, "_blank");
   };
+
+  const isActive = (href:string) =>
+    activePath === href ? "text-black font-bold" : "text-muted-foreground";
 
   return (
     <header className="sticky inset-x-0 top-2 z-30 w-full transition-all bg-white/20 backdrop-blur-md">
@@ -42,23 +54,42 @@ const PageHeader = () => {
             </Link>
 
             <Link href="/dashboard">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+              <div
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  "/dashboard"
+                )}`}
+              >
                 Dashboard
               </div>
             </Link>
+
             <Link href="/blog">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+              <div
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  "/blog"
+                )}`}
+              >
                 Blogs
               </div>
             </Link>
+
             <Link href="/about">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+              <div
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  "/about"
+                )}`}
+              >
                 About
               </div>
             </Link>
             <Link href="/contributor">
               <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
                 Contributors
+              </div>
+            </Link>
+            <Link href="/faq">
+              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+               FAQ
               </div>
             </Link>
           </div>
@@ -75,7 +106,7 @@ const PageHeader = () => {
             </Badge>
 
             <Badge
-              className="gap-1 rounded-xl hover: "
+              className="gap-1 rounded-xl"
               onClick={handleTweetClick}
               style={{ cursor: "pointer" }}
             >
@@ -84,7 +115,8 @@ const PageHeader = () => {
             </Badge>
 
             {session ? (
-              <LogoutButton />
+              // <LogoutButton />
+              <UserAccountDropDown />
             ) : (
               <>
                 <LoginButton />
@@ -97,10 +129,12 @@ const PageHeader = () => {
           </div>
         </div>
       </div>
-      <div className=" sm:hidden flex h-16 items-center justify-between  border-b px-2">
-        <Link href="/" className="flex items-center ">
+
+      <div className="sm:hidden flex h-16 items-center justify-between border-b px-2">
+        <Link href="/" className="flex items-center">
           <Image src="/git3.png" alt="Logo" width={38} height={38} />
         </Link>
+
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-2">
             <Badge
@@ -114,7 +148,7 @@ const PageHeader = () => {
             </Badge>
 
             <Badge
-              className="gap-1 rounded-xl hover: "
+              className="gap-1 rounded-xl"
               onClick={handleTweetClick}
               style={{ cursor: "pointer" }}
             >
@@ -122,6 +156,7 @@ const PageHeader = () => {
               Post
             </Badge>
           </div>
+
           <DropdownMenu>
             <DropdownMenuTrigger>
               <MenuIcon />
@@ -130,7 +165,11 @@ const PageHeader = () => {
               <DropdownMenuItem>
                 <div className="flex flex-col gap-4 justify-start">
                   <Link href="/dashboard">
-                    <div className=" text-base  text-[#425893] text-muted-foreground  hover:underline ">
+                    <div
+                      className={`text-base text-[#425893] hover:underline ${isActive(
+                        "/dashboard"
+                      )}`}
+                    >
                       Dashboard
                     </div>
                   </Link>
