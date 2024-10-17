@@ -15,7 +15,7 @@ const Faq: React.FC = () => {
       <strong><h1>Frequently Asked Questions</h1></strong>
       <br />
 
-      <div className="faq-items-container" style={{ borderRadius: '8px', boxShadow: '0 2px 1px rgba(0, 0, 0, 0.1)', padding: '20px', backgroundColor: 'whitesmoke' }}>
+      <div className="faq-items-container dark:text-black" style={{ borderRadius: '8px', boxShadow: '0 2px 1px rgba(0, 0, 0, 0.1)', padding: '20px', backgroundColor: 'whitesmoke' }}>
         <div>
           <button 
             onClick={() => toggleAccordion(1)} 

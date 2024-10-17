@@ -6,7 +6,7 @@ export const LoginButton = () => {
 	return (
 		<button
 			onClick={() => signIn()}
-			className="text-base text-[#425893] text-start"
+			className="text-base text-[#425893] text-start dark:text-slate-50"
 		>
 			Login
 		</button>

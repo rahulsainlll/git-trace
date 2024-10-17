@@ -173,7 +173,7 @@ export default function Home() {
 
   return (
     <div className="py-10 px-2.5 lg:px-20 mx-auto max-w-[1250px]">
-      <h1 className="font-medium text-3xl text-gray-900 mb-2">
+      <h1 className="font-medium text-3xl text-gray-900 dark:text-slate-50 mb-2">
         Find repository
       </h1>
       <p className="text-base italic text-muted-foreground mb-4">
