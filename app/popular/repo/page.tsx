@@ -1,200 +1,140 @@
 "use client";
-import { Bar, Line } from "react-chartjs-2";
+import { Line, Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
   PointElement,
   LineElement,
+  BarElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement,
   PointElement,
   LineElement,
+  BarElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend
 );
 
-const MonthlyCommitChart = () => {
-  const [monthlyCommitData, setMonthlyCommitData] = useState<
-    { month: string; count: number }[]
-  >([]);
-  const [selectedMonthCommits, setSelectedMonthCommits] = useState<number[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
-  const [contributorData, setContributorData] = useState<{ name: string; commits: number }[]>(
-    []
-  );
+const RepositoryStats = () => {
+  const [commitHistory, setCommitHistory] = useState([]);
+  const [contributors, setContributors] = useState([]);
+  const [languageUsage, setLanguageUsage] = useState({});
+  const [loading, setLoading] = useState(true); // Add loading state
+  const [error, setError] = useState<string | null>(null); // Add error state
 
-
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
+  console.log(searchParams);
   const owner = searchParams.get("owner");
   const repo = searchParams.get("repo");
 
-  useEffect(() => {
-    const fetchAllCommits = async () => {
-      let page = 1;
-      let allCommits: any[] = [];
-      let hasMoreCommits = true;
+  const token = "your_token_here"; // Replace with your actual token
 
-      while (hasMoreCommits) {
-        const response = await axios.get(
-          `https://api.github.com/repos/${owner}/${repo}/commits?per_page=100&page=${page}`
-        );
-        const commits = response.data;
-        allCommits = [...allCommits, ...commits];
-        
-        if (commits.length < 100) {
-          hasMoreCommits = false;
+  // Fetch commit activity data (timeline)
+  const fetchCommitHistory = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.github.com/repos/${owner}/${repo}/stats/commit_activity`,
+        {
+          headers: {
+            Authorization: `token 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`,
+          },
         }
-        page++;
-      }
+      );
+      const weeklyCommits = response.data.map(
+        (week: { week: number; total: number }) => ({
+          week: new Date(week.week * 1000).toLocaleDateString(), // Convert Unix timestamp
+          total: week.total,
+        })
+      );
+      setCommitHistory(weeklyCommits);
+    } catch (error) {
+      console.error("Error fetching commit history:", error);
+      setError("Failed to fetch commit history");
+    }
+  };
 
-      return allCommits.map((commit: any) => commit.commit.author.date);
-    };
-
-    const fetchCommitHistory = async () => {
-      if (owner && repo) {
-        const commitDates = await fetchAllCommits();
-        if (commitDates.length === 0) return;
-
-        const groupedByMonth: { [key: string]: number } = {};
-
-        // Get the date one year ago from today
-        const oneYearAgo = new Date();
-        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-
-        // Filter commits within the last year
-        const filteredCommitDates = commitDates.filter((date: string) => {
-          const commitDate = new Date(date);
-          return commitDate >= oneYearAgo;
-        });
-
-        // If no commits in the past year, exit early
-        if (filteredCommitDates.length === 0) return;
-
-        // Get the first and last commit dates within the last year
-        const firstCommitDate = new Date(filteredCommitDates[filteredCommitDates.length - 1]);
-        const lastCommitDate = new Date(filteredCommitDates[0]);
-
-        // Create a range of months from the first commit to the last commit in the last year
-        let currentMonth = new Date(
-          firstCommitDate.getFullYear(),
-          firstCommitDate.getMonth(),
-          1
-        );
-
-        const monthsArray = [];
-        while (currentMonth <= lastCommitDate) {
-          const monthKey = `${currentMonth.getFullYear()}-${String(
-            currentMonth.getMonth() + 1
-          ).padStart(2, "0")}`;
-          monthsArray.push(monthKey);
-          currentMonth.setMonth(currentMonth.getMonth() + 1);
+  // Fetch top contributors
+  const fetchContributors = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.github.com/repos/${owner}/${repo}/contributors`,
+        {
+          headers: {
+            Authorization: `token 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`,
+          },
         }
-
-        // Group commits by month
-        filteredCommitDates.forEach((date: string) => {
-          const commitDate = new Date(date);
-          const formattedMonth = `${commitDate.getFullYear()}-${String(
-            commitDate.getMonth() + 1
-          ).padStart(2, "0")}`; // Format to YYYY-MM
-
-          if (groupedByMonth[formattedMonth]) {
-            groupedByMonth[formattedMonth]++;
-          } else {
-            groupedByMonth[formattedMonth] = 1;
-          }
-        });
-
-        // Fill missing months with 0 commits
-        const monthlyData = monthsArray.map((month) => ({
-          month,
-          count: groupedByMonth[month] || 0,
+      );
+      const topContributors = response.data
+        .slice(0, 10)
+        .map((contributor: { login: string; contributions: number }) => ({
+          name: contributor.login,
+          commits: contributor.contributions,
         }));
+      setContributors(topContributors);
+    } catch (error) {
+      console.error("Error fetching contributors:", error);
+      setError("Failed to fetch contributors");
+    }
+  };
 
-        setMonthlyCommitData(monthlyData);
-      }
-    };
-
-    fetchCommitHistory();
-
-    const fetchContributorData = async () => {
-        if (owner && repo) {
-          const response = await axios.get(
-            `https://api.github.com/repos/${owner}/${repo}/contributors`
-          );
-          const data = response.data.map((contributor: any) => ({
-            name: contributor.login,
-            commits: contributor.contributions,
-          }));
-  
-          // Sort by contributions (commits) in descending order and take top 10 contributors
-          setContributorData(data.slice(0, 10));
+  // Fetch language usage
+  const fetchLanguageUsage = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.github.com/repos/${owner}/${repo}/languages`,
+        {
+          headers: {
+            Authorization: `token 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`,
+          },
         }
-      };
+      );
+      setLanguageUsage(response.data);
+    } catch (error) {
+      console.error("Error fetching language usage:", error);
+      setError("Failed to fetch language usage");
+    }
+  };
 
-      fetchContributorData();
+  // Call all the fetch functions
+  const fetchAllData = async () => {
+    setLoading(true);
+    setError(null); // Reset error
+    await fetchCommitHistory();
+    await fetchContributors();
+    await fetchLanguageUsage();
+    setLoading(false); // Data is ready
+  };
 
+  useEffect(() => {
+    if (owner && repo) {
+      fetchAllData();
+    } 
   }, [owner, repo]);
 
-  const handleBarClick = (elements: any) => {
-    if (elements.length > 0) {
-      const index = elements[0].index;
-      const month = monthlyCommitData[index].month;
-      setSelectedMonth(month);
-
-      fetchCommitDetailsForMonth(month);
-    }
-  };
-
-  const fetchCommitDetailsForMonth = async (month: string) => {
-    if (owner && repo && month) {
-      const [year, monthNum] = month.split("-");
-      const startDate = `${year}-${monthNum}-01T00:00:00Z`;
-      const endDate = new Date(parseInt(year), parseInt(monthNum), 0) // Get last day of the month
-        .toISOString()
-        .split("T")[0] + "T23:59:59Z";
-
-      const response = await axios.get(
-        `https://api.github.com/repos/${owner}/${repo}/commits?since=${startDate}&until=${endDate}`
-      );
-      const commitDates = response.data.map(
-        (commit: any) => commit.commit.author.date
-      );
-
-      const groupedByWeek: { [key: string]: number } = {};
-
-      commitDates.forEach((date: string) => {
-        const weekStart = new Date(date);
-        const formattedWeekStart = `${weekStart.getMonth() + 1}/${weekStart.getDate()}`; // Format to MM/DD
-
-        if (groupedByWeek[formattedWeekStart]) {
-          groupedByWeek[formattedWeekStart]++;
-        } else {
-          groupedByWeek[formattedWeekStart] = 1;
-        }
-      });
-
-      setSelectedMonthCommits(Object.values(groupedByWeek));
-    }
-  };
-
-  const barChartData = {
-    labels: monthlyCommitData.map((data) => data.month),
+  // Data for Commit History Line Chart
+  const commitHistoryData = {
+    labels: commitHistory.map(
+      (commit: { week: string; total: number }) => commit.week
+    ),
     datasets: [
       {
-        label: "Commits per Month (Last Year)",
-        data: monthlyCommitData.map((data) => data.count),
+        label: "Commits per Week",
+        data: commitHistory.map(
+          (commit: { week: string; total: number }) => commit.total
+        ),
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
@@ -202,60 +142,84 @@ const MonthlyCommitChart = () => {
     ],
   };
 
-  const barChartDataContributions = {
-    labels: contributorData.map((contributor) => contributor.name),
+  // Data for Contributor Bar Chart
+  const contributorData = {
+    labels: contributors.map(
+      (contributor: { name: string; commits: number }) => contributor.name
+    ),
     datasets: [
       {
         label: "Commits",
-        data: contributorData.map((contributor) => contributor.commits),
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        data: contributors.map(
+          (contributor: { name: string; commits: number }) =>
+            contributor.commits
+        ),
+        backgroundColor: "rgba(153, 102, 255, 0.2)",
+        borderColor: "rgba(153, 102, 255, 1)",
         borderWidth: 1,
       },
     ],
   };
 
-  const lineChartData = {
-    labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"], // Weeks of the month
+  // Data for Language Usage Pie Chart
+  const languageData = {
+    labels: Object.keys(languageUsage),
     datasets: [
       {
-        label: `Commits for ${selectedMonth}`,
-        data: selectedMonthCommits,
-        backgroundColor: "rgba(54, 162, 235, 0.2)",
-        borderColor: "rgba(54, 162, 235, 1)",
+        label: "Languages",
+        data: Object.values(languageUsage),
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)",
+        ],
         borderWidth: 1,
       },
     ],
   };
 
   return (
-    <div className="flex">
-      <div className="py-10 px-2.5 lg:px-20 mx-auto max-w-[800px] flex-grow">
-        <h2>Monthly Commits (Last Year)</h2>
-        <Bar
-          className="border rounded-xl p-3 mb-3"
-          data={barChartData}
-          options={{
-            onClick: (event, elements) => handleBarClick(elements),
-          }}
-        />
+    <div>
+      <div className="py-10 px-2.5 lg:px-20 mx-auto max-w-[900px]">
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <>
+            {/* Commit History Chart */}
+            <h2>Commit History</h2>
+            <Line
+              data={commitHistoryData}
+              className="border rounded-xl p-3 mb-9"
+            />
 
-        {selectedMonth && (
-          <div className="border rounded-xl p-3">
-            <h2>Commits for Month: {selectedMonth}</h2>
-            <Line data={lineChartData} />
-          </div>
+            {/* Contributor Activity Chart */}
+            <h2>Top Contributors</h2>
+            <Bar
+              data={contributorData}
+              className="border rounded-xl p-3 mb-9"
+            />
+
+            {/* Language Usage Pie Chart */}
+            <h2>Language Usage</h2>
+            <Pie data={languageData} className="border rounded-xl p-3 mb-9" />
+          </>
         )}
-      </div>
-      <div className="py-10 px-2.5 lg:px-20 mx-auto max-w-[800px] flex-grow">
-        <h2>Top Contributors</h2>
-        <Bar
-          className="border rounded-xl p-3 mb-3"
-          data={barChartDataContributions}
-        />
       </div>
     </div>
   );
 };
 
-export default MonthlyCommitChart;
+export default RepositoryStats;

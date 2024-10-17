@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+
 
 const PopularRepositories = () => {
 interface Repository {
@@ -14,6 +16,8 @@ interface Repository {
         login: string;
     };
 }
+
+const router = useRouter();
 
   const [repositories, setRepositories] = useState<Repository[]>([]);
 
@@ -54,7 +58,7 @@ interface Repository {
             <div className="flex flex-col gap-2">
               <Button
                 onClick={() => {
-                    window.location.href = `/popular/repo?owner=${repo.owner.login}&repo=${repo.name}`;
+                  router.push(`/popular/repo?owner=${repo.owner.login}&repo=${repo.name}`);
                 }}
               >
                 View Details
