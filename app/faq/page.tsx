@@ -15,11 +15,11 @@ const Faq: React.FC = () => {
       <strong><h1>Frequently Asked Questions</h1></strong>
       <br />
 
-      <div className="faq-items-container" style={{ borderRadius: '8px', boxShadow: '0 2px 1px rgba(0, 0, 0, 0.1)', padding: '20px', backgroundColor: 'whitesmoke' }}>
+      <div className="faq-items-container dark:text-white bg-slate-50 dark:bg-gray-900" style={{ borderRadius: '8px', boxShadow: '0 2px 1px rgba(0, 0, 0, 0.1)', padding: '20px' }}>
         <div>
           <button 
             onClick={() => toggleAccordion(1)} 
-            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc', background: '#f9f9f9' }}>
+            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc'}}>
             <strong>What is Git-trace?</strong>
           </button>
           {activeIndex === 1 && (
@@ -33,7 +33,7 @@ const Faq: React.FC = () => {
         <div>
           <button 
             onClick={() => toggleAccordion(2)} 
-            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc', background: '#f9f9f9' }}>
+            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc' }}>
             <strong>What features does Git-trace offer?</strong>
           </button>
           {activeIndex === 2 && (
@@ -47,7 +47,7 @@ const Faq: React.FC = () => {
         <div>
           <button 
             onClick={() => toggleAccordion(3)} 
-            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc', background: '#f9f9f9' }}>
+            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc' }}>
             <strong>What technology stack is used for Git-trace?</strong>
           </button>
           {activeIndex === 3 && (
@@ -61,7 +61,7 @@ const Faq: React.FC = () => {
         <div>
           <button 
             onClick={() => toggleAccordion(4)} 
-            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc', background: '#f9f9f9' }}>
+            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc' }}>
             <strong>How do I search for repositories on Git-trace?</strong>
           </button>
           {activeIndex === 4 && (
@@ -75,7 +75,7 @@ const Faq: React.FC = () => {
         <div>
           <button 
             onClick={() => toggleAccordion(5)} 
-            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc', background: '#f9f9f9' }}>
+            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc' }}>
             <strong>How can I bookmark repositories and issues?</strong>
           </button>
           {activeIndex === 5 && (
@@ -89,7 +89,7 @@ const Faq: React.FC = () => {
         <div>
           <button 
             onClick={() => toggleAccordion(6)} 
-            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc', background: '#f9f9f9' }}>
+            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc' }}>
             <strong>What should I do if I encounter issues while using Git-trace?</strong>
           </button>
           {activeIndex === 6 && (
@@ -103,7 +103,7 @@ const Faq: React.FC = () => {
         <div>
           <button 
             onClick={() => toggleAccordion(7)} 
-            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc', background: '#f9f9f9' }}>
+            style={{ width: '100%', padding: '10px', textAlign: 'left', border: '1px solid #ccc' }}>
             <strong>Can I use Git-trace without installing it locally?</strong>
           </button>
           {activeIndex === 7 && (

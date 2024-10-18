@@ -3,14 +3,15 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import PageHeader from "@/components/page-header";
 import clsx from "clsx";
-import { Providers } from "./provider";
+import { Providers, ThemeProvider } from "./provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/ui/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
 // fallback to the production URL
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://git-trace.vercel.app/";
+const baseUrl =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://git-trace.vercel.app/";
 
 export const metadata: Metadata = {
   title: {
@@ -59,11 +60,18 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className={clsx("flex flex-col min-h-screen", inter.className)}>
         <Providers>
-          <PageHeader />
-          <main className="flex-grow">
-            {children}
-            <Toaster />
-          </main>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <PageHeader />
+            <main className="flex-grow">
+              {children}
+              <Toaster />
+            </main>
+          </ThemeProvider>
         </Providers>
         <Footer />
       </body>
