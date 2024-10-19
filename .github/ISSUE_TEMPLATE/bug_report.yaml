@@ -1,0 +1,38 @@
+name: 🐛 Bug Report
+description: Report an Bug for this project
+title: "🐛 Bug Report: "
+labels:
+  - bug
+  - gssoc24-ext
+  - hacktoberfest
+  - hacktoberfest-accepted
+  - gssoc
+  - gssoc24
+  - gssoc-extd
+
+
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for taking the time to file a Feature Request report.
+  - type: textarea
+    attributes:
+      label: Describe the bug.
+      description: ' A clear and concise description of what the bug is.'
+  
+  - type: textarea
+    attributes:
+      label: Explain bug encounter!
+      description: ' Explain Steps to reproduce the behavior.'
+
+  - type: textarea
+    attributes:
+      label: Expected behavior.
+      description: '  A clear and concise description of what you expected to happen'
+
+  - type: textarea
+    attributes:
+      label: Screenshot.
+      description: 'If applicable, add screenshots to help explain your problem.'
+
+

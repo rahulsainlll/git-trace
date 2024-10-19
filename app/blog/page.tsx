@@ -96,18 +96,18 @@ const BlogPage: React.FC = () => {
     currentPage * ITEMS_PER_PAGE
   );
   return (
-    <div className="min-h-screen bg-white text-gray-800 font-sans mb-10">
-      <section className="py-16 bg-gray-50">
+    <div className="min-h-screen bg-white dark:bg-black text-gray-800 font-sans mb-10">
+      <section className="py-16 bg-gray-50 dark:bg-black">
         <div className="container mx-auto px-6">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Welcome to the Blog</h1>
-          <p className="text-lg text-gray-600">
+          <h1 className="text-4xl font-bold text-gray-800 dark:text-slate-50 mb-4">Welcome to the Blog</h1>
+          <p className="text-lg text-gray-600 dark:text-slate-50">
             Explore our latest articles, tutorials, and resources on Git, development, and more.
           </p>
         </div>
       </section>
 
       <section className="container mx-auto py-10 px-6 flex flex-col justify-center">
-        <h2 className="text-4xl font-bold mb-8 ">Latest Posts</h2>
+        <h2 className="text-4xl font-bold mb-8 dark:text-slate-50">Latest Posts</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Dummy Blog Post */}
           {currentPosts.map((post, i) => (
