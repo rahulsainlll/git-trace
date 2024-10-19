@@ -65,7 +65,11 @@ const PageHeader = () => {
                 Dashboard
               </div>
             </Link>
-
+            <Link href="/popular">
+              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+                Popular
+              </div>
+            </Link>
             <Link href="/blog">
               <div
                 className={`ml-2 text-lg dark:text-white font-light hover:underline ${isActive(
