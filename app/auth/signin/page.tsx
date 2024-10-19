@@ -88,12 +88,12 @@ export default function SignInPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="dark:text-black">Email</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Email"
                         {...field}
-                        className="w-full"
+                        className="w-full dark:text-black"
                       />
                     </FormControl>
                     <FormDescription>
@@ -108,13 +108,13 @@ export default function SignInPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="dark:text-black">Password</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         placeholder="Password"
                         {...field}
-                        className="w-full"
+                        className="w-full dark:text-black"
                       />
                     </FormControl>
                     <FormDescription>
@@ -124,7 +124,7 @@ export default function SignInPage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full bg-[#425893]">
+              <Button type="submit" className="w-full bg-[#425893] text-white hover:text-black">
                 {Loading ? <Pageloader /> : "Login"}
               </Button>
             </form>

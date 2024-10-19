@@ -82,12 +82,12 @@ export default function SignUpPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="dark:text-black">Email</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Email"
                         {...field}
-                        className="w-full"
+                        className="w-full dark:text-black"
                       />
                     </FormControl>
                     <FormDescription>
@@ -102,13 +102,13 @@ export default function SignUpPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="dark:text-black">Password</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         placeholder="Password"
                         {...field}
-                        className="w-full"
+                        className="w-full dark:text-black"
                       />
                     </FormControl>
                     <FormDescription>
@@ -120,7 +120,7 @@ export default function SignUpPage() {
               />
               <Button
                 type="submit"
-                className="w-full bg-[#425893] hover:bg-[#425485]"
+                className="w-full bg-[#425893] text-white hover:text-black"
               >
                 {Loading ? <Pageloader /> : "Register"}
               </Button>

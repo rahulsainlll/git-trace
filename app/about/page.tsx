@@ -1,13 +1,20 @@
 "use client"; 
 
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 // Define the component
 const About: React.FC = () => {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const contributionGuideline = 'https://github.com/rahulsainlll/git-trace/blob/main/CONTRIBUTING.md';
+
+  useEffect(() => setMounted(true), []);
+  
+  if (!mounted) return null;
   return (
-    <div style={styles.container}>
+    <div style={getContainerStyle(theme)}>
       <h1 style={styles.title}>Git-trace</h1>
       <p style={styles.subtitle}>
         Open Source save issues and repositories endpoint
@@ -75,6 +82,16 @@ const About: React.FC = () => {
   );
 };
 
+const getContainerStyle = (theme: string | undefined): React.CSSProperties => ({
+  backgroundColor: theme === "dark" ? "#000" : "#fff",
+  color: theme === "dark" ? "#fff" : "#000",
+  padding: "20px",
+  maxWidth: "800px",
+  margin: "0 auto",
+  fontFamily: "Arial, sans-serif",
+  lineHeight: "1.6",
+});
+
 // Define the styles object with basic TypeScript types
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
@@ -89,17 +106,14 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontSize: "2.5rem",
     fontWeight: "bold",
     marginBottom: "10px",
-    color: "#333",
     textAlign: "center",
   },
   subtitle: {
     fontSize: "1.2rem",
-    color: "#666",
     textAlign: "center",
     marginBottom: "20px",
   },
   link: {
-    color: "#0070f3",
     textDecoration: "none",
   },
   section: {
@@ -108,16 +122,13 @@ const styles: { [key: string]: React.CSSProperties } = {
   heading: {
     fontSize: "1.5rem",
     fontWeight: "bold",
-    color: "#333",
   },
   text: {
     fontSize: "1rem",
-    color: "#555",
   },
   list: {
     paddingLeft: "20px",
     fontSize: "1rem",
-    color: "#555",
   },
 };
 

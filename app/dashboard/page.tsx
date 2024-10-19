@@ -35,7 +35,7 @@ export default async function Dashboard() {
 
   return (
     <div className="py-10 px-2.5 lg:px-20 max-w-[1250px] mx-auto">
-      <h1 className="font-medium text-3xl text-gray-900 mb-4">Dashboard</h1>
+      <h1 className="font-medium text-3xl text-gray-900 dark:text-slate-50 mb-4">Dashboard</h1>
 
       {bookmarks.length > 0 ? (
         <Table>
