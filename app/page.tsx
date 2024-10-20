@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,10 +18,12 @@ import NewBookmarkBtn from "@/components/new-bookmark";
 import { Badge } from "@/components/ui/badge";
 import { Loader } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { FixedSizeList as List } from 'react-window';
+import AutoSizer from "react-virtualized-auto-sizer";
 
 const SEARCH_HISTORY_KEY = "searchHistory";
 
-export default function Home() {
+export default function Component() {
   const [owner, setOwner] = useState("");
   const [repoName, setRepoName] = useState("");
   const [repoLink, setRepoLink] = useState("");
@@ -34,8 +36,12 @@ export default function Home() {
     searchIssueLoader: false,
   });
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [totalCount, setTotalCount] = useState(0);
   const router = useRouter();
   const { toast } = useToast();
+  const listRef = useRef<List>(null);
 
   useEffect(() => {
     const history = localStorage.getItem(SEARCH_HISTORY_KEY);
@@ -133,18 +139,42 @@ export default function Home() {
   };
 
   const handleSearchIssues = async (repoFullName: string) => {
-    setLoading({ ...loading, searchIssueLoader: true });
+    setLoading((prev) => ({ ...prev, searchIssueLoader: true }));
+    setIssues([]);
+    setPage(1);
+    setHasMore(true);
     try {
       const response = await axios.get("/api/search/issues", {
-        params: { repositoryFullName: repoFullName },
+        params: { repositoryFullName: repoFullName, page: 1, perPage: 30 },
       });
-      setIssues(response.data);
+      setIssues(response.data.issues);
+      setTotalCount(response.data.totalCount);
+      setHasMore(response.data.issues.length < response.data.totalCount);
     } catch (error) {
       console.error("Failed to fetch issues:", error);
     } finally {
-      setLoading({ ...loading, searchIssueLoader: false });
+      setLoading((prev) => ({ ...prev, searchIssueLoader: false }));
     }
   };
+
+  const loadMoreIssues = useCallback(async () => {
+    if (!selectedRepo || loading.searchIssueLoader || !hasMore) return;
+
+    setLoading((prev) => ({ ...prev, searchIssueLoader: true }));
+    try {
+      const nextPage = page + 1;
+      const response = await axios.get("/api/search/issues", {
+        params: { repositoryFullName: selectedRepo.full_name, page: nextPage, perPage: 30 },
+      });
+      setIssues((prevIssues) => [...prevIssues, ...response.data.issues]);
+      setPage(nextPage);
+      setHasMore(issues.length + response.data.issues.length < totalCount);
+    } catch (error) {
+      console.error("Failed to fetch more issues:", error);
+    } finally {
+      setLoading((prev) => ({ ...prev, searchIssueLoader: false }));
+    }
+  }, [selectedRepo, page, loading.searchIssueLoader, issues.length, totalCount, hasMore]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -169,6 +199,41 @@ export default function Home() {
       setRepoName(repoName);
       handleSearchRepos();
     }
+  };
+
+  const IssueRow = ({ index, style }: { index: number; style: React.CSSProperties }) => {
+    const issue = issues[index];
+    if (!issue) {
+      return null;
+    }
+    return (
+      <div style={style}>
+        <TableRow className="w-full flex justify-between">
+          <TableCell>{issue.title}</TableCell>
+          <TableCell className="w-fit flex items-center gap-5">
+          <TableCell>{issue.state}</TableCell>
+          <TableCell>
+            {new Date(issue.created_at).toLocaleDateString()}
+          </TableCell>
+          <TableCell className="flex items-center gap-2">
+            <a
+              href={issue.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline whitespace-nowrap"
+            >
+              View Issue
+            </a>
+            <NewBookmarkBtn
+              name={issue.title}
+              url={issue.html_url}
+              description={issue.body || "No description available"}
+            />
+          </TableCell>
+          </TableCell>
+        </TableRow>
+      </div>
+    );
   };
 
   return (
@@ -300,49 +365,52 @@ export default function Home() {
         </div>
       )}
 
-      {issues.length > 0 && (
-        <div className="mt-8">
-          <h2 className="font-medium text-2xl text-gray-900 mb-2">Issues</h2>
-          <Table>
-            <TableCaption>Issues for the selected repository.</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Issue Title</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Created At</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {issues.map((issue: any) => (
-                <TableRow key={issue.id}>
-                  <TableCell>{issue.title}</TableCell>
-                  <TableCell>{issue.state}</TableCell>
-                  <TableCell>
-                    {new Date(issue.created_at).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell className="flex gap-2">
-                    <a
-                      href={issue.html_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 underline"
-                    >
-                      View Issue
-                    </a>
-
-                    <NewBookmarkBtn
-                      name={issue.title}
-                      url={issue.html_url}
-                      description={issue.body || "No description available"}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      )}
+    {issues.length > 0 && (
+      <div className="mt-8">
+        <h2 className="font-medium text-2xl text-gray-900 mb-2">Issues</h2>
+        <p>Showing {issues.length} of {totalCount} issues</p>
+        <Table>
+          <TableCaption>Issues for the selected repository.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Issue Title</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Created At</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <AutoSizer disableHeight>
+              {({ width }) => (
+                <List
+                  height={400}
+                  itemCount={issues.length}
+                  itemSize={60}
+                  width={width}
+                  onItemsRendered={({ visibleStopIndex }) => {
+                    if (visibleStopIndex === issues.length - 1 && hasMore) {
+                      loadMoreIssues();
+                    }
+                  }}
+                >
+                  {IssueRow}
+                </List>
+              )}
+            </AutoSizer>
+          </TableBody>
+        </Table>
+        {loading.searchIssueLoader && (
+          <div className="flex justify-center mt-4">
+            <Loader className="animate-spin" />
+          </div>
+        )}
+        {!hasMore && (
+          <div className="text-center mt-4 text-gray-500">
+            No more issues to load
+          </div>
+        )}
+      </div>
+    )}
     </div>
   );
 }
