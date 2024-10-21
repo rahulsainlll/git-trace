@@ -54,6 +54,12 @@ export default function Home() {
     localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(history));
   };
 
+  const handleDeleteSearchTerm = (term: string) => {
+    const updatedHistory = searchHistory.filter((item) => item !== term);
+    setSearchHistory(updatedHistory);
+    localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(updatedHistory));
+  };
+
   const handleSearchRepos = async () => {
     setLoading({ ...loading, searchReposLoader: true });
     try {
@@ -214,12 +220,19 @@ export default function Home() {
               <p className="font-bold">Recent Searches:</p>
               <ul>
                 {searchHistory.map((term, index) => (
-                  <li
-                    key={index}
-                    className="cursor-pointer text-blue-500 underline"
-                    onClick={() => handleHistoryClick(term)}
-                  >
-                    {term}
+                  <li key={index} className="flex justify-between items-center">
+                    <span
+                      className="cursor-pointer text-blue-500 underline"
+                      onClick={() => handleHistoryClick(term)}
+                    >
+                      {term}
+                    </span>
+                    <button
+                      className="text-red-500 ml-2"
+                      onClick={() => handleDeleteSearchTerm(term)}
+                    >
+                      X
+                    </button>
                   </li>
                 ))}
               </ul>
