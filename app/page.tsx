@@ -26,12 +26,9 @@ export default function Home() {
   const [repoName, setRepoName] = useState("");
   const [repoLink, setRepoLink] = useState("");
   const [repositories, setRepositories] = useState<any[]>([]);
-  const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
-  const [issues, setIssues] = useState<any[]>([]);
   const [loading, setLoading] = useState({
     searchReposLoader: false,
     searchRepoUrlLoader: false,
-    searchIssueLoader: false,
   });
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const router = useRouter();
@@ -135,20 +132,6 @@ export default function Home() {
       console.log(`Failed to search repositories ${error}`);
     } finally {
       setLoading({ ...loading, searchRepoUrlLoader: false });
-    }
-  };
-
-  const handleSearchIssues = async (repoFullName: string) => {
-    setLoading({ ...loading, searchIssueLoader: true });
-    try {
-      const response = await axios.get("/api/search/issues", {
-        params: { repositoryFullName: repoFullName },
-      });
-      setIssues(response.data);
-    } catch (error) {
-      console.error("Failed to fetch issues:", error);
-    } finally {
-      setLoading({ ...loading, searchIssueLoader: false });
     }
   };
 
@@ -268,37 +251,49 @@ export default function Home() {
         </div>
       </div>
 
-      <Table className="mt-6">
-        <TableCaption>
-          A list of repositories based on your search.
-        </TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Repository Name</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {repositories.map((repo) => (
-            <TableRow key={repo.id}>
-              <TableCell>
-                <span
-                  className="cursor-pointer text-blue-500 underline"
-                  onClick={() => {
-                    setSelectedRepo(repo);
-                    handleSearchIssues(repo.full_name);
-                  }}
-                >
-                  {repo.full_name}
-                </span>
-              </TableCell>
-              <TableCell>
-                <NewBookmarkBtn repo={repo} />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      {repositories.length > 0 && (
+        <div>
+          <h2 className="font-medium text-2xl text-gray-900 mb-2">
+            Repositories
+          </h2>
+          <Table>
+            <TableCaption>
+              A list of repositories matching the search criteria.
+            </TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {repositories.map((repo: any) => (
+                <TableRow key={repo.id}>
+                  <TableCell>{repo.name}</TableCell>
+                  <TableCell>{repo.description || "No description"}</TableCell>
+                  <TableCell className="flex gap-2">
+                    <Button
+                      onClick={() => {
+                        router.push(`/issues?repoFullName=${repo.full_name}`);
+                      }}
+                    >
+                      View Issues
+                    </Button>
+                    <NewBookmarkBtn
+                      name={repo.name}
+                      url={repo.html_url}
+                      description={
+                        repo.description || "No description available"
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
     </div>
   );
 }

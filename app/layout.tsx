@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { Providers, ThemeProvider } from "./provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/ui/footer";
+import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,6 +52,10 @@ export const metadata: Metadata = {
   ],
 };
 
+const getPrefLangCookie = (): string => {
+  return cookies().get("googtrans")?.value ?? "en";
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -66,7 +71,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <PageHeader />
+            <PageHeader prefLangCookie={getPrefLangCookie()} />
             <main className="flex-grow">
               {children}
               <Toaster />
