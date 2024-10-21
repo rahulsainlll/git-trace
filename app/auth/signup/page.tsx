@@ -70,8 +70,8 @@ export default function SignUpPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen ">
-      <div className="w-full max-w-md p-6 bg-white  border rounded-lg">
-        <h2 className="text-xl font-bold text-[#425893] text- mb-4">
+      <div className="w-full max-w-md p-6 bg-white dark:bg-[#141414]  border rounded-lg">
+        <h2 className="text-xl font-bold text-[#5469a2] text- mb-4">
           Register in git-trace
         </h2>
         <div className="border-b border-gray-300 pb-4 mb-4">
@@ -82,7 +82,7 @@ export default function SignUpPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-black">Email</FormLabel>
+                    <FormLabel className="dark:text-white text-black">Email</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Email"
@@ -102,7 +102,7 @@ export default function SignUpPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-black">Password</FormLabel>
+                    <FormLabel className="dark:text-white text-black">Password</FormLabel>
                     <FormControl>
                       <Input
                         type="password"

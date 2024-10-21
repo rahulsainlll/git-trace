@@ -76,8 +76,8 @@ export default function SignInPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-6 bg-white border rounded-lg">
-        <h2 className="text-xl font-bold text-[#425893] text- mb-4">
+      <div className="w-full max-w-md p-6 bg-white dark:bg-[#141414] border rounded-lg">
+        <h2 className="text-xl font-bold text-[#5469a2] text- mb-4">
           Login into git-trace
         </h2>
         <div className="border-b border-gray-300 pb-4 mb-4">
@@ -88,7 +88,7 @@ export default function SignInPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-black">Email</FormLabel>
+                    <FormLabel className="dark:text-white text-black">Email</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Email"
@@ -109,7 +109,7 @@ export default function SignInPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex justify-between">
-                      <p>Password</p>
+                      <p className="dark:text-white text-black">Password</p>
                       <Link href="/auth/forgot-password/email">Forgot Password?</Link>
                       </FormLabel>
                     <FormControl>
