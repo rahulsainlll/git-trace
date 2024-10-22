@@ -67,3 +67,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  position: static !important;
+  top: 0px !important;
+}
+
+iframe.skiptranslate {
+  display: none !important;
+}
