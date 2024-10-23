@@ -27,6 +27,7 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { ToastAction } from "@radix-ui/react-toast";
+import { AtSign, Eye, EyeOff } from "lucide-react";
 
 const signUpSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -40,6 +41,10 @@ type SignUpFormData = z.infer<typeof signUpSchema>;
 
 export default function SignUpPage() {
   const [Loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -53,7 +58,7 @@ export default function SignUpPage() {
 
   const onSubmit = async (data: SignUpFormData) => {
     setLoading(true);
-    console.log(data.password + " " + data.confirmpassword);
+    // console.log(data.password + " " + data.confirmpassword);
     if (data.password !== data.confirmpassword) {
       toast({
         variant: "destructive",
@@ -101,11 +106,16 @@ export default function SignUpPage() {
                       Email
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Email"
-                        {...field}
-                        className="w-full dark:text-black"
-                      />
+                      <div className="flex items-center">
+                        <Input
+                          placeholder="Email"
+                          {...field}
+                          className="w-full dark:text-black"
+                        />
+                        <div className="ml-2 text-gray-500 focus:outline-none">
+                          <AtSign />
+                        </div>
+                      </div>
                     </FormControl>
                     <FormDescription>
                       This is the email address you will use to sign up.
@@ -123,12 +133,21 @@ export default function SignUpPage() {
                       Password
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Password"
-                        {...field}
-                        className="w-full dark:text-black"
-                      />
+                      <div className="flex items-center">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Password"
+                          {...field}
+                          className="w-full dark:text-black"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="ml-2 text-gray-500 focus:outline-none"
+                        >
+                          {showPassword ? <EyeOff /> : <Eye />}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormDescription>
                       Enter a strong password for your account.
@@ -146,12 +165,23 @@ export default function SignUpPage() {
                       Confirm Password
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Password"
-                        {...field}
-                        className="w-full dark:text-black"
-                      />
+                      <div className="flex items-center">
+                        <Input
+                          type={showConfirmPassword ? "text" : "password"}
+                          placeholder="Confirm Password"
+                          {...field}
+                          className="w-full dark:text-black"
+                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                          className="ml-2 text-gray-500 focus:outline-none"
+                        >
+                          {showConfirmPassword ? <EyeOff /> : <Eye />}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormDescription>
                       Confirm password by entering it again
