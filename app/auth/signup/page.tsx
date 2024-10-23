@@ -31,6 +31,9 @@ import { ToastAction } from "@radix-ui/react-toast";
 const signUpSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters long"),
+  confirmpassword: z
+    .string()
+    .min(6, "Password must be at least 6 characters long"),
 });
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
@@ -42,6 +45,7 @@ export default function SignUpPage() {
     defaultValues: {
       email: "",
       password: "",
+      confirmpassword: "",
     },
   });
 
@@ -49,6 +53,17 @@ export default function SignUpPage() {
 
   const onSubmit = async (data: SignUpFormData) => {
     setLoading(true);
+    console.log(data.password + " " + data.confirmpassword);
+    if (data.password !== data.confirmpassword) {
+      toast({
+        variant: "destructive",
+        title: "Passwords don't match",
+        description: "check your passwords.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+      setLoading(false);
+      return;
+    }
     try {
       await axios.post("/api/auth/signup", data);
       router.push("/auth/signin");
@@ -82,7 +97,9 @@ export default function SignUpPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-white text-black">Email</FormLabel>
+                    <FormLabel className="dark:text-white text-black">
+                      Email
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Email"
@@ -102,7 +119,9 @@ export default function SignUpPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-white text-black">Password</FormLabel>
+                    <FormLabel className="dark:text-white text-black">
+                      Password
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -113,6 +132,29 @@ export default function SignUpPage() {
                     </FormControl>
                     <FormDescription>
                       Enter a strong password for your account.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmpassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="dark:text-white text-black">
+                      Confirm Password
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Password"
+                        {...field}
+                        className="w-full dark:text-black"
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Confirm password by entering it again
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
