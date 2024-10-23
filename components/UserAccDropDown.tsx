@@ -47,7 +47,7 @@ export default function UserAccountDropDown() {
 
               <div className="flex flex-col">
                 <span className="max-w-[200px]">{user?.name}</span>
-                <span className="text-[0.8rem] max-w-[200px] text-gray-400">
+                <span className="text-[0.8rem] max-w-[200px] text-gray-400 overflow-y-auto">
                   {user?.email}
                 </span>
               </div>
