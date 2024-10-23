@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { Providers, ThemeProvider } from "./provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/ui/footer";
+import ChatBotEmbed from "../components/chatbot"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -73,6 +74,7 @@ export default function RootLayout({
             </main>
           </ThemeProvider>
         </Providers>
+        <ChatBotEmbed />
         <Footer />
       </body>
     </html>
