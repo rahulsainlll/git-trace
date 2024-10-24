@@ -76,11 +76,11 @@ export default function SignInPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-6 bg-white border rounded-lg">
-        <h2 className="text-xl font-bold text-[#425893] text- mb-4">
+      <div className="w-full max-w-md p-6 bg-white dark:bg-black border rounded-lg">
+        <h2 className="text-xl font-bold text-[#425893] dark:text-blue-500 text- mb-4">
           Login into git-trace
         </h2>
-        <div className="border-b border-gray-300 pb-4 mb-4">
+        <div className="border-b dark:border-gray-700 border-gray-300 pb-4 mb-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
@@ -88,12 +88,12 @@ export default function SignInPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-black">Email</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Email"
                         {...field}
-                        className="w-full dark:text-black"
+                        className="w-full"
                       />
                     </FormControl>
                     <FormDescription>
@@ -117,7 +117,7 @@ export default function SignInPage() {
                         type="password"
                         placeholder="Password"
                         {...field}
-                        className="w-full dark:text-black"
+                        className="w-full"
                       />
                     </FormControl>
                     <FormDescription>
@@ -136,7 +136,7 @@ export default function SignInPage() {
         <div className="flex justify-end border-gray-300">
           <Link
             href="/auth/signup"
-            className="text-sm text-[#425893] hover:text-gray-600 underline"
+            className="text-sm text-[#425893] dark:text-blue-500 hover:text-gray-600 underline"
           >
             Register
           </Link>
