@@ -41,8 +41,11 @@ const PageHeader = () => {
     window.open(tweetUrl, "_blank");
   };
 
-  const isActive = (href:string) =>
-    activePath === href ? "text-black font-bold" : "text-muted-foreground dark:text-gray-200";
+  const isActive = (href: string) =>
+    activePath === href
+      ? "font-bold text-black dark:text-white"
+      : "text-muted-foreground dark:text-gray-400";
+
 
   return (
     <header className="sticky inset-x-0 top-2 z-30 w-full transition-all bg-white/20 dark:bg-black backdrop-blur-md">
@@ -58,7 +61,7 @@ const PageHeader = () => {
 
             <Link href="/dashboard">
               <div
-                className={`ml-2 text-lg dark:text-white font-light hover:underline ${isActive(
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
                   "/dashboard"
                 )}`}
               >
@@ -66,13 +69,17 @@ const PageHeader = () => {
               </div>
             </Link>
             <Link href="/popular">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+            <div
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  "/popular"
+                )}`}
+              >
                 Popular
               </div>
             </Link>
             <Link href="/blog">
               <div
-                className={`ml-2 text-lg dark:text-white font-light hover:underline ${isActive(
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
                   "/blog"
                 )}`}
               >
@@ -82,7 +89,7 @@ const PageHeader = () => {
 
             <Link href="/about">
               <div
-                className={`ml-2 text-lg dark:text-white font-light hover:underline ${isActive(
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
                   "/about"
                 )}`}
               >
@@ -90,12 +97,16 @@ const PageHeader = () => {
               </div>
             </Link>
             <Link href="/contributor">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+            <div
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  "/contributor"
+                )}`}
+              >
                 Contributors
               </div>
             </Link>
             <Link href="/faq">
-              <div className={`ml-2 text-lg dark:text-white font-light hover:underline ${isActive(
+              <div className={`ml-2 text-lg font-light hover:underline ${isActive(
                   "/faq"
                 )}`}>
                FAQ
@@ -148,7 +159,7 @@ const PageHeader = () => {
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-2">
             <Badge
-              className="gap-1 bg-slate-50 hover:bg-slate-100"
+              className="gap-1 bg-neutral-950 text-white hover:bg-neutral-800"
               variant="outline"
               onClick={handleGitHubClick}
               style={{ cursor: "pointer" }}
@@ -158,7 +169,7 @@ const PageHeader = () => {
             </Badge>
 
             <Badge
-              className="gap-1 rounded-xl"
+              className="gap-1 rounded-xl bg-neutral-950 text-white hover:bg-neutral-800"
               onClick={handleTweetClick}
               style={{ cursor: "pointer" }}
             >

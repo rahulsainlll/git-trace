@@ -79,11 +79,16 @@ export default function SignInPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
+<<<<<<< HEAD
+      <div className="w-full max-w-md p-6 bg-white dark:bg-black border rounded-lg">
+        <h2 className="text-xl font-bold text-[#425893] dark:text-blue-500 text- mb-4">
+=======
       <div className="w-full max-w-md p-6 bg-white dark:bg-[#141414] border rounded-lg">
         <h2 className="text-xl font-bold text-[#5469a2] text- mb-4">
+>>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
           Login into git-trace
         </h2>
-        <div className="border-b border-gray-300 pb-4 mb-4">
+        <div className="border-b dark:border-gray-700 border-gray-300 pb-4 mb-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
@@ -91,6 +96,15 @@ export default function SignInPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
+<<<<<<< HEAD
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Email"
+                        {...field}
+                        className="w-full"
+                      />
+=======
                     <FormLabel className="dark:text-white text-black">
                       Email
                     </FormLabel>
@@ -105,6 +119,7 @@ export default function SignInPage() {
                           <AtSign />
                         </div>
                       </div>
+>>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
                     </FormControl>
                     <FormDescription>
                       This is the email address you will use to sign in.
@@ -125,6 +140,14 @@ export default function SignInPage() {
                       </Link>
                     </FormLabel>
                     <FormControl>
+<<<<<<< HEAD
+                      <Input
+                        type="password"
+                        placeholder="Password"
+                        {...field}
+                        className="w-full"
+                      />
+=======
                       <div className="flex items-center">
                         <Input
                           type={showPassword ? "text" : "password"}
@@ -140,6 +163,7 @@ export default function SignInPage() {
                           {showPassword ? <EyeOff /> : <Eye />}
                         </button>
                       </div>
+>>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
                     </FormControl>
                     <FormDescription>
                       Enter your password to log in.
@@ -160,7 +184,7 @@ export default function SignInPage() {
         <div className="flex justify-end border-gray-300">
           <Link
             href="/auth/signup"
-            className="text-sm text-[#425893] hover:text-gray-600 underline"
+            className="text-sm text-[#425893] dark:text-blue-500 hover:text-gray-600 underline"
           >
             Register
           </Link>

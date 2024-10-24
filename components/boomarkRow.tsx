@@ -131,7 +131,7 @@ export default function BookmarkRow({
         </TableCell>
       </TableRow>
 
-      <DropdownMenuContent className="w-screen max-w-lg p-4 bg-gray-50 shadow-lg">
+      <DropdownMenuContent className="w-screen max-w-lg p-4 dark:bg-gray-900 bg-gray-50 shadow-lg">
         <h4 className="font-bold">Todos</h4>
 
         {/* Todos List */}
