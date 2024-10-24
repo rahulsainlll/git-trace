@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { LoginButton, LogoutButton } from "./auth";
+import { LoginButton, LogoutButton, SignupButton } from "./auth";
 import { Badge } from "./ui/badge";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { FaXTwitter } from "react-icons/fa6";
 import { useTheme } from 'next-themes';
 import {
   DropdownMenu,
@@ -18,6 +19,7 @@ import {
 import { MenuIcon } from "lucide-react";
 import UserAccountDropDown from "./UserAccDropDown";
 import { ModeToggle } from "./mode-toggle";
+import { Button } from "./ui/button";
 
 const PageHeader = () => {
   const { theme } = useTheme();
@@ -45,20 +47,19 @@ const PageHeader = () => {
     activePath === href ? "text-black font-bold" : "text-muted-foreground dark:text-gray-200";
 
   return (
-    <header className="sticky inset-x-0 top-2 z-30 w-full transition-all bg-white/20 dark:bg-black backdrop-blur-md">
-      <div className="w-full max-w-screen-xl px-2.5 lg:px-20 relative mx-auto border-b sm:block hidden">
-        <div className="flex h-14 items-center justify-between text-xl">
-          <div className="flex items-center gap-5">
-            <Link href="/">
-              <div className="flex items-center">
-                <Image src={theme === 'dark' ? '/git4.png' : '/git3.png'} alt="Logo" width={38} height={38} />
-                <div className="text-xl">- trace</div>
-              </div>
-            </Link>
-
+    <header className="sticky inset-x-0 top-0 z-30 w-full transition-all bg-white/20 dark:bg-black backdrop-blur-md">
+      <div className="w-full max-w-screen-xl px-2.5 py-3 lg:px-20 relative mx-auto border-b sm:block hidden">
+        <div className="flex h-14 items-center justify-between text-md">
+          <Link href="/">
+            <div className="flex items-center">
+              <Image src={theme === 'dark' ? '/git4.png' : '/git3.png'} alt="Logo" width={38} height={38} />
+              <div className={`text-xl ${theme === 'dark' ? 'text-white' : 'text-black'}`}>- trace</div>
+            </div>
+          </Link>
+          <div className="flex items-center gap-3">
             <Link href="/dashboard">
               <div
-                className={`ml-2 text-lg dark:text-white font-light hover:underline ${isActive(
+                className={`ml-2 text-sm md:text-base dark:text-white font-light hover:underline ${isActive(
                   "/dashboard"
                 )}`}
               >
@@ -66,23 +67,22 @@ const PageHeader = () => {
               </div>
             </Link>
             <Link href="/popular">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+              <div className="ml-2 text-sm md:text-base font-light text-muted-foreground  hover:underline ">
                 Popular
               </div>
             </Link>
             <Link href="/blog">
               <div
-                className={`ml-2 text-lg dark:text-white font-light hover:underline ${isActive(
+                className={`ml-2 text-sm md:text-base dark:text-white font-light hover:underline ${isActive(
                   "/blog"
                 )}`}
               >
                 Blogs
               </div>
             </Link>
-
             <Link href="/about">
               <div
-                className={`ml-2 text-lg dark:text-white font-light hover:underline ${isActive(
+                className={`ml-2 text-sm md:text-base dark:text-white font-light hover:underline ${isActive(
                   "/about"
                 )}`}
               >
@@ -90,12 +90,12 @@ const PageHeader = () => {
               </div>
             </Link>
             <Link href="/contributor">
-              <div className="ml-2 text-lg font-light text-muted-foreground  hover:underline ">
+              <div className="ml-2 text-sm md:text-base font-light text-muted-foreground  hover:underline ">
                 Contributors
               </div>
             </Link>
             <Link href="/faq">
-              <div className={`ml-2 text-lg dark:text-white font-light hover:underline ${isActive(
+              <div className={`ml-2 text-sm md:text-base dark:text-white font-light hover:underline ${isActive(
                   "/faq"
                 )}`}>
                FAQ
@@ -104,23 +104,23 @@ const PageHeader = () => {
           </div>
 
           <div className="flex items-center gap-2">
-          <ModeToggle />
+            <ModeToggle />
             <Badge
-              className="gap-1 bg-slate-50 hover:bg-slate-100 text-neutral-900"
+              className="gap-2 px-3 py-2 bg-slate-50 hover:bg-slate-100 text-neutral-900"
               variant="outline"
               onClick={handleGitHubClick}
               style={{ cursor: "pointer" }}
             >
               <GitHubLogoIcon className="dark:text-neutral-950" />
-              Star
+              <span className="text-black">Star</span>
             </Badge>
 
             <Badge
-              className="gap-1 rounded-xl bg-neutral-950 text-white hover:bg-neutral-800"
+              className="gap-2 px-3 py-2 bg-neutral-950 text-white hover:bg-neutral-800"
               onClick={handleTweetClick}
               style={{ cursor: "pointer" }}
             >
-              <Image src="/twitter-x.svg" width={12} height={12} alt="Tweet"/>
+              <FaXTwitter className="dark:text-neutral-950"/>
               Post
             </Badge>
 
@@ -130,10 +130,6 @@ const PageHeader = () => {
             ) : (
               <>
                 <LoginButton />
-                <p className="text-sm">|</p>
-                <Link href="/auth/signup">
-                  <button className="text-base text-[#425893] dark:text-slate-50">Register</button>
-                </Link>
               </>
             )}
           </div>
@@ -142,7 +138,7 @@ const PageHeader = () => {
 
       <div className="sm:hidden flex h-16 items-center justify-between border-b px-2">
         <Link href="/" className="flex items-center">
-          <Image src="/git3.png" alt="Logo" width={38} height={38} />
+          <Image src={theme === 'dark' ? '/git4.png' : '/git3.png'} alt="Logo" width={38} height={38} />
         </Link>
 
         <div className="flex items-center gap-5">
@@ -153,8 +149,8 @@ const PageHeader = () => {
               onClick={handleGitHubClick}
               style={{ cursor: "pointer" }}
             >
-              <GitHubLogoIcon />
-              Star
+              <GitHubLogoIcon className="dark:text-neutral-950" />
+              <span className="text-black">Star</span>
             </Badge>
 
             <Badge
@@ -162,7 +158,8 @@ const PageHeader = () => {
               onClick={handleTweetClick}
               style={{ cursor: "pointer" }}
             >
-              <Image src="/twitter-x.svg" width={12} height={12} alt="Tweet" />
+              
+              <FaXTwitter className="dark:text-neutral-950" />
               Post
             </Badge>
           </div>
@@ -176,24 +173,60 @@ const PageHeader = () => {
                 <div className="flex flex-col gap-4 justify-start">
                   <Link href="/dashboard">
                     <div
-                      className={`text-base text-[#425893] hover:underline ${isActive(
+                      className={`ml-2 text-sm md:text-base text-[#425893] hover:underline ${isActive(
                         "/dashboard"
                       )}`}
                     >
                       Dashboard
                     </div>
                   </Link>
+                  <Link href="/popular">
+                    <div className="ml-2 text-sm md:text-base font-light text-muted-foreground  hover:underline ">
+                      Popular
+                    </div>
+                  </Link>
+                  <Link href="/blog">
+                    <div
+                      className={`ml-2 text-sm md:text-base dark:text-white font-light hover:underline ${isActive(
+                        "/blog"
+                      )}`}
+                    >
+                      Blogs
+                    </div>
+                  </Link>
+                  <Link href="/about">
+                    <div
+                      className={`ml-2 text-sm md:text-base dark:text-white font-light hover:underline ${isActive(
+                        "/about"
+                      )}`}
+                    >
+                      About
+                    </div>
+                  </Link>
+                  <Link href="/contributor">
+                    <div className="ml-2 text-sm md:text-base font-light text-muted-foreground  hover:underline ">
+                      Contributors
+                    </div>
+                  </Link>
+                  <Link href="/faq">
+                    <div className={`ml-2 text-sm md:text-base dark:text-white font-light hover:underline ${isActive(
+                        "/faq"
+                      )}`}>
+                    FAQ
+                    </div>
+                  </Link>
 
                   {session ? (
-                    <LogoutButton />
+                    // <LogoutButton />
+                    <>
+                      <UserAccountDropDown />
+                      <ModeToggle size="lg" />
+                    </>
+
                   ) : (
                     <>
                       <LoginButton />
-                      <Link href="/auth/signup">
-                        <button className="text-base text-[#425893]">
-                          Register
-                        </button>
-                      </Link>
+                      <ModeToggle size="lg" />
                     </>
                   )}
                 </div>
