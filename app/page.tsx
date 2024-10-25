@@ -26,12 +26,9 @@ export default function Home() {
   const [repoName, setRepoName] = useState("");
   const [repoLink, setRepoLink] = useState("");
   const [repositories, setRepositories] = useState<any[]>([]);
-  const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
-  const [issues, setIssues] = useState<any[]>([]);
   const [loading, setLoading] = useState({
     searchReposLoader: false,
     searchRepoUrlLoader: false,
-    searchIssueLoader: false,
   });
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const router = useRouter();
@@ -55,6 +52,12 @@ export default function Home() {
     }
     setSearchHistory(history);
     localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(history));
+  };
+
+  const handleDeleteSearchTerm = (term: string) => {
+    const updatedHistory = searchHistory.filter((item) => item !== term);
+    setSearchHistory(updatedHistory);
+    localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(updatedHistory));
   };
 
   const handleSearchRepos = async () => {
@@ -129,20 +132,6 @@ export default function Home() {
       console.log(`Failed to search repositories ${error}`);
     } finally {
       setLoading({ ...loading, searchRepoUrlLoader: false });
-    }
-  };
-
-  const handleSearchIssues = async (repoFullName: string) => {
-    setLoading({ ...loading, searchIssueLoader: true });
-    try {
-      const response = await axios.get("/api/search/issues", {
-        params: { repositoryFullName: repoFullName },
-      });
-      setIssues(response.data);
-    } catch (error) {
-      console.error("Failed to fetch issues:", error);
-    } finally {
-      setLoading({ ...loading, searchIssueLoader: false });
     }
   };
 
@@ -231,12 +220,19 @@ export default function Home() {
               <p className="font-bold">Recent Searches:</p>
               <ul>
                 {searchHistory.map((term, index) => (
-                  <li
-                    key={index}
-                    className="cursor-pointer text-blue-500 underline"
-                    onClick={() => handleHistoryClick(term)}
-                  >
-                    {term}
+                  <li key={index} className="flex justify-between items-center">
+                    <span
+                      className="cursor-pointer text-blue-500 underline"
+                      onClick={() => handleHistoryClick(term)}
+                    >
+                      {term}
+                    </span>
+                    <button
+                      className="text-red-500 ml-2"
+                      onClick={() => handleDeleteSearchTerm(term)}
+                    >
+                      X
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -255,94 +251,39 @@ export default function Home() {
         </div>
       </div>
 
-      {repositories.length > 0 && (
-        <div>
-          <h2 className="font-medium text-2xl text-gray-900 mb-2">
-            Repositories
-          </h2>
-          <Table>
-            <TableCaption>
-              A list of repositories matching the search criteria.
-            </TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {repositories.map((repo: any) => (
-                <TableRow key={repo.id}>
-                  <TableCell>{repo.name}</TableCell>
-                  <TableCell>{repo.description || "No description"}</TableCell>
-                  <TableCell className="flex gap-2">
-                    <Button
-                      onClick={() => {
-                        setSelectedRepo(repo);
-                        handleSearchIssues(repo.full_name);
-                      }}
-                    >
-                      View Issues
-                    </Button>
-                    <NewBookmarkBtn
-                      name={repo.name}
-                      url={repo.html_url}
-                      description={
-                        repo.description || "No description available"
-                      }
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      )}
-
-      {issues.length > 0 && (
-        <div className="mt-8">
-          <h2 className="font-medium text-2xl text-gray-900 mb-2">Issues</h2>
-          <Table>
-            <TableCaption>Issues for the selected repository.</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Issue Title</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Created At</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {issues.map((issue: any) => (
-                <TableRow key={issue.id}>
-                  <TableCell>{issue.title}</TableCell>
-                  <TableCell>{issue.state}</TableCell>
-                  <TableCell>
-                    {new Date(issue.created_at).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell className="flex gap-2">
-                    <a
-                      href={issue.html_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 underline"
-                    >
-                      View Issue
-                    </a>
-
-                    <NewBookmarkBtn
-                      name={issue.title}
-                      url={issue.html_url}
-                      description={issue.body || "No description available"}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      )}
+      <Table className="mt-6">
+        <TableCaption>
+          A list of repositories based on your search.
+        </TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Repository Name</TableHead>
+            <TableHead>Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {repositories.map((repo) => (
+            <TableRow key={repo.id}>
+              <TableCell>{repo.name}</TableCell>
+              <TableCell>{repo.description || "No description"}</TableCell>
+              <TableCell className="flex gap-2">
+                <Button
+                  onClick={() => {
+                    router.push(`/issues?repoFullName=${repo.full_name}`);
+                  }}
+                >
+                  View Issues
+                </Button>
+                <NewBookmarkBtn
+                  name={repo.name}
+                  url={repo.html_url}
+                  description={repo.description || "No description available"}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }
