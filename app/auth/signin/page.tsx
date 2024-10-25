@@ -26,7 +26,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { useState } from "react";
-import loader from "lucide-react";
+import loader, { AtSign, Eye, EyeOff } from "lucide-react";
 
 const signInSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -38,6 +38,9 @@ type SignInFormData = z.infer<typeof signInSchema>;
 export default function SignInPage() {
   const { toast } = useToast();
   const [Loading, setLoading] = useState<boolean>(false);
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -76,8 +79,8 @@ export default function SignInPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-6 bg-white border rounded-lg">
-        <h2 className="text-xl font-bold text-[#425893] text- mb-4">
+      <div className="w-full max-w-md p-6 bg-white dark:bg-[#141414] border rounded-lg">
+        <h2 className="text-xl font-bold text-[#5469a2] text- mb-4">
           Login into git-trace
         </h2>
         <div className="border-b border-gray-300 pb-4 mb-4">
@@ -88,13 +91,20 @@ export default function SignInPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-black">Email</FormLabel>
+                    <FormLabel className="dark:text-white text-black">
+                      Email
+                    </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Email"
-                        {...field}
-                        className="w-full dark:text-black"
-                      />
+                      <div className="flex items-center">
+                        <Input
+                          placeholder="Email"
+                          {...field}
+                          className="w-full dark:text-black"
+                        />
+                        <div className="ml-2 text-gray-500 focus:outline-none">
+                          <AtSign />
+                        </div>
+                      </div>
                     </FormControl>
                     <FormDescription>
                       This is the email address you will use to sign in.
@@ -109,16 +119,27 @@ export default function SignInPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex justify-between">
-                      <p>Password</p>
-                      <Link href="/auth/forgot-password/email">Forgot Password?</Link>
-                      </FormLabel>
+                      <p className="dark:text-white text-black">Password</p>
+                      <Link href="/auth/forgot-password/email">
+                        Forgot Password?
+                      </Link>
+                    </FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Password"
-                        {...field}
-                        className="w-full dark:text-black"
-                      />
+                      <div className="flex items-center">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Password"
+                          {...field}
+                          className="w-full dark:text-black"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="ml-2 text-gray-500 focus:outline-none"
+                        >
+                          {showPassword ? <EyeOff /> : <Eye />}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormDescription>
                       Enter your password to log in.
@@ -127,7 +148,10 @@ export default function SignInPage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full bg-[#425893] text-white hover:text-black">
+              <Button
+                type="submit"
+                className="w-full bg-[#425893] text-white hover:text-black"
+              >
                 {Loading ? <Pageloader /> : "Login"}
               </Button>
             </form>
