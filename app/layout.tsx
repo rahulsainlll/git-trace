@@ -7,6 +7,7 @@ import { Providers, ThemeProvider } from "./provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/ui/footer";
 import ChatBotEmbed from "../components/chatbot"
+import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -57,6 +58,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const getPrefLangCookie = (): string => {
+    return cookies().get("googtrans")?.value ?? "en";
+  };
   return (
     <html lang="en" className="h-full">
       <body className={clsx("flex flex-col min-h-screen", inter.className)}>
@@ -67,7 +71,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <PageHeader />
+            <PageHeader prefLangCookie={getPrefLangCookie()} />
             <main className="flex-grow">
               {children}
               <Toaster />
