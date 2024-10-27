@@ -14,10 +14,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import NewBookmarkBtn from "@/components/new-bookmark";
-import { Bar, Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, Title, Tooltip, Legend, PointElement } from 'chart.js';
+import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, ArcElement, Title, Tooltip, Legend, PointElement } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
+// Register Chart.js elements
+ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, ArcElement, PointElement, Title, Tooltip, Legend);
 
 export default function IssuesPage() {
   const searchParams = useSearchParams();
@@ -69,6 +70,20 @@ export default function IssuesPage() {
     return counts;
   };
 
+  const getOpenClosedCounts = () => {
+    return issues.reduce(
+      (acc, issue) => {
+        if (issue.state === "open") {
+          acc.open++;
+        } else {
+          acc.closed++;
+        }
+        return acc;
+      },
+      { open: 0, closed: 0 }
+    );
+  };
+
   const counts = getIssueCounts();
   const labels = Object.keys(counts[timeframe]);
   const data = Object.values(counts[timeframe]);
@@ -85,6 +100,17 @@ export default function IssuesPage() {
     }],
   };
 
+  const openClosedCounts = getOpenClosedCounts();
+  const pieChartData = {
+    labels: ["Open", "Closed"],
+    datasets: [{
+      data: [openClosedCounts.open, openClosedCounts.closed],
+      backgroundColor: ["rgba(75, 192, 192, 0.6)", "rgba(255, 99, 132, 0.6)"],
+      borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
+      borderWidth: 1,
+    }],
+  };
+
   const renderChart = () => {
     const commonProps = {
       data: chartData,
@@ -97,6 +123,10 @@ export default function IssuesPage() {
     } else {
       return <Line {...commonProps} />;
     }
+  };
+
+  const renderPieChart = () => {
+    return <Pie data={pieChartData} options={{ responsive: true }} />;
   };
 
   return (
@@ -126,15 +156,22 @@ export default function IssuesPage() {
       <select
         value={chartType}
         onChange={(e) => setChartType(e.target.value)}
-        className=""
+        className="mb-4"
       >
         <option value="bar">Bar Chart</option>
         <option value="line">Line Chart</option>
       </select>
 
-      {/* Responsive graph container */}
-      <div className="w-full md:w-96 lg:w-128 h-48 md:h-56 lg:h-64"> {/* Increased responsive sizes */}
-        {renderChart()}
+      <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
+        {/* Responsive graph container for issue counts */}
+        <div className="w-full md:w-1/2 h-48 md:h-56 lg:h-64">
+            {renderChart()}
+        </div>
+
+        {/* Responsive graph container for open vs closed issues */}
+        <div className="w-full md:w-1/2 h-48 md:h-56 lg:h-64">
+            {renderPieChart()}
+        </div>
       </div>
 
       <Table>
