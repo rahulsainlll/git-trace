@@ -76,7 +76,7 @@ const PageHeader = ({ prefLangCookie }: { prefLangCookie: string }) => {
             ].map((href) => (
               <Link href={href} key={href}>
                 <div
-                  className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  className={`ml-2 text-lg font-light ${theme === 'light' ? 'text-black' : 'text-white'} hover:underline ${isActive(
                     href
                   )}`}
                 >
