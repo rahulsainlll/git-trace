@@ -49,7 +49,7 @@ const PageHeader = ({ prefLangCookie }: { prefLangCookie: string }) => {
 
   return (
     <header className="sticky inset-x-0 top-2 z-30 w-full transition-all bg-white/20 dark:bg-black backdrop-blur-md">
-      <div className="w-full max-w-screen-xl px-2.5 lg:px-20 relative mx-auto border-b">
+      <div className="w-full px-2.5 lg:px-20 relative mx-auto border-b">
         {/* Desktop Navbar */}
         <div className="hidden lg:flex h-14 items-center justify-between text-xl">
           <div className="flex items-center gap-5">
@@ -72,6 +72,7 @@ const PageHeader = ({ prefLangCookie }: { prefLangCookie: string }) => {
               "/about",
               "/contributor",
               "/faq",
+              "/testimonial"
             ].map((href) => (
               <Link href={href} key={href}>
                 <div
