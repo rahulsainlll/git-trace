@@ -138,8 +138,13 @@ export default function BookmarkRow({
         </TableCell>
       </TableRow>
 
+<<<<<<< HEAD
+      <DropdownMenuContent className="w-screen max-w-lg p-4 dark:bg-gray-900 bg-gray-50 shadow-lg">
+        <h4 className="font-bold">Todos</h4>
+=======
       <DropdownMenuContent className="w-screen max-w-lg p-4 bg-gray-100 shadow-lg text-black">
         <h4 className="font-bold mb-2">Todos</h4>
+>>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
 
         {/* Todos List */}
         {todos.length ? (

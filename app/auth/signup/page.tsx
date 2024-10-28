@@ -81,6 +81,168 @@ export default function SignUpPage() {
   };
 
   return (
+<<<<<<< HEAD
+    <div className="flex flex-col items-center justify-center min-h-screen ">
+<<<<<<< HEAD
+      <div className="w-full max-w-md p-6 bg-white dark:bg-black border rounded-lg">
+        <h2 className="text-xl font-bold text-[#425893] dark:text-blue-500 text- mb-4">
+=======
+      <div className="w-full max-w-md p-6 bg-white dark:bg-[#141414]  border rounded-lg">
+        <h2 className="text-xl font-bold text-[#5469a2] text- mb-4">
+>>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
+          Register in git-trace
+        </h2>
+        <div className="border-b dark:border-gray-700 border-gray-300 pb-4 mb-4">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+<<<<<<< HEAD
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Email"
+                        {...field}
+                        className="w-full"
+                      />
+=======
+                    <FormLabel className="dark:text-white text-black">
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex items-center">
+                        <Input
+                          placeholder="Email"
+                          {...field}
+                          className="w-full dark:text-black"
+                        />
+                        <div className="ml-2 text-gray-500 focus:outline-none">
+                          <AtSign />
+                        </div>
+                      </div>
+>>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
+                    </FormControl>
+                    <FormDescription>
+                      This is the email address you will use to sign up.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+<<<<<<< HEAD
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Password"
+                        {...field}
+                        className="w-full"
+                      />
+=======
+                    <FormLabel className="dark:text-white text-black">
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex items-center">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Password"
+                          {...field}
+                          className="w-full dark:text-black"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="ml-2 text-gray-500 focus:outline-none"
+                        >
+                          {showPassword ? <EyeOff /> : <Eye />}
+                        </button>
+                      </div>
+>>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
+                    </FormControl>
+                    <FormDescription>
+                      Enter a strong password for your account.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmpassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="dark:text-white text-black">
+                      Confirm Password
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex items-center">
+                        <Input
+                          type={showConfirmPassword ? "text" : "password"}
+                          placeholder="Confirm Password"
+                          {...field}
+                          className="w-full dark:text-black"
+                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                          className="ml-2 text-gray-500 focus:outline-none"
+                        >
+                          {showConfirmPassword ? <EyeOff /> : <Eye />}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormDescription>
+                      Confirm password by entering it again
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                className="w-full bg-[#425893] text-white hover:text-black"
+              >
+                {Loading ? <Pageloader /> : "Register"}
+              </Button>
+            </form>
+          </Form>
+        </div>
+        <div className="flex justify-end border-gray-300">
+          <Link
+            href="/auth/signin"
+            className="text-sm text-[#425893] dark:text-blue-500 hover:text-gray-600 underline"
+          >
+            login
+          </Link>
+
+          {/* <div className="flex justify-end border-gray-300 ">
+            <Popover>
+              <PopoverContent className=" text-center">
+                Under Construction 🏗️ 🚧
+              </PopoverContent>
+              <Link
+                href=""
+                onClick={() => console.log("underconstruction")}
+                className="text-sm text-[#425893] hover:text-gray-600"
+              >
+                <PopoverTrigger className="underline">
+                  Use GitHub
+                </PopoverTrigger>
+              </Link>
+            </Popover>
+          </div> */}
+=======
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="w-full max-w-md p-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
         <div className="flex flex-col items-center mb-6">
@@ -175,6 +337,7 @@ export default function SignUpPage() {
             </svg>
             Sign up with Google
           </Button>
+>>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
         </div>
         <div className="mt-6 text-center text-sm">
           Already have an account?{" "}

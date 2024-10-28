@@ -73,6 +73,19 @@ export default function SignInPage() {
   };
 
   return (
+<<<<<<< HEAD
+    <div className="flex flex-col items-center justify-center min-h-screen">
+<<<<<<< HEAD
+      <div className="w-full max-w-md p-6 bg-white dark:bg-black border rounded-lg">
+        <h2 className="text-xl font-bold text-[#425893] dark:text-blue-500 text- mb-4">
+=======
+      <div className="w-full max-w-md p-6 bg-white dark:bg-[#141414] border rounded-lg">
+        <h2 className="text-xl font-bold text-[#5469a2] text- mb-4">
+>>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
+          Login into git-trace
+        </h2>
+        <div className="border-b dark:border-gray-700 border-gray-300 pb-4 mb-4">
+=======
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
         <div className="flex flex-col items-center mb-6">
@@ -81,6 +94,7 @@ export default function SignInPage() {
           <p className="text-sm text-gray-600">Track all your github repositories here.</p>
         </div>
         <div className="border-b border-gray-300 pb-4 mb-4">
+>>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
@@ -88,7 +102,22 @@ export default function SignInPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
+<<<<<<< HEAD
+<<<<<<< HEAD
                     <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Email"
+                        {...field}
+                        className="w-full"
+                      />
+=======
+                    <FormLabel className="dark:text-white text-black">
+                      Email
+                    </FormLabel>
+=======
+                    <FormLabel>Email</FormLabel>
+>>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
                     <FormControl>
                       <div className="flex items-center">
                         <Input placeholder="Enter your email" {...field} className="w-full dark:text-black" />
@@ -96,6 +125,7 @@ export default function SignInPage() {
                           <AtSign />
                         </div>
                       </div>
+>>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -108,6 +138,14 @@ export default function SignInPage() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
+<<<<<<< HEAD
+                      <Input
+                        type="password"
+                        placeholder="Password"
+                        {...field}
+                        className="w-full"
+                      />
+=======
                       <div className="flex items-center">
                         <Input
                           type={showPassword ? "text" : "password"}
@@ -123,6 +161,7 @@ export default function SignInPage() {
                           {showPassword ? <EyeOff /> : <Eye />}
                         </button>
                       </div>
+>>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -134,6 +173,14 @@ export default function SignInPage() {
             </form>
           </Form>
         </div>
+<<<<<<< HEAD
+        <div className="flex justify-end border-gray-300">
+          <Link
+            href="/auth/signup"
+            className="text-sm text-[#425893] dark:text-blue-500 hover:text-gray-600 underline"
+          >
+            Register
+=======
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">Or continue with</p>
           <Button variant="outline" className="w-full mt-2">
@@ -153,6 +200,7 @@ export default function SignInPage() {
           </Link>
           <Link href="/auth/signup" className="text-primary hover:underline">
             Sign up for an account
+>>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
           </Link>
         </div>
         <p className="mt-8 text-xs text-center text-gray-500">

@@ -44,8 +44,14 @@ const PageHeader = ({ prefLangCookie }: { prefLangCookie: string }) => {
 
   const isActive = (href: string) =>
     activePath === href
+<<<<<<< HEAD
+      ? "font-bold text-black dark:text-white"
+      : "text-muted-foreground dark:text-gray-400";
+
+=======
       ? "text-black font-bold"
       : "text-muted-foreground dark:text-gray-200";
+>>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
 
   return (
     <header className="sticky inset-x-0 top-2 z-30 w-full transition-all bg-white/20 dark:bg-black backdrop-blur-md">
@@ -65,6 +71,61 @@ const PageHeader = ({ prefLangCookie }: { prefLangCookie: string }) => {
               </div>
             </Link>
 
+<<<<<<< HEAD
+            <Link href="/dashboard">
+              <div
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  "/dashboard"
+                )}`}
+              >
+                Dashboard
+              </div>
+            </Link>
+            <Link href="/popular">
+            <div
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  "/popular"
+                )}`}
+              >
+                Popular
+              </div>
+            </Link>
+            <Link href="/blog">
+              <div
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  "/blog"
+                )}`}
+              >
+                Blogs
+              </div>
+            </Link>
+
+            <Link href="/about">
+              <div
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  "/about"
+                )}`}
+              >
+                About
+              </div>
+            </Link>
+            <Link href="/contributor">
+            <div
+                className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  "/contributor"
+                )}`}
+              >
+                Contributors
+              </div>
+            </Link>
+            <Link href="/faq">
+              <div className={`ml-2 text-lg font-light hover:underline ${isActive(
+                  "/faq"
+                )}`}>
+               FAQ
+              </div>
+            </Link>
+=======
             {[
               "/dashboard",
               "/popular",
@@ -83,6 +144,7 @@ const PageHeader = ({ prefLangCookie }: { prefLangCookie: string }) => {
                 </div>
               </Link>
             ))}
+>>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
           </div>
 
           <div className="flex items-center gap-2">
@@ -155,7 +217,7 @@ const PageHeader = ({ prefLangCookie }: { prefLangCookie: string }) => {
               </DropdownMenuContent>
             </DropdownMenu>
             <Badge
-              className="gap-1 bg-slate-50 hover:bg-slate-100"
+              className="gap-1 bg-neutral-950 text-white hover:bg-neutral-800"
               variant="outline"
               onClick={handleGitHubClick}
               style={{ cursor: "pointer" }}
@@ -164,7 +226,7 @@ const PageHeader = ({ prefLangCookie }: { prefLangCookie: string }) => {
               Star
             </Badge>
             <Badge
-              className="gap-1 rounded-xl"
+              className="gap-1 rounded-xl bg-neutral-950 text-white hover:bg-neutral-800"
               onClick={handleTweetClick}
               style={{ cursor: "pointer" }}
             >
