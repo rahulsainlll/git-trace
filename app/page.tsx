@@ -26,12 +26,9 @@ export default function Home() {
   const [repoName, setRepoName] = useState("");
   const [repoLink, setRepoLink] = useState("");
   const [repositories, setRepositories] = useState<any[]>([]);
-  const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
-  const [issues, setIssues] = useState<any[]>([]);
   const [loading, setLoading] = useState({
     searchReposLoader: false,
     searchRepoUrlLoader: false,
-    searchIssueLoader: false,
   });
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const router = useRouter();
@@ -135,20 +132,6 @@ export default function Home() {
       console.log(`Failed to search repositories ${error}`);
     } finally {
       setLoading({ ...loading, searchRepoUrlLoader: false });
-    }
-  };
-
-  const handleSearchIssues = async (repoFullName: string) => {
-    setLoading({ ...loading, searchIssueLoader: true });
-    try {
-      const response = await axios.get("/api/search/issues", {
-        params: { repositoryFullName: repoFullName },
-      });
-      setIssues(response.data);
-    } catch (error) {
-      console.error("Failed to fetch issues:", error);
-    } finally {
-      setLoading({ ...loading, searchIssueLoader: false });
     }
   };
 
@@ -281,19 +264,21 @@ export default function Home() {
         <TableBody>
           {repositories.map((repo) => (
             <TableRow key={repo.id}>
-              <TableCell>
-                <span
-                  className="cursor-pointer text-blue-500 underline"
+              <TableCell>{repo.name}</TableCell>
+              <TableCell>{repo.description || "No description"}</TableCell>
+              <TableCell className="flex gap-2">
+                <Button
                   onClick={() => {
-                    setSelectedRepo(repo);
-                    handleSearchIssues(repo.full_name);
+                    router.push(`/issues?repoFullName=${repo.full_name}`);
                   }}
                 >
-                  {repo.full_name}
-                </span>
-              </TableCell>
-              <TableCell>
-                <NewBookmarkBtn repo={repo} />
+                  View Issues
+                </Button>
+                <NewBookmarkBtn
+                  name={repo.name}
+                  url={repo.html_url}
+                  description={repo.description || "No description available"}
+                />
               </TableCell>
             </TableRow>
           ))}
