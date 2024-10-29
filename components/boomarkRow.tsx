@@ -10,7 +10,13 @@ import {
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
 import DeleteBookmarkButton from "./DeleteBookmarkButton";
-import { ArrowBigDown, ChevronDown, Edit, SquareCheck, Trash } from "lucide-react";
+import {
+  ArrowBigDown,
+  ChevronDown,
+  Edit,
+  SquareCheck,
+  Trash,
+} from "lucide-react";
 import { Input } from "./ui/input";
 import { Bookmark, Todo, User } from "@prisma/client";
 
@@ -48,7 +54,7 @@ export default function BookmarkRow({
     setTodos((prev) => [...prev, createdTodo]);
   };
 
-  const onDelete = async (todoId:string) => {
+  const onDelete = async (todoId: string) => {
     const response = await fetch(`/api/todos/${todoId}`, {
       method: "DELETE",
     });
@@ -61,13 +67,13 @@ export default function BookmarkRow({
     }
   };
 
-  const onEdit = async (todoId:string) => {
+  const onEdit = async (todoId: string) => {
     const response = await fetch(`/api/todos/${todoId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title:edittitle }),
+      body: JSON.stringify({ title: edittitle }),
     });
 
     if (response.ok) {
@@ -83,8 +89,7 @@ export default function BookmarkRow({
     }
   };
 
-
-  const toggleTodoCompletion = async (todoId:string, completed:boolean) => {
+  const toggleTodoCompletion = async (todoId: string, completed: boolean) => {
     const response = await fetch(`/api/todos/${todoId}`, {
       method: "PUT",
       headers: {
@@ -97,7 +102,9 @@ export default function BookmarkRow({
       const updatedTodo = await response.json();
       setTodos((prev) =>
         prev.map((item) =>
-          item.id === todoId ? { ...item, completed: updatedTodo.completed } : item
+          item.id === todoId
+            ? { ...item, completed: updatedTodo.completed }
+            : item
         )
       );
     } else {
@@ -131,8 +138,13 @@ export default function BookmarkRow({
         </TableCell>
       </TableRow>
 
-      <DropdownMenuContent className="w-screen max-w-lg p-4 bg-gray-50 shadow-lg">
+<<<<<<< HEAD
+      <DropdownMenuContent className="w-screen max-w-lg p-4 dark:bg-gray-900 bg-gray-50 shadow-lg">
         <h4 className="font-bold">Todos</h4>
+=======
+      <DropdownMenuContent className="w-screen max-w-lg p-4 bg-gray-100 shadow-lg text-black">
+        <h4 className="font-bold mb-2">Todos</h4>
+>>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
 
         {/* Todos List */}
         {todos.length ? (
@@ -147,24 +159,28 @@ export default function BookmarkRow({
                 <input
                   type="checkbox"
                   checked={todo.completed}
-                  onChange={() => toggleTodoCompletion(todo.id, !todo.completed)}
+                  onChange={() =>
+                    toggleTodoCompletion(todo.id, !todo.completed)
+                  }
                   className="mr-2"
                 />
-                {isEditing===todo.id ? 
-                (
-                <>
-                  <input
-
-                    type="text"
-                    value={edittitle}
-                    onChange={(e) => setEditTitle(e.target.value)}
-                    // onBlur={() => onEdit(todo.id)}
-                    className="border rounded p-1 mr-2"
-                  />
-                  <Button className="bg-green-500" size={"sm"} onClick={()=>onEdit(todo.id)}>
-                    save changes
-                  </Button>
-                </>
+                {isEditing === todo.id ? (
+                  <>
+                    <input
+                      type="text"
+                      value={edittitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      className="border rounded p-1 mr-2 bg-gray-100 text-black"
+                      autoFocus
+                    />
+                    <Button
+                      className="bg-green-500"
+                      size={"sm"}
+                      onClick={() => onEdit(todo.id)}
+                    >
+                      Save
+                    </Button>
+                  </>
                 ) : (
                   <span>{todo.title}</span>
                 )}
@@ -176,9 +192,8 @@ export default function BookmarkRow({
                   variant={"secondary"}
                   size={"sm"}
                   onClick={(e) => {
-                    // e.stopPropagation(); // Prevent closing on click
-                    setIsEditing(todo.id===isEditing?"":todo.id);
-                    setEditTitle(todo.title)
+                    setIsEditing(todo.id === isEditing ? "" : todo.id);
+                    setEditTitle(todo.title);
                   }}
                 >
                   <Edit className="h-4 w-4" />
@@ -188,8 +203,9 @@ export default function BookmarkRow({
                 <Button
                   variant={"destructive"}
                   size={"sm"}
-                  onClick={() => {onDelete(todo.id)}
-                  }
+                  onClick={() => {
+                    onDelete(todo.id);
+                  }}
                 >
                   <Trash className="h-4 w-4" />
                 </Button>
@@ -200,16 +216,23 @@ export default function BookmarkRow({
           <DropdownMenuItem className="p-2">No todos found.</DropdownMenuItem>
         )}
 
-        <div className="flex justify-between items-center mb-2">
+        <div className="flex justify-between items-center mt-4">
           <Input
-            placeholder="add your todo"
-            className="mr-2 mt-2"
+            placeholder="Add your todo"
+            className="mr-2"
+            value={title}
             onChange={(e) => {
               setTitle(e.target.value);
             }}
           />
           {/* Add Todo Button */}
-          <Button size="sm" onClick={addTodo}>
+          <Button
+            size="sm"
+            onClick={() => {
+              addTodo();
+              setTitle("");
+            }}
+          >
             Add Todo
           </Button>
         </div>

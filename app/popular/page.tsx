@@ -71,12 +71,12 @@ useEffect(() => {
         {repositories.map((repo) => (
           <div
             key={repo.id}
-            className="border rounded-xl p-4 bg-purple-50 flex items-start justify-between"
+            className="border rounded-xl p-4 bg-purple-50 dark:bg-black flex items-start justify-between"
           >
             {/* <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
               {repo.name} - ⭐ {repo.stargazers_count} - 🍴 {repo.forks_count} - 👥 {repo.contributors_count}
             </a> */}
-            <div className="text-gray-600">
+            <div className="text-gray-600 dark:text-slate-50">
               <h2 className="font-medium text-xl mb-2">{repo.name}</h2>
               <div className="w-fit rounded-lg p-1 border mb-2">
                 ⭐ {repo.stargazers_count}
