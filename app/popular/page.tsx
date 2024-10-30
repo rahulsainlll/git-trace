@@ -19,24 +19,54 @@ interface Repository {
 
 const router = useRouter();
 
-  const [repositories, setRepositories] = useState<Repository[]>([]);
+const [repositories, setRepositories] = useState<Repository[]>([]);
+const [language, setLanguage] = useState<string>("");
+const [tags, setTags] = useState<string>("");
+const [stars, setStars] = useState<number>(1000);
 
-  useEffect(() => {
-    const fetchRepositories = async () => {
-      const response = await axios.get(
-        "https://api.github.com/search/repositories?q=stars:>10000&sort=stars"
-      );
-      setRepositories(response.data.items);
-    };
-
-    fetchRepositories();
-  }, []);
+useEffect(() => {
+  const fetchRepositories = async () => {
+    const query = `stars:>${stars}${language ? `+language:${language}` : ""}${
+      tags ? `+topic:${tags}` : ""
+    }`;
+    const response = await axios.get(
+      `https://api.github.com/search/repositories?q=${query}&sort=stars`
+    );
+    setRepositories(response.data.items);
+  };
+  fetchRepositories();
+}, [language, stars, tags]);
 
   return (
     <div className="py-10 px-2.5 lg:px-20 mx-auto max-w-[1250px]">
-      <h1 className="font-medium text-3xl text-gray-900 dark:text-slate-50 mb-4">
+      <h1 className="font-medium text-3xl mb-4">
         Popular Repositories
       </h1>
+
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Filter by language"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="border p-2 rounded mr-2"
+        />
+        <input
+          type="text"
+          placeholder="Filter by tags"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+          className="border p-2 rounded mr-2"
+        />
+        <input
+          type="number"
+          placeholder="Minimum stars"
+          value={stars}
+          onChange={(e) => setStars(Number(e.target.value))}
+          className="border p-2 rounded"
+        />
+      </div>
+
       <div className="flex flex-col gap-4">
         {repositories.map((repo) => (
           <div
