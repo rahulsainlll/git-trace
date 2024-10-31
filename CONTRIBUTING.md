@@ -171,7 +171,7 @@ Your pull request will now be available for review by the project maintainers. T
 
 # For Help And Support 💬
 
-- Admin Github Profile:- (KRahul Sain)[https://github.com/rahulsainlll]
+- Admin Github Profile:- (Rahul Sain)[https://github.com/rahulsainlll]
 - Contact :- [Email](mr.rahulsain@icloud.com)
 
 <br>
@@ -268,7 +268,7 @@ If you get errors, be sure to fix them before committing.
 
 To report an issue, follow these steps:
 
-1. Navigate to the project's issues section :- [Issues](https://github.com/Kushal997-das/Project-Guidance/issues)
+1. Navigate to the project's issues section :- [Issues](https://github.com/rahulsainlll/git-trace/issues/new/choose)
 2. Please kindly choose the appropriate template according to your issue.
 3. Provide a clear and concise description of the issue.
 4. Wait until someone looks into your report.
