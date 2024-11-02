@@ -26,7 +26,7 @@ import { AtSign, Eye, EyeOff } from "lucide-react";
 
 const signInSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
+  password: z.string().min(1, "Invalid Password"),
 });
 
 type SignInFormData = z.infer<typeof signInSchema>;
