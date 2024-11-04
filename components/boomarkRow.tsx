@@ -49,7 +49,6 @@ export default function BookmarkRow({
       },
       body: JSON.stringify(newTodo),
     });
-    // console.log(response)
     const createdTodo = await response.json();
     setTodos((prev) => [...prev, createdTodo]);
   };
@@ -60,7 +59,6 @@ export default function BookmarkRow({
     });
 
     if (response.ok) {
-      // Update the local state to remove the deleted todo
       setTodos((prev) => prev.filter((todo) => todo.id !== todoId));
     } else {
       console.error("Failed to delete the todo.");
@@ -132,19 +130,13 @@ export default function BookmarkRow({
 
         <TableCell>
           <DropdownMenuTrigger asChild>
-            {/* <ChevronDown className="h-4 w-4" /> */}
-            <Button> Todos</Button>
+            <Button>Todos</Button>
           </DropdownMenuTrigger>
         </TableCell>
       </TableRow>
 
-<<<<<<< HEAD
-      <DropdownMenuContent className="w-screen max-w-lg p-4 dark:bg-gray-900 bg-gray-50 shadow-lg">
-        <h4 className="font-bold">Todos</h4>
-=======
-      <DropdownMenuContent className="w-screen max-w-lg p-4 bg-gray-100 shadow-lg text-black">
+      <DropdownMenuContent className="w-screen max-w-lg p-4 bg-gray-100 dark:bg-gray-900 shadow-lg text-black dark:text-white mb-2">
         <h4 className="font-bold mb-2">Todos</h4>
->>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
 
         {/* Todos List */}
         {todos.length ? (
@@ -155,7 +147,6 @@ export default function BookmarkRow({
               className="p-2 border-b flex justify-between items-center"
             >
               <div className="flex items-center">
-                {/* Checkbox for marking todo as completed */}
                 <input
                   type="checkbox"
                   checked={todo.completed}
@@ -187,7 +178,6 @@ export default function BookmarkRow({
               </div>
 
               <div className="flex gap-2">
-                {/* Edit button */}
                 <Button
                   variant={"secondary"}
                   size={"sm"}
@@ -199,7 +189,6 @@ export default function BookmarkRow({
                   <Edit className="h-4 w-4" />
                 </Button>
 
-                {/* Delete button */}
                 <Button
                   variant={"destructive"}
                   size={"sm"}
@@ -225,7 +214,6 @@ export default function BookmarkRow({
               setTitle(e.target.value);
             }}
           />
-          {/* Add Todo Button */}
           <Button
             size="sm"
             onClick={() => {

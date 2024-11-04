@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
 
 interface Contributor {
   id: number
@@ -25,7 +26,15 @@ const ContributorCard: React.FC<Contributor> = ({ login, avatar_url, html_url, c
     className="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden"
   >
     <div className="p-6 text-center">
-      <img src={avatar_url} alt={login} className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-primary" />
+      <div className="relative w-24 h-24 mx-auto mb-4">
+        <Image
+          src={avatar_url}
+          alt={login}
+          fill
+          className="rounded-full border-4 border-primary object-cover"
+          sizes="(max-width: 96px) 100vw, 96px"
+        />
+      </div>
       <h3 className="font-bold text-xl text-gray-800 dark:text-slate-50">{login}</h3>
       <p className="text-sm text-primary mb-2">{type}</p>
       <div className="mt-4 bg-primary-foreground rounded-full py-2 px-4 inline-block">
@@ -75,33 +84,33 @@ const StatCard: React.FC<StatCardProps> = ({ label, value, icon }) => (
   </motion.div>
 )
 
-export default function Component() {
+export default function ContributorPage() {
   const [contributors, setContributors] = useState<Contributor[]>([])
   const [repoStats, setRepoStats] = useState<RepoStats>({ stars: 0, forks: 0, openIssues: 0 })
   const [loading, setLoading] = useState(true)
   const [email, setEmail] = useState('')
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const contributorsResponse = await fetch('https://api.github.com/repos/rahulsainlll/git-trace/contributors')
-        const contributorsData: Contributor[] = await contributorsResponse.json()
-        setContributors(contributorsData)
+  const fetchData = async () => {
+    try {
+      const contributorsResponse = await fetch('https://api.github.com/repos/rahulsainlll/git-trace/contributors')
+      const contributorsData: Contributor[] = await contributorsResponse.json()
+      setContributors(contributorsData)
 
-        const repoResponse = await fetch('https://api.github.com/repos/rahulsainlll/git-trace')
-        const repoData = await repoResponse.json()
-        setRepoStats({
-          stars: repoData.stargazers_count,
-          forks: repoData.forks_count,
-          openIssues: repoData.open_issues_count,
-        })
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      } finally {
-        setLoading(false)
-      }
+      const repoResponse = await fetch('https://api.github.com/repos/rahulsainlll/git-trace')
+      const repoData = await repoResponse.json()
+      setRepoStats({
+        stars: repoData.stargazers_count,
+        forks: repoData.forks_count,
+        openIssues: repoData.open_issues_count,
+      })
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    } finally {
+      setLoading(false)
     }
+  }
 
+  useEffect(() => {
     fetchData()
   }, [])
 

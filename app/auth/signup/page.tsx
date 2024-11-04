@@ -81,168 +81,6 @@ export default function SignUpPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="flex flex-col items-center justify-center min-h-screen ">
-<<<<<<< HEAD
-      <div className="w-full max-w-md p-6 bg-white dark:bg-black border rounded-lg">
-        <h2 className="text-xl font-bold text-[#425893] dark:text-blue-500 text- mb-4">
-=======
-      <div className="w-full max-w-md p-6 bg-white dark:bg-[#141414]  border rounded-lg">
-        <h2 className="text-xl font-bold text-[#5469a2] text- mb-4">
->>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
-          Register in git-trace
-        </h2>
-        <div className="border-b dark:border-gray-700 border-gray-300 pb-4 mb-4">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-<<<<<<< HEAD
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Email"
-                        {...field}
-                        className="w-full"
-                      />
-=======
-                    <FormLabel className="dark:text-white text-black">
-                      Email
-                    </FormLabel>
-                    <FormControl>
-                      <div className="flex items-center">
-                        <Input
-                          placeholder="Email"
-                          {...field}
-                          className="w-full dark:text-black"
-                        />
-                        <div className="ml-2 text-gray-500 focus:outline-none">
-                          <AtSign />
-                        </div>
-                      </div>
->>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
-                    </FormControl>
-                    <FormDescription>
-                      This is the email address you will use to sign up.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-<<<<<<< HEAD
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Password"
-                        {...field}
-                        className="w-full"
-                      />
-=======
-                    <FormLabel className="dark:text-white text-black">
-                      Password
-                    </FormLabel>
-                    <FormControl>
-                      <div className="flex items-center">
-                        <Input
-                          type={showPassword ? "text" : "password"}
-                          placeholder="Password"
-                          {...field}
-                          className="w-full dark:text-black"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="ml-2 text-gray-500 focus:outline-none"
-                        >
-                          {showPassword ? <EyeOff /> : <Eye />}
-                        </button>
-                      </div>
->>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
-                    </FormControl>
-                    <FormDescription>
-                      Enter a strong password for your account.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmpassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="dark:text-white text-black">
-                      Confirm Password
-                    </FormLabel>
-                    <FormControl>
-                      <div className="flex items-center">
-                        <Input
-                          type={showConfirmPassword ? "text" : "password"}
-                          placeholder="Confirm Password"
-                          {...field}
-                          className="w-full dark:text-black"
-                        />
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setShowConfirmPassword(!showConfirmPassword)
-                          }
-                          className="ml-2 text-gray-500 focus:outline-none"
-                        >
-                          {showConfirmPassword ? <EyeOff /> : <Eye />}
-                        </button>
-                      </div>
-                    </FormControl>
-                    <FormDescription>
-                      Confirm password by entering it again
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                className="w-full bg-[#425893] text-white hover:text-black"
-              >
-                {Loading ? <Pageloader /> : "Register"}
-              </Button>
-            </form>
-          </Form>
-        </div>
-        <div className="flex justify-end border-gray-300">
-          <Link
-            href="/auth/signin"
-            className="text-sm text-[#425893] dark:text-blue-500 hover:text-gray-600 underline"
-          >
-            login
-          </Link>
-
-          {/* <div className="flex justify-end border-gray-300 ">
-            <Popover>
-              <PopoverContent className=" text-center">
-                Under Construction 🏗️ 🚧
-              </PopoverContent>
-              <Link
-                href=""
-                onClick={() => console.log("underconstruction")}
-                className="text-sm text-[#425893] hover:text-gray-600"
-              >
-                <PopoverTrigger className="underline">
-                  Use GitHub
-                </PopoverTrigger>
-              </Link>
-            </Popover>
-          </div> */}
-=======
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="w-full max-w-md p-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
         <div className="flex flex-col items-center mb-6">
@@ -250,6 +88,7 @@ export default function SignUpPage() {
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Register for git-trace</h1>
           <p className="text-sm text-gray-600 dark:text-gray-400">Create an account to track all your GitHub repositories.</p>
         </div>
+        
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -257,10 +96,14 @@ export default function SignUpPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="dark:text-white text-black">Email</FormLabel>
+                  <FormLabel className="text-gray-900 dark:text-white">Email</FormLabel>
                   <FormControl>
                     <div className="flex items-center">
-                      <Input placeholder="Enter your email" {...field} className="w-full dark:text-black" />
+                      <Input 
+                        placeholder="Enter your email" 
+                        {...field} 
+                        className="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                      />
                       <div className="ml-2 text-gray-500">
                         <AtSign />
                       </div>
@@ -270,21 +113,26 @@ export default function SignUpPage() {
                 </FormItem>
               )}
             />
+            
             <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="dark:text-white text-black">Password</FormLabel>
+                  <FormLabel className="text-gray-900 dark:text-white">Password</FormLabel>
                   <FormControl>
                     <div className="flex items-center">
                       <Input
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
                         {...field}
-                        className="w-full dark:text-black"
+                        className="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
-                      <button type="button" onClick={() => setShowPassword(!showPassword)} className="ml-2 text-gray-500">
+                      <button 
+                        type="button" 
+                        onClick={() => setShowPassword(!showPassword)} 
+                        className="ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                      >
                         {showPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
@@ -293,24 +141,25 @@ export default function SignUpPage() {
                 </FormItem>
               )}
             />
+            
             <FormField
               control={form.control}
               name="confirmpassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="dark:text-white text-black">Confirm Password</FormLabel>
+                  <FormLabel className="text-gray-900 dark:text-white">Confirm Password</FormLabel>
                   <FormControl>
                     <div className="flex items-center">
                       <Input
                         type={showConfirmPassword ? "text" : "password"}
                         placeholder="Confirm your password"
                         {...field}
-                        className="w-full dark:text-black"
+                        className="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="ml-2 text-gray-500"
+                        className="ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                       >
                         {showConfirmPassword ? <EyeOff /> : <Eye />}
                       </button>
@@ -320,11 +169,16 @@ export default function SignUpPage() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full bg-primary text-white">
+            
+            <Button 
+              type="submit" 
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+            >
               {loading ? <Pageloader /> : "Register"}
             </Button>
           </form>
         </Form>
+
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">Or sign up with</p>
           <Button variant="outline" className="w-full mt-2">
@@ -337,13 +191,18 @@ export default function SignUpPage() {
             </svg>
             Sign up with Google
           </Button>
->>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
         </div>
+
         <div className="mt-6 text-center text-sm">
           Already have an account?{" "}
-          <Link href="/auth/signin" className="text-primary hover:underline">Log in</Link>
+          <Link href="/auth/signin" className="text-blue-600 hover:text-blue-700 hover:underline">
+            Log in
+          </Link>
         </div>
-        <p className="mt-8 text-xs text-center text-gray-500 dark:text-gray-400">© 2024 git-trace Inc. All rights reserved.</p>
+
+        <p className="mt-8 text-xs text-center text-gray-500 dark:text-gray-400">
+          © 2024 git-trace Inc. All rights reserved.
+        </p>
       </div>
     </div>
   );

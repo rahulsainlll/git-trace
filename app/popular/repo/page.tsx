@@ -60,7 +60,7 @@ const RepositoryStats = () => {
       setError("Failed to fetch commit history");
     }
   };
-
+  
   // Fetch top contributors
   const fetchContributors = async () => {
     try {

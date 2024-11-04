@@ -15,7 +15,6 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
 } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
@@ -73,117 +72,82 @@ export default function SignInPage() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="flex flex-col items-center justify-center min-h-screen">
-<<<<<<< HEAD
-      <div className="w-full max-w-md p-6 bg-white dark:bg-black border rounded-lg">
-        <h2 className="text-xl font-bold text-[#425893] dark:text-blue-500 text- mb-4">
-=======
-      <div className="w-full max-w-md p-6 bg-white dark:bg-[#141414] border rounded-lg">
-        <h2 className="text-xl font-bold text-[#5469a2] text- mb-4">
->>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
-          Login into git-trace
-        </h2>
-        <div className="border-b dark:border-gray-700 border-gray-300 pb-4 mb-4">
-=======
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="w-full max-w-md p-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
         <div className="flex flex-col items-center mb-6">
           <Image src={theme === 'dark' ? '/git4.png' : '/git3.png'} alt="Logo" width={60} height={60} />
-          <h1 className="text-2xl font-bold text-gray-900">Welcome to git-trace</h1>
-          <p className="text-sm text-gray-600">Track all your github repositories here.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Welcome to git-trace</h1>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Track all your GitHub repositories here.</p>
         </div>
-        <div className="border-b border-gray-300 pb-4 mb-4">
->>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Email"
-                        {...field}
-                        className="w-full"
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-900 dark:text-white">Email</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center">
+                      <Input 
+                        placeholder="Enter your email" 
+                        {...field} 
+                        className="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
-=======
-                    <FormLabel className="dark:text-white text-black">
-                      Email
-                    </FormLabel>
-=======
-                    <FormLabel>Email</FormLabel>
->>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
-                    <FormControl>
-                      <div className="flex items-center">
-                        <Input placeholder="Enter your email" {...field} className="w-full dark:text-black" />
-                        <div className="ml-2 text-gray-500 focus:outline-none">
-                          <AtSign />
-                        </div>
+                      <div className="ml-2 text-gray-500">
+                        <AtSign />
                       </div>
->>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-<<<<<<< HEAD
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-900 dark:text-white">Password</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center">
                       <Input
-                        type="password"
-                        placeholder="Password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
                         {...field}
-                        className="w-full"
+                        className="w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
-=======
-                      <div className="flex items-center">
-                        <Input
-                          type={showPassword ? "text" : "password"}
-                          placeholder="Enter your password"
-                          {...field}
-                          className="w-full dark:text-black"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="ml-2 text-gray-500 focus:outline-none"
-                        >
-                          {showPassword ? <EyeOff /> : <Eye />}
-                        </button>
-                      </div>
->>>>>>> 659a15b4cdcdc3ff2a2e14f904eb60480af67792
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full bg-primary text-white hover:bg-blue-700">
-                {loading ? <Pageloader /> : "Log in"}
-              </Button>
-            </form>
-          </Form>
-        </div>
-<<<<<<< HEAD
-        <div className="flex justify-end border-gray-300">
-          <Link
-            href="/auth/signup"
-            className="text-sm text-[#425893] dark:text-blue-500 hover:text-gray-600 underline"
-          >
-            Register
-=======
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                      >
+                        {showPassword ? <EyeOff /> : <Eye />}
+                      </button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button 
+              type="submit" 
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              {loading ? <Pageloader /> : "Log in"}
+            </Button>
+          </form>
+        </Form>
+
         <div className="mt-4 text-center">
-          <p className="text-sm text-gray-600">Or continue with</p>
-          <Button variant="outline" className="w-full mt-2">
+          <p className="text-sm text-gray-600 dark:text-gray-400">Or continue with</p>
+          <Button 
+            variant="outline" 
+            className="w-full mt-2 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600"
+          >
             <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
@@ -194,16 +158,23 @@ export default function SignInPage() {
             Sign in with Google
           </Button>
         </div>
+
         <div className="mt-6 flex justify-between text-sm">
-          <Link href="/auth/forgot-password" className="text-primary hover:underline">
+          <Link 
+            href="/auth/forgot-password" 
+            className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
+          >
             Forgot your password?
           </Link>
-          <Link href="/auth/signup" className="text-primary hover:underline">
+          <Link 
+            href="/auth/signup" 
+            className="text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
+          >
             Sign up for an account
->>>>>>> 383e7974f0a0fff21996aa91b2c8c87f53f89daa
           </Link>
         </div>
-        <p className="mt-8 text-xs text-center text-gray-500">
+
+        <p className="mt-8 text-xs text-center text-gray-500 dark:text-gray-400">
           © 2024 git-trace Inc. All rights reserved.
         </p>
       </div>
