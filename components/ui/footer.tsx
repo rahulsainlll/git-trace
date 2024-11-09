@@ -7,12 +7,14 @@ import { useTheme } from 'next-themes';
 
 export const Footer = () => {
   const { theme } = useTheme();
+  const currentYear = new Date().getFullYear();
   const repoUrl = "https://github.com/rahulsainlll/git-trace/"; 
   const issueTemplate = `${repoUrl}/issues/new?template=general_issue.yaml`; 
   const featureRequestTemplate = `${repoUrl}/issues/new?template=feature_request.yaml`; 
   const contributionGuideline = `${repoUrl}/issues/new?template=documentation_update.yaml`; 
   return (
-    <footer className="flex justify-between text-black py-4 text-center border-t p-10">
+    <footer>
+        <div className="flex justify-between text-black py-4 text-center border-t p-10">
       <div className='flex flex-row items-center'>
         <Image src={theme === 'dark' ? '/git4.png' : '/git3.png'} alt="Logo" width={38} height={38} />
         <div className='dark:text-white'>-trace</div>
@@ -35,6 +37,11 @@ export const Footer = () => {
       >
         Request a Feature
       </p>
+      </div>
+      <div className='flex justify-around items-center text-gray py-4 text-center border-t p-10'>
+      © {currentYear} git-trace. All rights reserved <br />
+      Made with ♥ in India
+      </div> 
     </footer>
   );
 }
