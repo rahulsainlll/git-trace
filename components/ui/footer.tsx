@@ -7,6 +7,7 @@ import { useTheme } from 'next-themes';
 
 export const Footer = () => {
   const { theme } = useTheme();
+  const currentYear = new Date().getFullYear();
   const repoUrl = "https://github.com/rahulsainlll/git-trace/"; 
   const issueTemplate = `${repoUrl}/issues/new?template=general_issue.yaml`; 
   const featureRequestTemplate = `${repoUrl}/issues/new?template=feature_request.yaml`; 
@@ -38,7 +39,7 @@ export const Footer = () => {
       </p>
       </div>
       <div className='flex justify-around items-center text-gray py-4 text-center border-t p-10'>
-      © 2024 git-trace. All rights reserved <br />
+      © {currentYear} git-trace. All rights reserved <br />
       Made with ♥ in India
       </div> 
     </footer>
